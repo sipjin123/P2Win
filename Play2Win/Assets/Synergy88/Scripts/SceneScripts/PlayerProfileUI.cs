@@ -99,7 +99,7 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 		}
 
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
-		GameManager.Instance.LoadScene(GameState.LOBBY);
+		GameManager.Instance.LoadScene(GameState.GAME_MENU);
 	}
 
 	public void OpenSettings() {

@@ -142,7 +142,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 			return;
 
 		if (Input.GetKeyDown(KeyCode.Escape)) {
-			GameManager.Instance.LoadScene(GameState.LOBBY);
+			GameManager.Instance.LoadScene(GameState.GAME_MENU);
 		}
 
 		if (_spinButtonHeld) {

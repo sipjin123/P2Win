@@ -59,7 +59,7 @@ public class SplashScene : MonoBehaviour {
 		case SplashState.HIDDEN:
 			if (_currentSplash >= _splashImages.Length - 1) {
 				_end = true;
-                GameManager.Instance.LoadScene(GameState.LOBBY);
+                GameManager.Instance.LoadScene(GameState.LOG_IN);
 				Destroy(gameObject);
 			} 
 			else {

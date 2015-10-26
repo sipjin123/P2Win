@@ -5,11 +5,13 @@ using System.Collections.Generic;
 public enum GameState {
 	INIT,
 	SPLASH,
-	LOBBY,
-	GAME,
-	PGS,
-	FBPARSE,
-	UniBill
+    LOG_IN,
+    MAIN_MENU,
+	GAME_MENU,
+	SLOTS,
+    SHOP,
+    ACHIEVEMENTS,
+    WALLET
 }
 
 public class GameManager : MonoBehaviour {

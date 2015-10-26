@@ -42,7 +42,7 @@ public class LevelSelection : MonoBehaviour {
     public void Load5x3Slots() {
         AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
         LevelSpriteCollectionManager.Instance.ActiveLevel = 1;
-        GameManager.Instance.LoadScene(GameState.GAME);
+        GameManager.Instance.LoadScene(GameState.SLOTS);
     }
 
     public void Load3x3Slots() {
