@@ -101,6 +101,8 @@
      <Compile Include="Assets\Synergy88\Scripts\Paytable\PaytableManager.cs" />
      <Compile Include="Assets\Synergy88\Scripts\SceneScripts\LevelupWindow.cs" />
      <Compile Include="Assets\Synergy88\Scripts\SceneScripts\LobbyScene.cs" />
+     <Compile Include="Assets\Synergy88\Scripts\SceneScripts\LogInScene.cs" />
+     <Compile Include="Assets\Synergy88\Scripts\SceneScripts\MainMenuScene.cs" />
      <Compile Include="Assets\Synergy88\Scripts\SceneScripts\PlayerProfileUI.cs" />
      <Compile Include="Assets\Synergy88\Scripts\SceneScripts\TestScene.cs" />
      <Compile Include="Assets\Synergy88\Scripts\Signals\ConcreteSignalParameters.cs" />

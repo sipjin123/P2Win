@@ -16,6 +16,9 @@ public class SplashScene : MonoBehaviour {
 	[SerializeField]
 	private float _fadeOutDuration = 1f;
 
+    [SerializeField]
+    private GameState _nextScene = GameState.LOG_IN;
+
 	private int _currentSplash = 0;
 	private Color _tempColor;
 
@@ -59,7 +62,7 @@ public class SplashScene : MonoBehaviour {
 		case SplashState.HIDDEN:
 			if (_currentSplash >= _splashImages.Length - 1) {
 				_end = true;
-                GameManager.Instance.LoadScene(GameState.LOG_IN);
+                GameManager.Instance.LoadScene(_nextScene);
 				Destroy(gameObject);
 			} 
 			else {
