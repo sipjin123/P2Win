@@ -245,7 +245,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 			return;
 		}
 
-		if (GetBetAmount(_currentCoinBetIndex + 1) * _linesActive > PlayerDataManager.Instance.Coins) {
+		if (GetBetAmount(_currentCoinBetIndex + 1) * _linesActive > PlayerDataManager.Instance.Chips) {
 			return;
 		}
 
@@ -280,7 +280,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 			return;
 		}
 
-		if (_currentCoinBet * (_linesActive + 1) > PlayerDataManager.Instance.Coins) {
+		if (_currentCoinBet * (_linesActive + 1) > PlayerDataManager.Instance.Chips) {
 			return;
 		}
 
@@ -313,7 +313,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 			return;
 		}
 
-		if (_boostersToUse >= PlayerDataManager.Instance.Boosters) {
+		if (_boostersToUse >= PlayerDataManager.Instance.Points) {
 			return;
 		}
 
@@ -348,7 +348,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	}
 
 	public IEnumerator SpinAfterMaxLine() {
-		if (_totalBet > PlayerDataManager.Instance.Coins) {
+		if (_totalBet > PlayerDataManager.Instance.Chips) {
 			yield break;
 		}
 
@@ -367,9 +367,9 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	}
 
 	private void Spin() {
-		if (_freeSpinsActive <= 0 && _totalBet > PlayerDataManager.Instance.Coins) {
+		if (_freeSpinsActive <= 0 && _totalBet > PlayerDataManager.Instance.Chips) {
 			_notEnoughCoins.Show();
-		} else if (_freeSpinsActive <= 0 && _boostersToUse > PlayerDataManager.Instance.Boosters) {
+		} else if (_freeSpinsActive <= 0 && _boostersToUse > PlayerDataManager.Instance.Points) {
 			_notEnoughBoosters.Show();
 		} 
 		else {
@@ -392,8 +392,8 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 				}
 			} 
 			else {
-				PlayerDataManager.Instance.UseCoins (Mathf.FloorToInt (_totalBet));
-				PlayerDataManager.Instance.UseBoosters (_boostersToUse);
+				PlayerDataManager.Instance.UseChips (Mathf.FloorToInt (_totalBet));
+				PlayerDataManager.Instance.UsePoints (_boostersToUse);
 			}
 
 			AudioManager.Instance.ResumeBGM();
@@ -459,7 +459,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		else {
 			_previousWinningsText.text = _previousWinnings.ToString("#,#");
 		}
-		PlayerDataManager.Instance.AddCoins(_previousWinnings);
+		PlayerDataManager.Instance.AddChips(_previousWinnings);
 
 		if ((float)_previousWinnings / _totalBet > 15.0f) {
 			_bigWin.SetAmount(_previousWinnings);
@@ -468,7 +468,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 
 		if (_patternManager.ExtraBoostersBonus.totalReward > 0) {
 			_boostersWin.SetAmount(_patternManager.ExtraBoostersBonus.totalReward);
-			PlayerDataManager.Instance.AddBoosters(_patternManager.ExtraBoostersBonus.totalReward);
+			PlayerDataManager.Instance.AddPoints(_patternManager.ExtraBoostersBonus.totalReward);
 			_extraRewardsWindow.Add(_boostersWin);
 			Debug.Log ("Activating Extra Boosters!");
 		}
@@ -548,8 +548,8 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	private void ContinueSpinning() {
 		_patternManager.RotateWinningPattern(_autoplayActive);
 
-		if (_autoplayActive && (_totalBet > PlayerDataManager.Instance.Coins || _boostersToUse > PlayerDataManager.Instance.Boosters)) {
-			if(_boostersToUse > PlayerDataManager.Instance.Boosters)
+		if (_autoplayActive && (_totalBet > PlayerDataManager.Instance.Chips || _boostersToUse > PlayerDataManager.Instance.Points)) {
+			if(_boostersToUse > PlayerDataManager.Instance.Points)
 				_wasAutoplaying = true;
 
 			SwitchAutoplay();

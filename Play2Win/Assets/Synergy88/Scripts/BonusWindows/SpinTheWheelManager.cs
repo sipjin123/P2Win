@@ -59,7 +59,7 @@ public class SpinTheWheelManager : MonoBehaviour, IExtraRewardWindow {
 		Debug.Log(_pin.CurrentScore);
 
 		int value = _pin.CurrentScore * _multiplier * _coins;
-		PlayerDataManager.Instance.AddCoins(value);
+		PlayerDataManager.Instance.AddChips(value);
 		_amountText.text = (value).ToString("#,#");
 		int textCount = _amountText.NumTotalCharacters() - 10;
 		if (textCount > 0) {

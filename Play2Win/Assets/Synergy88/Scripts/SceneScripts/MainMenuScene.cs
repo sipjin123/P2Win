@@ -16,6 +16,8 @@ public class MainMenuScene : MonoBehaviour {
     private GameState _wallet;
 
     void Start() {
+        SignalManager.Instance.Call(SignalType.LOBBY_ENTERED);
+
         if (!GameDataManager.Instance.LobbyWindowsLoaded) {
             Application.LoadLevelAdditive("PlayerProfile");
             Application.LoadLevelAdditive("Settings");

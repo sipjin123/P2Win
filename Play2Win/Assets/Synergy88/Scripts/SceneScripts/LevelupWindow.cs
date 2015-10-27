@@ -28,7 +28,7 @@ public class LevelupWindow : MonoBehaviour, ISignalListener {
 		AudioManager.Instance.PauseBGM();
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.LEVELUP);
 
-		PlayerDataManager.Instance.AddCoins(giftReward);
+		PlayerDataManager.Instance.AddChips(giftReward);
 
 		_previousLevelText.text = (PlayerDataManager.Instance.Level - 1).ToString();
 		_rewardText.text = giftReward.ToString("#,#");

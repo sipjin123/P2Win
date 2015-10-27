@@ -8,8 +8,8 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 	private static PlayerDataManager _instance;
 	public static PlayerDataManager Instance { get { return _instance; } }
 
-	private const string PREF_COINS = "PLAYER_COINS";
-	private const string PREF_BOOSTERS = "PLAYER_BOOSTERS";
+	private const string PREF_CHIPS = "PLAYER_CHIPS";
+	private const string PREF_POINTS = "PLAYER_POINTS";
 	private const string PREF_LEVEL = "PLAYER_LEVEL";
 	private const string PREF_EXP = "PLAYER_EXP";
 	private const string PREF_USE_BGM = "SETTINGS_USE_BGM";
@@ -19,16 +19,16 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 	private const string PREF_LASTBET = "SYSTEM_LASTBET";
 	private const string PREF_LASTPATTERN = "SYSTEM_LASTPATTERN";
 
-	private const string PREF_TOTALCOINSEARNED = "TOTAL_COINS_EARNED";
+	private const string PREF_TOTALCHIPSEARNED = "TOTAL_CHIPS_EARNED";
 
 	private const string DEFAULT_TIMESTRING_VALUE = "[EMPTY]";
 	private const int BONUS_AMOUNT = 200;
 
 	private TimeSpan BONUS_TIME_DURATION;
 
-	private float _totalCoinsEarned;
-	private float _coins = 0;
-	private int _boosters = 0;
+	private float _totalChipsEarned;
+	private float _chips = 0;
+	private int _points = 0;
 	private int _level = 1;
 	private float _exp = 0f;
 	private bool _useBGM = true;
@@ -40,12 +40,12 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 
 	public List<int> _boughtIAPLevels;
 
-	public float Coins { 
-		get { return _coins; } 
+	public float Chips { 
+		get { return _chips; } 
 	}
 	
-	public int Boosters { 
-		get { return _boosters; } 
+	public int Points { 
+		get { return _points; } 
 	}
 
 	public int Level { 
@@ -115,9 +115,9 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 
 	private void LoadAllData() {
 
-		_totalCoinsEarned = PlayerPrefs.GetFloat (PREF_TOTALCOINSEARNED);
-		_coins = PlayerPrefs.GetFloat(PREF_COINS, 300f);
-		_boosters = PlayerPrefs.GetInt(PREF_BOOSTERS, 5);
+		_totalChipsEarned = PlayerPrefs.GetFloat (PREF_TOTALCHIPSEARNED);
+		_chips = PlayerPrefs.GetFloat(PREF_CHIPS, 300f);
+		_points = PlayerPrefs.GetInt(PREF_POINTS, 5);
 		_level = PlayerPrefs.GetInt(PREF_LEVEL, 1);
 		_exp = PlayerPrefs.GetFloat(PREF_EXP, 0f);
 		_useBGM = (PlayerPrefs.GetInt(PREF_USE_BGM, 1) == 1);
@@ -144,9 +144,9 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 	}
 
 	private void SaveAllData() {
-		PlayerPrefs.SetFloat(PREF_TOTALCOINSEARNED, _totalCoinsEarned);
-		PlayerPrefs.SetFloat(PREF_COINS, _coins);
-		PlayerPrefs.SetInt(PREF_BOOSTERS, _boosters);
+		PlayerPrefs.SetFloat(PREF_TOTALCHIPSEARNED, _totalChipsEarned);
+		PlayerPrefs.SetFloat(PREF_CHIPS, _chips);
+		PlayerPrefs.SetInt(PREF_POINTS, _points);
 		PlayerPrefs.SetInt(PREF_LEVEL, _level);
 		PlayerPrefs.SetFloat(PREF_EXP, _exp);
 		PlayerPrefs.SetInt(PREF_USE_BGM, (_useBGM ? 1 : 0));
@@ -159,26 +159,24 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 	}
 
 
-	public void AddCoins(int amount) {
-		_coins += amount;
-		_totalCoinsEarned += amount;
-		setBalance(true);
+	public void AddChips(int amount) {
+		_chips += amount;
+		_totalChipsEarned += amount;
 		
 		SignalManager.Instance.Call(SignalType.PGS_UPDATE_LEADERBOARD);
 		SignalManager.Instance.Call(SignalType.LOCAL_DATA_CHANGED);
 		//SignalManager.Instance.Call(SignalType.PARSE_UPDATE);
 	}
 
-	public void UseCoins(int amount) {
-		_coins -= amount;
-		setBalance(true);
+	public void UseChips(int amount) {
+		_chips -= amount;
 
 		SignalManager.Instance.Call(SignalType.LOCAL_DATA_CHANGED);
 		//SignalManager.Instance.Call(SignalType.PARSE_UPDATE);
 	}
 
-	public void UseBoosters(int amount) {
-		_boosters -= amount;
+	public void UsePoints(int amount) {
+		_points -= amount;
 		SignalManager.Instance.Call(SignalType.LOCAL_DATA_CHANGED);
 	}
 
@@ -186,7 +184,6 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 		if (_level < GameDataManager.Instance.MaxLevel) {
 			_exp += amount;
 			if (_exp >= GameDataManager.Instance.LevelInfo.ExpToNextLevel) {
-				setLevel(true);
 				_level++;
 				SignalManager.Instance.Call(SignalType.LEVELED_UP);
 			} 
@@ -197,8 +194,8 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 		}
 	}
 
-	public void AddBoosters(int amount) {
-		_boosters += amount;
+	public void AddPoints(int amount) {
+		_points += amount;
 		SignalManager.Instance.Call(SignalType.LOCAL_DATA_CHANGED);
 	}
 
@@ -215,15 +212,11 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 	public void CollectBonus() {
 		if (BonusAvailable) {
 			_bonusTime = DateTime.Now;
-			AddCoins(BONUS_AMOUNT);
+			AddChips(BONUS_AMOUNT);
 		}
 	}
-	public float getTotalCoinsEarned() {
-		return _totalCoinsEarned;
-	}
-
-	public void SetCoinUpdate(float p_coin) {
-		_coins = p_coin;
+	public float getTotalChipsEarned() {
+		return _totalChipsEarned;
 	}
 
 	public void SetLevelUpdate(int p_level) {
@@ -234,24 +227,4 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 		SaveAllData();
 	}
 
-
-	//---- parse manager
-	bool balanceChanged = true;
-	bool levelChanged = true;
-	
-	public bool getBalance(){
-		return balanceChanged;
-	}
-	
-	public bool getLevel(){
-		return levelChanged;
-	}
-	
-	public void setBalance(bool value){
-		balanceChanged = value;
-	}
-
-	public void setLevel(bool value){
-		levelChanged = value;
-	}
 }

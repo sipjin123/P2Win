@@ -5,6 +5,8 @@ using System.IO;
 public class LobbyScene : MonoBehaviour {
 	
 	void Start() {
+        SignalManager.Instance.Call(SignalType.LOBBY_ENTERED);
+
 		UpdateTimerVisibility();
 
 		ConcreteSignalParameters stateParam = new ConcreteSignalParameters();

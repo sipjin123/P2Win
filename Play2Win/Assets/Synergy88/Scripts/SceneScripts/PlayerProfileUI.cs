@@ -66,8 +66,8 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 
 		SignalManager.Instance.Register(this, SignalType.SLOT_MACHINE_STATE_CHANGED);
 
-		_coinsCurrentValue = Mathf.FloorToInt(PlayerDataManager.Instance.Coins);
-		_previousCoinValue = Mathf.FloorToInt(PlayerDataManager.Instance.Coins);
+		_coinsCurrentValue = Mathf.FloorToInt(PlayerDataManager.Instance.Chips);
+		_previousCoinValue = Mathf.FloorToInt(PlayerDataManager.Instance.Chips);
 
 		UpdateDisplay();
 		UpdateBackground(false);
@@ -152,8 +152,8 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 			return;
 		}
 
-		UpdateCoinsText(Mathf.FloorToInt(PlayerDataManager.Instance.Coins));
-		_boostersText.text = PlayerDataManager.Instance.Boosters.ToString();
+		UpdateCoinsText(Mathf.FloorToInt(PlayerDataManager.Instance.Chips));
+		_boostersText.text = PlayerDataManager.Instance.Points.ToString();
 		_levelText.text = PlayerDataManager.Instance.Level.ToString();
 		_expBar.scale = new Vector3(PlayerDataManager.Instance.ExpRatio, 1f, 1f);
 	}
