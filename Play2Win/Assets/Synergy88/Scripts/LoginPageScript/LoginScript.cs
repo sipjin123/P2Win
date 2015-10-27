@@ -43,11 +43,25 @@ public class LoginScript : MonoBehaviour {
 		loginNotif.SetActive (true);  		
 	}
 
+	void CheckLoginBonus(){
+		DateTime lastLogin = DateTime.Today;
+		if (PlayerPrefs.HasKey ("PLAYER_LAST_LOGIN"))
+			lastLogin = DateTime.Parse(PlayerPrefs.GetString("PLAYER_LAST_LOGIN"));
+
+		if (DateTime.Compare (lastLogin.AddDays (1), DateTime.Today) == 0) {
+			//2x
+		}
+		else {
+			//1x;
+		}
+
+	}
+
 	void Login(){
 		playerName = pNameInputBox.text == string.Empty ? "Deafult Guest" : pNameInputBox.text;
 		playerBirthday = DateTime.Parse (pBirthdayInputBox[0].text + "/" + pBirthdayInputBox[1].text + "/" + pBirthdayInputBox[2].text);
 		disableUserInput();
-
+		CheckLoginBonus ();
 		StartCoroutine (LoginPlayer (playerName, playerBirthday));
 		
 	}
@@ -56,11 +70,13 @@ public class LoginScript : MonoBehaviour {
 		playerName = "Default Guest";
 		playerBirthday = DateTime.Today;
 		disableUserInput();
-		PlayerDataManager.Instance.AddCoins (FBLoginBonus);
+		PlayerDataManager.Instance.AddChips (FBLoginBonus);.
+		CheckLoginBonus ();
 		StartCoroutine (LoginPlayer (playerName, playerBirthday));
 	}
 
 	void LoginContinue(){
+		PlayerDataManager.Instance.lastLogin (DateTime.Today);
 		GameManager.Instance.LoadScene(_mainMenuScene);
 	}
 

@@ -15,6 +15,7 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 	private const string PREF_USE_BGM = "SETTINGS_USE_BGM";
 	private const string PREF_USE_SFX = "SETTINGS_USE_SFX";
 	private const string PREF_BONUS_LASTUSED = "PLAYER_LASTBONUS_USED";
+	private const string PREF_LAST_LOGIN = "PLAYER_LAST_LOGIN";
 
 	private const string PREF_LASTBET = "SYSTEM_LASTBET";
 	private const string PREF_LASTPATTERN = "SYSTEM_LASTPATTERN";
@@ -34,6 +35,7 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 	private bool _useBGM = true;
 	private bool _useSFX = true;
 	private DateTime _bonusTime;
+	private DateTime _lastLogIn;
 
 	private int _lastBet;
 	private int _lastPattern;
@@ -154,10 +156,15 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 		PlayerPrefs.SetInt(PREF_LASTBET, _lastBet);
 		PlayerPrefs.SetInt(PREF_LASTPATTERN, _lastPattern);
 		PlayerPrefs.SetString(PREF_BONUS_LASTUSED, _bonusTime.ToBinary().ToString());
+		PlayerPrefs.SetString(PREF_LAST_LOGIN, _lastLogIn.ToBinary().ToString());
 
 		PlayerPrefs.Save();
 	}
 
+	public void lastLogin(DateTime p_prevLogin){
+		_lastLogIn = p_prevLogin;
+		SignalManager.Instance.Call(SignalType.LOCAL_DATA_CHANGED);
+	}
 
 	public void AddChips(int amount) {
 		_chips += amount;
