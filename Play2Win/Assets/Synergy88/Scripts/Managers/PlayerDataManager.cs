@@ -24,6 +24,8 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 
 	private const string PREF_TOTALCHIPSEARNED = "TOTAL_CHIPS_EARNED";
 
+    private const string PREF_INVENTORY_PREFIX = "INVENTORY_";
+
 	private const string DEFAULT_TIMESTRING_VALUE = "[EMPTY]";
 	private const int BONUS_AMOUNT = 200;
 
@@ -261,6 +263,16 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 	public void SetLevelUpdate(int p_level) {
 		_level = p_level;
 	}
+
+    public void SetInventoryItemBought(string ItemID) {
+        PlayerPrefs.SetInt(PREF_INVENTORY_PREFIX + ItemID, 1);
+        PlayerPrefs.Save();
+    }
+
+    public bool CheckIfInventoryItemIsBought(string ItemID) {
+        return (PlayerPrefs.GetInt(PREF_INVENTORY_PREFIX, 0) == 1);
+    }
+
 	// Local Data Changed - signal listener
 	public void Execute(SignalType type, ISignalParameters param) {
 		SaveAllData();
