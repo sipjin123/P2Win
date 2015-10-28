@@ -17,6 +17,7 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 	private const string PREF_BONUS_LASTUSED = "PLAYER_LASTBONUS_USED";
 	private const string PREF_LAST_LOGIN = "PLAYER_LAST_LOGIN";
 	private const string PREF_LAST_BONUS_SPIN = "PLAYER_LAST_BONUS_SPIN";
+	private const string PREF_LOGIN_BONUS = "PLAYER_LOGIN_BONUS";
 
 	private const string PREF_LASTBET = "SYSTEM_LASTBET";
 	private const string PREF_LASTPATTERN = "SYSTEM_LASTPATTERN";
@@ -36,11 +37,12 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 	private bool _useBGM = true;
 	private bool _useSFX = true;
 	private DateTime _bonusTime;
-	private DateTime _lastLogIn;
+	private string _lastLogIn;
 	private string _lastBonusSpin;
 
 	private int _lastBet;
 	private int _lastPattern;
+	private int _logInBonus;
 
 	public List<int> _boughtIAPLevels;
 
@@ -91,6 +93,14 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 		get{return DateTime.Parse(_lastBonusSpin);}
 	}
 
+	public DateTime LastUserLogin{
+		get{return DateTime.Parse(_lastLogIn);}
+	}
+
+	public int LogInBonus{
+		get{return _logInBonus;}
+	}
+
 	public string BonusTimeLeftString { 
 		get {
 			TimeSpan ret = BonusTimeLeft;
@@ -134,6 +144,9 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 		_useSFX = (PlayerPrefs.GetInt(PREF_USE_SFX, 1) == 1);
 		_lastBet = PlayerPrefs.GetInt(PREF_LASTBET, 0);
 		_lastPattern = PlayerPrefs.GetInt(PREF_LASTPATTERN, 1);
+		_lastBonusSpin = PlayerPrefs.GetString (PREF_LAST_BONUS_SPIN, DateTime.Today.AddDays (-1).ToString());
+		_lastLogIn = PlayerPrefs.GetString (PREF_LAST_LOGIN, DateTime.Today.ToString());
+		_logInBonus = PlayerPrefs.GetInt (PREF_LOGIN_BONUS, 1);
 
 
 		if (_level < 1) {
@@ -164,14 +177,24 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 		PlayerPrefs.SetInt(PREF_LASTBET, _lastBet);
 		PlayerPrefs.SetInt(PREF_LASTPATTERN, _lastPattern);
 		PlayerPrefs.SetString(PREF_BONUS_LASTUSED, _bonusTime.ToBinary().ToString());
-		PlayerPrefs.SetString(PREF_LAST_LOGIN, _lastLogIn.ToBinary().ToString());
+		PlayerPrefs.SetString(PREF_LAST_LOGIN, _lastLogIn.ToString());
+		PlayerPrefs.SetString (PREF_LAST_BONUS_SPIN, _lastBonusSpin.ToString ());
+		PlayerPrefs.SetInt (PREF_LOGIN_BONUS, _logInBonus);
 
 		PlayerPrefs.Save();
 	}
 
 	public void lastLogin(DateTime p_prevLogin){
-		_lastLogIn = p_prevLogin;
+		_lastLogIn = p_prevLogin.ToString();
 		SignalManager.Instance.Call(SignalType.LOCAL_DATA_CHANGED);
+	}
+	public void lastBonusSpin (DateTime p_lastBonusSpin){
+		_lastBonusSpin = p_lastBonusSpin.ToString();
+		SignalManager.Instance.Call (SignalType.LOCAL_DATA_CHANGED); 
+	}
+
+	public void curLoginBonus(int p_loginBonus){
+		_logInBonus = p_loginBonus;
 	}
 
 	public void AddChips(int amount) {

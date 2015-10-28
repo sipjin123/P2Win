@@ -22,6 +22,8 @@ public class LoginScript : MonoBehaviour {
 
 	[SerializeField]
 	private GameState _mainMenuScene = GameState.MAIN_MENU;
+	[SerializeField]
+	private GameState _BonusSpin = GameState.SPINBONUS;
 
 
 	void disableUserInput(){
@@ -44,22 +46,19 @@ public class LoginScript : MonoBehaviour {
 	}
 
 	void CheckLoginBonus(){
-		DateTime lastLogin = DateTime.Today;
-		if (PlayerPrefs.HasKey ("PLAYER_LAST_LOGIN"))
-			lastLogin = DateTime.Parse(PlayerPrefs.GetString("PLAYER_LAST_LOGIN"));
+		DateTime lastLogin = PlayerDataManager.Instance.LastUserLogin;
+		int loginBonus;
 
 		if (DateTime.Compare (lastLogin.AddDays (1), DateTime.Today) == 0) {
-			if (PlayerPrefs.HasKey ("LOGIN_BONUS")) {
-				PlayerPrefs.SetInt ("LOGIN_BONUS", PlayerPrefs.GetInt ("LOGIN_BONUS", 1) + 1);
-				PlayerPrefs.SetString("PLAYER_LAST_LOGIN",DateTime.Today.ToString());
-			}
+			PlayerDataManager.Instance.curLoginBonus(PlayerDataManager.Instance.LogInBonus + 1);
+			PlayerDataManager.Instance.lastLogin(DateTime.Today);
 		} 
 		else if (DateTime.Compare (lastLogin.AddDays (1), DateTime.Today) > 0) {
 			//NothingHappens
 		}
 		else {
-			PlayerPrefs.SetInt("LOGIN_BONUS",1);
-			PlayerPrefs.SetString("PLAYER_LAST_LOGIN",DateTime.Today.ToString());
+			PlayerDataManager.Instance.curLoginBonus(1);
+			PlayerDataManager.Instance.lastLogin(DateTime.Today);
 		}
 
 	}
@@ -75,7 +74,7 @@ public class LoginScript : MonoBehaviour {
 
 	void FBLogin(){
 		playerName = "Default Guest";
-		playerBirthday = DateTime.Today;
+		playerBirthday = DateTime.Today;	
 		disableUserInput();
 		PlayerDataManager.Instance.AddChips (FBLoginBonus);
 		CheckLoginBonus ();
@@ -87,8 +86,8 @@ public class LoginScript : MonoBehaviour {
 
 
 		if (DateTime.Compare (PlayerDataManager.Instance.SpinBonusTimeLeft.AddDays(1), DateTime.Now) <= 0) {
-			PlayerPrefs.SetString("PLAYER_LAST_BONUS_SPIN",DateTime.Now.ToString());
-			GameManager.Instance.LoadScene (_mainMenuScene);
+			PlayerDataManager.Instance.lastBonusSpin(DateTime.Now);
+			GameManager.Instance.LoadScene (_BonusSpin);
 		}
 		else {
 			GameManager.Instance.LoadScene (_mainMenuScene);

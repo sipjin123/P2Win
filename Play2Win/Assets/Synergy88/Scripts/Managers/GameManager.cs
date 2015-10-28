@@ -11,7 +11,8 @@ public enum GameState {
 	SLOTS,
     SHOP,
     ACHIEVEMENTS,
-    WALLET
+    WALLET,
+	SPINBONUS
 }
 
 public class GameManager : MonoBehaviour {

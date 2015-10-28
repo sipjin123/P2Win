@@ -25,11 +25,14 @@ public class RouletteControllerScript : MonoBehaviour {
 	private int loginBonusMultiplier;
 	private float levelBonusMultiplier;
 
+	[SerializeField]
+	private GameState _MainMenu = GameState.MAIN_MENU;
+
 	void Start(){
 		pinScript = roulettePin.GetComponent<RouletteHandScript> ();
 		prizeMultiplier = 1;
-		levelBonusMultiplier = (((float)PlayerPrefs.GetInt ("LEVEL_BONUS", 1)/2.0f)/100.0f);
-		loginBonusMultiplier = PlayerPrefs.GetInt ("LOGIN_BONUS", 1);
+		levelBonusMultiplier =(((float)PlayerDataManager.Instance.Level/2.0f)/100.0f);
+		loginBonusMultiplier = PlayerDataManager.Instance.LogInBonus;
 	}
 
 	IEnumerator WheelSpin(){
@@ -70,7 +73,7 @@ public class RouletteControllerScript : MonoBehaviour {
 
 	void Claim(){
 		PlayerDataManager.Instance.AddChips ((int)totalReward);
-		Application.LoadLevel (0);
+		GameManager.Instance.LoadScene (_MainMenu);
 	}
 	
 	void Finished()
