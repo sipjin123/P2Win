@@ -195,6 +195,7 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 
 	public void curLoginBonus(int p_loginBonus){
 		_logInBonus = p_loginBonus;
+		SignalManager.Instance.Call (SignalType.LOCAL_DATA_CHANGED);
 	}
 
 	public void AddChips(int amount) {
