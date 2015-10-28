@@ -16,6 +16,7 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 	private const string PREF_USE_SFX = "SETTINGS_USE_SFX";
 	private const string PREF_BONUS_LASTUSED = "PLAYER_LASTBONUS_USED";
 	private const string PREF_LAST_LOGIN = "PLAYER_LAST_LOGIN";
+	private const string PREF_LAST_BONUS_SPIN = "PLAYER_LAST_BONUS_SPIN";
 
 	private const string PREF_LASTBET = "SYSTEM_LASTBET";
 	private const string PREF_LASTPATTERN = "SYSTEM_LASTPATTERN";
@@ -36,6 +37,7 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 	private bool _useSFX = true;
 	private DateTime _bonusTime;
 	private DateTime _lastLogIn;
+	private string _lastBonusSpin;
 
 	private int _lastBet;
 	private int _lastPattern;
@@ -84,6 +86,11 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 				return BONUS_TIME_DURATION.Subtract(DateTime.Now.Subtract(_bonusTime));
 		} 
 	}
+
+	public DateTime SpinBonusTimeLeft{
+		get{return DateTime.Parse(_lastBonusSpin);}
+	}
+
 	public string BonusTimeLeftString { 
 		get {
 			TimeSpan ret = BonusTimeLeft;
@@ -122,6 +129,7 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 		_points = PlayerPrefs.GetInt(PREF_POINTS, 5);
 		_level = PlayerPrefs.GetInt(PREF_LEVEL, 1);
 		_exp = PlayerPrefs.GetFloat(PREF_EXP, 0f);
+		_lastBonusSpin = PlayerPrefs.GetString (PREF_LAST_BONUS_SPIN,DateTime.Now.ToString());
 		_useBGM = (PlayerPrefs.GetInt(PREF_USE_BGM, 1) == 1);
 		_useSFX = (PlayerPrefs.GetInt(PREF_USE_SFX, 1) == 1);
 		_lastBet = PlayerPrefs.GetInt(PREF_LASTBET, 0);

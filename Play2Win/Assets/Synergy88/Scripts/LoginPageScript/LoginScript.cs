@@ -49,12 +49,17 @@ public class LoginScript : MonoBehaviour {
 			lastLogin = DateTime.Parse(PlayerPrefs.GetString("PLAYER_LAST_LOGIN"));
 
 		if (DateTime.Compare (lastLogin.AddDays (1), DateTime.Today) == 0) {
-			if(PlayerPrefs.HasKey("LOGIN_BONUS")){
-				PlayerPrefs.SetInt("LOGIN_BONUS",PlayerPrefs.GetInt("LOGIN_BONUS",1) + 1);
+			if (PlayerPrefs.HasKey ("LOGIN_BONUS")) {
+				PlayerPrefs.SetInt ("LOGIN_BONUS", PlayerPrefs.GetInt ("LOGIN_BONUS", 1) + 1);
+				PlayerPrefs.SetString("PLAYER_LAST_LOGIN",DateTime.Today.ToString());
 			}
+		} 
+		else if (DateTime.Compare (lastLogin.AddDays (1), DateTime.Today) > 0) {
+			//NothingHappens
 		}
 		else {
 			PlayerPrefs.SetInt("LOGIN_BONUS",1);
+			PlayerPrefs.SetString("PLAYER_LAST_LOGIN",DateTime.Today.ToString());
 		}
 
 	}
@@ -79,7 +84,16 @@ public class LoginScript : MonoBehaviour {
 
 	void LoginContinue(){
 		PlayerDataManager.Instance.lastLogin (DateTime.Today);
-		GameManager.Instance.LoadScene(_mainMenuScene);
+
+
+		if (DateTime.Compare (PlayerDataManager.Instance.SpinBonusTimeLeft.AddDays(1), DateTime.Now) <= 0) {
+			PlayerPrefs.SetString("PLAYER_LAST_BONUS_SPIN",DateTime.Now.ToString());
+			GameManager.Instance.LoadScene (_mainMenuScene);
+		}
+		else {
+			GameManager.Instance.LoadScene (_mainMenuScene);
+		}
+
 	}
 
 	void EnableScroll(){
