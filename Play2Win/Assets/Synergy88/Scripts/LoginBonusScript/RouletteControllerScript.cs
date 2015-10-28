@@ -11,6 +11,8 @@ public class RouletteControllerScript : MonoBehaviour {
 
 	[SerializeField] private tk2dTextMesh prizeWon;
 	[SerializeField] private tk2dSprite spinButton;
+	[SerializeField] private tk2dTextMesh levelMultiplier;
+	[SerializeField] private tk2dTextMesh loginMultiplier;
 	[SerializeField] private tk2dTextMesh bonusCoin;
 	[SerializeField] private tk2dTextMesh multiplier;
  	[SerializeField] private tk2dUITweenItem buttonAnim;
@@ -18,11 +20,16 @@ public class RouletteControllerScript : MonoBehaviour {
 	private RouletteHandScript pinScript;
 	private bool m_spin = true;	
 	private int prizeMultiplier;
+	private float totalReward;
 	private int totalPrize;
+	private int loginBonusMultiplier;
+	private float levelBonusMultiplier;
 
 	void Start(){
 		pinScript = roulettePin.GetComponent<RouletteHandScript> ();
 		prizeMultiplier = 1;
+		levelBonusMultiplier = (((float)PlayerPrefs.GetInt ("LEVEL_BONUS", 1)/2.0f)/100.0f);
+		loginBonusMultiplier = PlayerPrefs.GetInt ("LOGIN_BONUS", 1);
 	}
 
 	IEnumerator WheelSpin(){
@@ -61,7 +68,8 @@ public class RouletteControllerScript : MonoBehaviour {
 		}
 	}
 
-	void Reload(){
+	void Claim(){
+		PlayerDataManager.Instance.AddChips ((int)totalReward);
 		Application.LoadLevel (0);
 	}
 	
@@ -69,8 +77,11 @@ public class RouletteControllerScript : MonoBehaviour {
 	{
 		if (pinScript.rouletteTextPrice != "2X" && pinScript.rouletteTextPrice != "3X") {
 			totalPrize = pinScript.roulettePrice * prizeMultiplier;
+			totalReward = ((float)totalPrize * (float)loginBonusMultiplier) + Mathf.Round((float)totalPrize * levelBonusMultiplier);
 			bonusCoin.text = "$" + totalPrize.ToString();
-			prizeWon.text = "$" + totalPrize.ToString();
+			prizeWon.text = "$" + totalReward.ToString();
+			loginMultiplier.text = loginBonusMultiplier.ToString() + "X";
+			levelMultiplier.text = levelBonusMultiplier.ToString() + "X";
 			claimRewardWindow.SetActive (true);
 		} 
 		else {

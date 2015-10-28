@@ -49,10 +49,12 @@ public class LoginScript : MonoBehaviour {
 			lastLogin = DateTime.Parse(PlayerPrefs.GetString("PLAYER_LAST_LOGIN"));
 
 		if (DateTime.Compare (lastLogin.AddDays (1), DateTime.Today) == 0) {
-			//2x
+			if(PlayerPrefs.HasKey("LOGIN_BONUS")){
+				PlayerPrefs.SetInt("LOGIN_BONUS",PlayerPrefs.GetInt("LOGIN_BONUS",1) + 1);
+			}
 		}
 		else {
-			//1x;
+			PlayerPrefs.SetInt("LOGIN_BONUS",1);
 		}
 
 	}
@@ -70,7 +72,7 @@ public class LoginScript : MonoBehaviour {
 		playerName = "Default Guest";
 		playerBirthday = DateTime.Today;
 		disableUserInput();
-		PlayerDataManager.Instance.AddChips (FBLoginBonus);.
+		PlayerDataManager.Instance.AddChips (FBLoginBonus);
 		CheckLoginBonus ();
 		StartCoroutine (LoginPlayer (playerName, playerBirthday));
 	}
