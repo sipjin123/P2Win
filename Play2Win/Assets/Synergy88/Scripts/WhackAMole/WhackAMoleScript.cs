@@ -30,25 +30,38 @@ public class WhackAMoleScript : MonoBehaviour {
 	IEnumerator WhackTheMole(){
 		yield return new WaitForSeconds (waitTime);
 
-		stateDuration = Random.Range (0.0f, 5.1f);
-		stateChanged = Random.Range (0, 101);
-		isHiding = stateChanged > 45 ? false : true;
-		moleIndex = Random.Range (0,100);
+		if (!myManager.gameover) {
+			stateDuration = Random.Range (0.0f, 5.1f);
+			stateChanged = Random.Range (0, 101);
+			isHiding = stateChanged > 45 ? false : true;
+			moleIndex = Random.Range (0, 100);
 
-		CheckMoleToShow ();
+			CheckMoleToShow ();
 
-		if (!isHiding) {
-			MoleState.SetBool (MOLE_STATE, isHiding);
+			if (!isHiding) {
+				MoleState.SetBool (MOLE_STATE, isHiding);
+			}
+
+			yield return new WaitForSeconds (stateDuration);
+
+			if (!isHiding) {
+				isHiding = true;
+				MoleState.SetBool (MOLE_STATE, isHiding);
+			}
+			StartCoroutine (WhackTheMole ());
+		} 
+		else {
+
+			StartCoroutine(EndRound());
+			
 		}
-		
-		yield return new WaitForSeconds (stateDuration);
 
-		if (!isHiding) {
-			isHiding = true;
-			MoleState.SetBool (MOLE_STATE, isHiding);
-		}
-		StartCoroutine (WhackTheMole());
-
+	}
+	IEnumerator EndRound(){
+		isHiding = true;
+		MoleState.SetBool (MOLE_STATE, true);
+		yield return new WaitForSeconds (1.0f);
+		MoleState.SetBool (MOLE_STATE, false);
 	}
 
 	void CheckMoleToShow(){

@@ -5,7 +5,21 @@ public class WhackAMoleManager : MonoBehaviour {
 
 	[SerializeField] private tk2dTextMesh scoreBoard;
 	[SerializeField] private tk2dTextMesh multiplierBoard;
+	[SerializeField] private tk2dTextMesh timerText;
 	private int myScore;
+	private float timer;
+
+	public bool gameover = false;
+
+	void Update(){
+		if (!gameover) {
+			timer += 1.0f * Time.deltaTime;
+			timerText.text = Mathf.RoundToInt (timer).ToString ();
+		}
+		if (timer > 30) {
+			gameover = true;
+		}
+	}
 
 	public void AddScore(int p_points){
 		myScore += p_points;
