@@ -28,7 +28,7 @@ public class WhackAMoleScript : MonoBehaviour {
 		waitTime = 2;
 
 		if (!myManager.gameover) {
-			stateDuration = Random.Range (0.0f, myManager.timer < 25.0f ? 5.1f : 30.0f - myManager.timer );
+			stateDuration = Random.Range (2.0f, myManager.timer < 26.0f ? 4.1f : 30.0f - myManager.timer );
 			stateChanged = Random.Range (0, 101);
 			isHiding = stateChanged > 45 ? false : true;
 			moleIndex = Random.Range (0, 100);

@@ -77,8 +77,8 @@ public class WhackAMoleManager : MonoBehaviour {
 	}
 
 	void AcceptBonus(){
-		Debug.Log ("Accepted");
-		//Application.LoadLevel(1);
+
+		Application.LoadLevel(16);
 	}
 }
   
