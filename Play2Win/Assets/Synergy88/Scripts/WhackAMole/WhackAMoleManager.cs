@@ -14,7 +14,7 @@ public class WhackAMoleManager : MonoBehaviour {
 	void Update(){
 		if (!gameover) {
 			timer += 1.0f * Time.deltaTime;
-			timerText.text = Mathf.RoundToInt (timer).ToString ();
+			timerText.text = "Timer: " + Mathf.RoundToInt (timer).ToString ();
 		}
 		if (timer > 30) {
 			gameover = true;
