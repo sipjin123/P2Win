@@ -3,11 +3,9 @@ using System.Collections;
 
 public class WhackAMoleScript : MonoBehaviour {
 
-	[SerializeField] private GameObject Mole;
-
 	private const string MOLE_STATE = "isHiding";
 
-	private const int waitTime = 2;
+	private int waitTime = 0;
 	private int stateChanged = 0;
 	private int moleIndex = 0;
 	private int moleMultiplier = 1;
@@ -17,30 +15,28 @@ public class WhackAMoleScript : MonoBehaviour {
 
 	[SerializeField]private tk2dSprite myMole;
 
-	private Animator MoleState;
+	[SerializeField]private Animator MoleState;
 	[SerializeField]private WhackAMoleManager myManager;
 
 	void Start(){
-		MoleState = Mole.GetComponent<Animator>();
-		MoleState.SetBool (MOLE_STATE, isHiding);
 
-		StartCoroutine (WhackTheMole());
 	}
 
 	IEnumerator WhackTheMole(){
 		yield return new WaitForSeconds (waitTime);
 
+		waitTime = 2;
+
 		if (!myManager.gameover) {
-			stateDuration = Random.Range (0.0f, 5.1f);
+			stateDuration = Random.Range (0.0f, myManager.timer < 25.0f ? 5.1f : 30.0f - myManager.timer );
 			stateChanged = Random.Range (0, 101);
 			isHiding = stateChanged > 45 ? false : true;
 			moleIndex = Random.Range (0, 100);
 
 			CheckMoleToShow ();
 
-			if (!isHiding) {
+			if (!isHiding)
 				MoleState.SetBool (MOLE_STATE, isHiding);
-			}
 
 			yield return new WaitForSeconds (stateDuration);
 
@@ -50,13 +46,15 @@ public class WhackAMoleScript : MonoBehaviour {
 			}
 			StartCoroutine (WhackTheMole ());
 		} 
-		else {
-
+		else 
 			StartCoroutine(EndRound());
-			
-		}
-
 	}
+
+	public void startWhack(){
+		MoleState.SetBool (MOLE_STATE, isHiding);		
+		StartCoroutine (WhackTheMole());
+	}
+
 	IEnumerator EndRound(){
 		isHiding = true;
 		MoleState.SetBool (MOLE_STATE, true);
