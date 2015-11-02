@@ -15,6 +15,14 @@ public class MainMenuScene : MonoBehaviour {
     [SerializeField]
     private GameState _wallet;
 
+    [SerializeField]
+    private GameObject _boosterAvailableObject;
+
+    [SerializeField]
+    private tk2dTextMesh _timerText;
+
+    private bool _bonusAvailable = false;
+
     void Start() {
         SignalManager.Instance.Call(SignalType.LOBBY_ENTERED);
 
@@ -28,6 +36,38 @@ public class MainMenuScene : MonoBehaviour {
         }
 
         PlayerDataManager.Instance.InitializeListener();
+
+        UpdateTimerVisibility();
+    }
+
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.Backspace)) {
+            Application.Quit();
+        }
+
+        if (_bonusAvailable != PlayerDataManager.Instance.BonusAvailable) {
+            _bonusAvailable = PlayerDataManager.Instance.BonusAvailable;
+            UpdateTimerVisibility();
+        }
+
+        if (!_bonusAvailable) {
+            _timerText.text = PlayerDataManager.Instance.BonusTimeLeftString;
+        }
+    }
+
+    private void UpdateTimerVisibility() {
+        _boosterAvailableObject.gameObject.SetActive(_bonusAvailable);
+        _timerText.gameObject.SetActive(!_bonusAvailable);
+    }
+
+    public void OpenSettings() {
+        AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
+        SignalManager.Instance.Call(SignalType.SHOW_SETTINGS);
+    }
+
+    public void CollectBonus() {
+        AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.COINS);
+        PlayerDataManager.Instance.CollectBonus();
     }
 
     public void LoadGameMenu() {

@@ -124,7 +124,7 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 	void Start() {
 
 		_instance = this;
-		BONUS_TIME_DURATION = TimeSpan.FromHours(1);
+		BONUS_TIME_DURATION = TimeSpan.FromHours(4);
 		LoadAllData();
 
 		_boughtIAPLevels = new List<int>();

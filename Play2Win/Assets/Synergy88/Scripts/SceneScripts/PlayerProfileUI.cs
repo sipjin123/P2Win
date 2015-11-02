@@ -8,11 +8,11 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 	private const float INCREMENT_TIME = 0.5f;
 	private const float TICK_TIME = 0.01f;
 
-	[SerializeField]
-	private GameObject _lobbyBG;
+    //[SerializeField]
+    //private GameObject _lobbyBG;
 
-	[SerializeField]
-	private GameObject _gameBG;
+    //[SerializeField]
+    //private GameObject _gameBG;
 
 	[SerializeField]
 	private tk2dTextMesh _coinsText;
@@ -23,6 +23,9 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 	[SerializeField]
 	private tk2dTextMesh _levelText;
 
+    [SerializeField]
+    private tk2dTextMesh _expText;
+
 	[SerializeField]
 	private tk2dSprite _expBar;
 
@@ -31,8 +34,8 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 
 	private bool _inputLocked = false;
 
-	[SerializeField]
-	GameObject _profilePicture;
+    //[SerializeField]
+    //GameObject _profilePicture;
 
 	private Dictionary<string,string> profile;
 
@@ -155,12 +158,13 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 		UpdateCoinsText(Mathf.FloorToInt(PlayerDataManager.Instance.Chips));
 		_boostersText.text = PlayerDataManager.Instance.Points.ToString();
 		_levelText.text = PlayerDataManager.Instance.Level.ToString();
+        _expText.text = PlayerDataManager.Instance.Experience.ToString();
 		_expBar.scale = new Vector3(PlayerDataManager.Instance.ExpRatio, 1f, 1f);
 	}
 
 	private void UpdateBackground(bool inGame) {
-		_lobbyBG.SetActive(!inGame);
-		_gameBG.SetActive(inGame);
+        //_lobbyBG.SetActive(!inGame);
+        //_gameBG.SetActive(inGame);
 	}
 
 	private void UpdateCoinsText(int value) {

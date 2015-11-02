@@ -56,8 +56,9 @@ public class SettingsManager : MonoBehaviour, ISignalListener {
 		Debug.LogWarning("[More Games not yet fully integrated]");
 	}
 
-	public void Restore() {
-		Close ();
+	public void RestartProfile() {
+        PlayerPrefs.DeleteAll();
+        Application.Quit();
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
 	}
 
