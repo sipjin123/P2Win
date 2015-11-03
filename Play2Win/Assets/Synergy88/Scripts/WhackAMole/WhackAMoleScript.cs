@@ -12,6 +12,7 @@ public class WhackAMoleScript : MonoBehaviour {
 
 	private float stateDuration = 0.0f;
 	private bool isHiding = true;
+	private bool choose;
 
 	[SerializeField]private tk2dSprite myMole;
 
@@ -23,16 +24,19 @@ public class WhackAMoleScript : MonoBehaviour {
 	}
 
 	IEnumerator WhackTheMole(){
+		choose = true;
 		yield return new WaitForSeconds (waitTime);
 
 		waitTime = 2;
 
 		if (!myManager.gameover) {
-			stateDuration = Random.Range (2.0f, myManager.timer < 26.0f ? 4.1f : 30.0f - myManager.timer );
-			stateChanged = Random.Range (0, 101);
-			isHiding = stateChanged > 45 ? false : true;
-			moleIndex = Random.Range (0, 100);
-
+			if(choose){
+				stateDuration = Random.Range(1.0f, myManager.timer < 27.0f ? 3.1f : 30.0f - myManager.timer);
+				stateChanged = Random.Range (0, 101);
+				isHiding = stateChanged > 45 ? false : true;
+				moleIndex = Random.Range (0, 100);
+				choose = false;
+			}
 			CheckMoleToShow ();
 
 			if (!isHiding)

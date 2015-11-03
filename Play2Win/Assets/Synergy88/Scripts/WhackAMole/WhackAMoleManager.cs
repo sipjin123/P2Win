@@ -19,7 +19,7 @@ public class WhackAMoleManager : MonoBehaviour {
 	private const string HIDE_SHOW_BOARD = "startgame";
 
 	private int myScore;
-	private int myMultiplier;
+	private int myMultiplier = 1;
 
 	public float timer;
 	private bool gamestart;
@@ -78,7 +78,7 @@ public class WhackAMoleManager : MonoBehaviour {
 
 	void AcceptBonus(){
 
-		Application.LoadLevel(16);
+		Application.LoadLevel(0);
 	}
 }
   
