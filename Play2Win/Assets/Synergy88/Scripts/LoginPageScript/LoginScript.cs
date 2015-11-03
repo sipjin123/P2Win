@@ -95,14 +95,14 @@ public class LoginScript : MonoBehaviour {
 
 	}
 
-	void EnableScroll(){
-		if (!scrollbar.activeSelf) {
-			this.scrollable.enabled = true;
-			this.scrollbar.SetActive (true);
-		} 
-		else {
-			this.scrollable.enabled = false;
-			this.scrollbar.SetActive (false);
-		}
-	}
+//	void EnableScroll(){
+////		if (!scrollbar.activeSelf) {
+////			this.scrollable.enabled = true;
+////			this.scrollbar.SetActive (true);
+////		} 
+////		else {
+////			this.scrollable.enabled = false;
+////			this.scrollbar.SetActive (false);
+////		}
+//	}
 }
