@@ -10,7 +10,6 @@ public class WhackAMoleManager : MonoBehaviour {
 	[SerializeField] private tk2dTextMesh scoreEarned;
 	[SerializeField] private tk2dTextMesh multiplierEarned;
 	[SerializeField] private tk2dTextMesh totalScore;
-	[SerializeField] private tk2dTextMesh bonusEarned;
  
 	[SerializeField] private GameObject[] moles;
 
@@ -46,7 +45,6 @@ public class WhackAMoleManager : MonoBehaviour {
 			scoreEarned.text = myScore.ToString();
 			multiplierEarned.text = myMultiplier.ToString() + "X";
 			totalScore.text = (myScore * myMultiplier).ToString ();
-			bonusEarned.text = "0000";
 		yield return new WaitForSeconds (1.0f);
 			whackBoard.SetBool (HIDE_SHOW_BOARD, false);
 
@@ -68,7 +66,7 @@ public class WhackAMoleManager : MonoBehaviour {
 	}
 	private void UpdateMultiplier(int p_multiplier){
 		myMultiplier = p_multiplier;
-		multiplierBoard.text = "Multiplier: " + p_multiplier + "X";
+		multiplierBoard.text = p_multiplier + "X " + "Multiplier";
 	}
 
 	void ShowHideBoard(){

@@ -44,10 +44,13 @@ public class WhackAMoleScript : MonoBehaviour {
 
 			yield return new WaitForSeconds (stateDuration);
 
-			if (!isHiding) {
+			if (!isHiding){
+				MoleState.SetBool (MOLE_STATE, true);
+				yield return new WaitForSeconds(0.2f);
 				isHiding = true;
-				MoleState.SetBool (MOLE_STATE, isHiding);
 			}
+
+
 			StartCoroutine (WhackTheMole ());
 		} 
 		else 
