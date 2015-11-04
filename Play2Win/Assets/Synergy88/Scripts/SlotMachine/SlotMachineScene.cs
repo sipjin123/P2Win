@@ -6,14 +6,14 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 
 	public const string PARAM_LOCK = "locked";
 
-	private const string BUTTON_AUTOPLAY_INACTIVE = "button_spinhold01";
-	private const string BUTTON_AUTOPLAY_ACTIVE = "button_spinactive01";
+    private const string BUTTON_AUTOPLAY_INACTIVE = "AUTOPLAY\nOFF";
+    private const string BUTTON_AUTOPLAY_ACTIVE = "AUTOPLAY\nON";
 	private const float AUTOPLAY_HOLD_DURATION = 1f;
 	private const float AUTOSPIN_DELAY = 0.5f;
 	private const float AUTOSPIN_WIN_DELAY = 3f;
 
 	[SerializeField]
-	private tk2dSprite _spinButtonSprite;
+	private tk2dTextMesh _autoplayText;
 
 	[SerializeField]
 	private tk2dTextMesh _coinBetText;
@@ -21,8 +21,8 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	[SerializeField]
 	private tk2dTextMesh _lineBetText;
 
-	[SerializeField]
-	private tk2dTextMesh _boosterBetText;
+    //[SerializeField]
+    //private tk2dTextMesh _boosterBetText;
 
 	[SerializeField]
 	private tk2dTextMesh _totalBetText;
@@ -73,7 +73,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	private int _currentCoinBetIndex; // Temp(?)
 
 	private int _linesActive;
-	private int _boostersToUse;
+    //private int _boostersToUse;
 	private int _previousWinnings;	
 
 //	private float _holdTimerStart;
@@ -111,7 +111,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		}
 
 		UpdateTotalBet();
-		UpdateBoostersUsed();
+        //UpdateBoostersUsed();
 		UpdateBetAmount();
 
 		_extraRewardsWindow = new List<IExtraRewardWindow>();
@@ -304,36 +304,36 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		SignalManager.Instance.CallWithParam(SignalType.PATTERN_UPDATED, param);
 	}
 
-	public void AddBooster() {
-		if (_autoplayActive || _spinning)
-			return;
+    //public void AddBooster() {
+    //    if (_autoplayActive || _spinning)
+    //        return;
 
-		if (PlayerDataManager.Instance == null) {
-			Debug.LogWarning("Data manager not yet loaded");
-			return;
-		}
+    //    if (PlayerDataManager.Instance == null) {
+    //        Debug.LogWarning("Data manager not yet loaded");
+    //        return;
+    //    }
 
-		if (_boostersToUse >= PlayerDataManager.Instance.Points) {
-			return;
-		}
+    //    //if (_boostersToUse >= PlayerDataManager.Instance.Points) {
+    //    //    return;
+    //    //}
 
-		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_ADD);
-		_boostersToUse++;
-		UpdateBoostersUsed();
-	}
+    //    AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_ADD);
+    //    _boostersToUse++;
+    //    //UpdateBoostersUsed();
+    //}
 
-	public void DecreaseBooster() {
-		if (_autoplayActive || _spinning)
-			return;
+    //public void DecreaseBooster() {
+    //    if (_autoplayActive || _spinning)
+    //        return;
 
-		if (_boostersToUse <= 0) {
-			return;
-		}
+    //    if (_boostersToUse <= 0) {
+    //        return;
+    //    }
 
-		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_DECREASE);
-		_boostersToUse--;
-		UpdateBoostersUsed();
-	}
+    //    AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_DECREASE);
+    //    _boostersToUse--;
+    //    //UpdateBoostersUsed();
+    //}
 
 	public void UseMaxLines() {
 		if (_autoplayActive || _spinning)
@@ -369,10 +369,9 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	private void Spin() {
 		if (_freeSpinsActive <= 0 && _totalBet > PlayerDataManager.Instance.Chips) {
 			_notEnoughCoins.Show();
-		} else if (_freeSpinsActive <= 0 && _boostersToUse > PlayerDataManager.Instance.Points) {
-			_notEnoughBoosters.Show();
-		} 
-		else {
+        //} else if (_freeSpinsActive <= 0 /* && _boostersToUse > PlayerDataManager.Instance.Points */) {
+        //    _notEnoughBoosters.Show();
+		} else {
 			_patternManager.HideWinningPattern ();
 
 			_spinning = true;
@@ -393,7 +392,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 			} 
 			else {
 				PlayerDataManager.Instance.UseChips (Mathf.FloorToInt (_totalBet));
-				PlayerDataManager.Instance.UsePoints (_boostersToUse);
+                //PlayerDataManager.Instance.UsePoints (_boostersToUse);
 			}
 
 			AudioManager.Instance.ResumeBGM();
@@ -430,7 +429,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 
 	private void SwitchAutoplay() {
 		_autoplayActive = !_autoplayActive;
-		_spinButtonSprite.SetSprite(_autoplayActive ? BUTTON_AUTOPLAY_ACTIVE : BUTTON_AUTOPLAY_INACTIVE);
+		_autoplayText.text = (_autoplayActive ? BUTTON_AUTOPLAY_ACTIVE : BUTTON_AUTOPLAY_INACTIVE);
 
 		ConcreteSignalParameters stateParam = new ConcreteSignalParameters();
 		stateParam.AddParameter(PARAM_LOCK, (_autoplayActive || _spinning));
@@ -452,7 +451,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	private void DelayedCheckForWinnings() {
 		_patternManager.RegisterPatterns();
 		
-		_previousWinnings = _patternManager.GetTotalWinnings(Mathf.FloorToInt(_currentCoinBet) * (_boostersToUse + 1));
+		_previousWinnings = _patternManager.GetTotalWinnings(Mathf.FloorToInt(_currentCoinBet)); // * (_boostersToUse + 1));
 		if (_previousWinnings == 0) {
 			_previousWinningsText.text = "0";
 		} 
@@ -532,8 +531,8 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	}
 
 	public void Close(){
-		_boostersToUse = 0;
-		UpdateBoostersUsed();
+        //_boostersToUse = 0;
+        //UpdateBoostersUsed();
 		SpinAgain ();
 	}
 
@@ -548,20 +547,17 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	private void ContinueSpinning() {
 		_patternManager.RotateWinningPattern(_autoplayActive);
 
-		if (_autoplayActive && (_totalBet > PlayerDataManager.Instance.Chips || _boostersToUse > PlayerDataManager.Instance.Points)) {
-			if(_boostersToUse > PlayerDataManager.Instance.Points)
-				_wasAutoplaying = true;
+		if (_autoplayActive && (_totalBet > PlayerDataManager.Instance.Chips)) { // || _boostersToUse > PlayerDataManager.Instance.Points)) {
+            //if(_boostersToUse > PlayerDataManager.Instance.Points)
+
+			_wasAutoplaying = true;
 
 			SwitchAutoplay();
 			_spinning = false;
 			Spin();
-		} 
-
-		else if (_autoplayActive || _freeSpinsActive > 0) {
+		} else if (_autoplayActive || _freeSpinsActive > 0) {
 			Invoke("AutoStartSpin", AUTOSPIN_DELAY);
-		} 
-
-		else {
+		} else {
 			_spinning = false;
 		}
 
@@ -598,9 +594,9 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		UpdateTotalBet();
 	}
 
-	private void UpdateBoostersUsed() {
-		_boosterBetText.text = _boostersToUse.ToString();
-	}
+    //private void UpdateBoostersUsed() {
+    //    _boosterBetText.text = _boostersToUse.ToString();
+    //}
 
 
 	public void Execute(SignalType type, ISignalParameters param) {

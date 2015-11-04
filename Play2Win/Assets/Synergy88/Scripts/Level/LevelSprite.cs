@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(tk2dSprite))]
 public class LevelSprite : MonoBehaviour {
@@ -33,14 +34,22 @@ public class LevelSprite : MonoBehaviour {
         spriteComponent.SetSprite(spriteName);
     }
 
-//    public void RandomizeItemOnly() {
-//        SlotItem item = GetComponent<SlotItem>();
-//        if (item == null) {
-//            Debug.LogWarning("Object " + name + " does not have a SlotItem component attached.");
-//            return;
-//        }
+    public void RandomizeItemOnly(Dictionary<SlotItemType, float> itemChances) {
+        SlotItem item = GetComponent<SlotItem>();
+        if (item == null) {
+            Debug.LogWarning("Object " + name + " does not have a SlotItem component attached.");
+            return;
+        }
 
-//        item.Randomize();
-//        spriteName = SlotItem.SlotItemName(item.CurrentItemType);
-//    }
+        float rand = Random.Range(1f, 67.5f);
+		SlotItemType ret = SlotItemType.ITEM_1;
+		foreach(SlotItemType type in itemChances.Keys) {
+			if (rand >= itemChances[type] && itemChances[type] > itemChances[ret]) {
+				ret = type;
+			}
+		}
+
+        item.Randomize_Editor(ret);
+        spriteName = SlotItem.SlotItemName(item.CurrentItemType);
+    }
 }

@@ -42,7 +42,7 @@ public class SlotItem : MonoBehaviour {
 	private tk2dSprite _sprite;
 
 	private Dictionary<SlotItemType, float> _itemChances;
-	private float _maxRNGRange = 70f;
+	private float _maxRNGRange = 67.5f;
 
 //	public int CurrentItemNumber { get { return _currentItemNumber; } }
 	public SlotItemType CurrentItemType { get { return _currentItemType; } }
@@ -67,13 +67,19 @@ public class SlotItem : MonoBehaviour {
 		_itemChances.Add(SlotItemType.BONUS, 60f);
 		_itemChances.Add(SlotItemType.SCATTER, 62.5f);
 		_itemChances.Add(SlotItemType.WILD, 65f);
-		_itemChances.Add(SlotItemType.BOOSTER, 67.5f);
+        //_itemChances.Add(SlotItemType.BOOSTER, 67.5f);
 	}
 
 	public void Randomize() {
 		_currentItemType = GetRandomItemType();
 		_sprite.SetSprite(SlotItemName(_currentItemType));
 	}
+
+    public void Randomize_Editor(SlotItemType newType) {
+        _currentItemType = newType;
+        tk2dSprite sprite = GetComponent<tk2dSprite>();
+        sprite.SetSprite(SlotItemName(_currentItemType));
+    }
 
 	void OnTriggerEnter(Collider other) {
 		if (other == _randomizer) {
@@ -103,41 +109,41 @@ public class SlotItem : MonoBehaviour {
 
 	public static string SlotItemName(SlotItemType type) {
 		switch (type) {
-		case SlotItemType.ITEM_1: 
-			return "item_01";
+		    case SlotItemType.ITEM_1: 
+			    return "slot_item1";
 
-		case SlotItemType.ITEM_2: 
-			return "item_02";
+		    case SlotItemType.ITEM_2:
+                return "slot_item2";
 
-		case SlotItemType.ITEM_3: 
-			return "item_03";
+		    case SlotItemType.ITEM_3:
+                return "slot_item3";
 
-		case SlotItemType.ITEM_4: 
-			return "item_04";
+		    case SlotItemType.ITEM_4:
+                return "slot_item4";
 
-		case SlotItemType.ITEM_5: 
-			return "item_05";
+		    case SlotItemType.ITEM_5:
+                return "slot_item5";
 
-		case SlotItemType.ITEM_6: 
-			return "item_06";
+		    case SlotItemType.ITEM_6:
+                return "slot_item6";
 
-		case SlotItemType.ITEM_7: 
-			return "item_07";
+		    case SlotItemType.ITEM_7:
+                return "slot_item7";
 
-		case SlotItemType.ITEM_8: 
-			return "item_08";
+		    case SlotItemType.ITEM_8:
+                return "slot_item8";
 
-		case SlotItemType.BONUS:
-			return "bonus";
+		    case SlotItemType.BONUS:
+                return "slot_bonus";
 
-		case SlotItemType.SCATTER: 
-			return "scatter";
+		    case SlotItemType.SCATTER:
+                return "slot_scatter";
 
-		case SlotItemType.WILD: 
-			return "wild";
+		    case SlotItemType.WILD:
+                return "slot_wild";
 
-		case SlotItemType.BOOSTER: 
-			return "booster";
+		    case SlotItemType.BOOSTER: 
+			    return "slot_booster";
 		}
 
 		return "";
@@ -145,41 +151,41 @@ public class SlotItem : MonoBehaviour {
 
 	public static SlotItemType GetTypeFromName(string name) {
 		switch (name) {
-		case "item_01": 
-			return SlotItemType.ITEM_1;
-			
-		case "item_02": 
-			return SlotItemType.ITEM_2;
-			
-		case "item_03": 
-			return SlotItemType.ITEM_3;
-			
-		case "item_04": 
-			return SlotItemType.ITEM_4;
-			
-		case "item_05": 
-			return SlotItemType.ITEM_5;
-			
-		case "item_06": 
-			return SlotItemType.ITEM_6;
-			
-		case "item_07": 
-			return SlotItemType.ITEM_7;
-			
-		case "item_08": 
-			return SlotItemType.ITEM_8;
-			
-		case "bonus":
-			return SlotItemType.BONUS;
-			
-		case "scatter": 
-			return SlotItemType.SCATTER;
-			
-		case "wild": 
-			return SlotItemType.WILD;
+            case "slot_item1": 
+		        return SlotItemType.ITEM_1;
 
-		case "booster":
-			return SlotItemType.BOOSTER;
+            case "slot_item2": 
+			    return SlotItemType.ITEM_2;
+
+            case "slot_item3": 
+			    return SlotItemType.ITEM_3;
+
+            case "slot_item4": 
+			    return SlotItemType.ITEM_4;
+
+            case "slot_item5": 
+			    return SlotItemType.ITEM_5;
+
+            case "slot_item6": 
+			    return SlotItemType.ITEM_6;
+
+            case "slot_item7": 
+			    return SlotItemType.ITEM_7;
+
+            case "slot_item8": 
+			    return SlotItemType.ITEM_8;
+			
+		    case "slot_bonus":
+			    return SlotItemType.BONUS;
+			
+		    case "slot_scatter": 
+			    return SlotItemType.SCATTER;
+			
+		    case "slot_wild": 
+			    return SlotItemType.WILD;
+
+		    case "slot_booster":
+			    return SlotItemType.BOOSTER;
 		}
 		
 		return SlotItemType.WILD;
