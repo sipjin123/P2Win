@@ -8,26 +8,35 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 	private const float INCREMENT_TIME = 0.5f;
 	private const float TICK_TIME = 0.01f;
 
-    //[SerializeField]
-    //private GameObject _lobbyBG;
+    [SerializeField]
+    private GameObject _lobbyBG;
 
-    //[SerializeField]
-    //private GameObject _gameBG;
+    [SerializeField]
+    private GameObject _gameBG;
 
 	[SerializeField]
 	private tk2dTextMesh _coinsText;
 
-	[SerializeField]
-	private tk2dTextMesh _boostersText;
+    [SerializeField]
+    private tk2dTextMesh _coinsInGameText;
+
+    [SerializeField]
+    private tk2dTextMesh _boostersText;
 
 	[SerializeField]
 	private tk2dTextMesh _levelText;
+
+    [SerializeField]
+    private tk2dTextMesh _levelInGameText;
 
     [SerializeField]
     private tk2dTextMesh _expText;
 
 	[SerializeField]
 	private tk2dSprite _expBar;
+
+    [SerializeField]
+    private tk2dSprite _expBarInGame;
 
 	private int _previousCoinValue = -1;
 	private int _coinsCurrentValue = 0;
@@ -150,31 +159,37 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 	private void UpdateDisplay() {
 		if (PlayerDataManager.Instance == null) {
 			_coinsText.text = INVALID_STRING;
-			_boostersText.text = INVALID_STRING;
+            _coinsInGameText.text = INVALID_STRING;
+            _boostersText.text = INVALID_STRING;
 			_levelText.text = INVALID_STRING;
+            _levelInGameText.text = INVALID_STRING;
 			return;
 		}
 
 		UpdateCoinsText(Mathf.FloorToInt(PlayerDataManager.Instance.Chips));
-		_boostersText.text = PlayerDataManager.Instance.Points.ToString();
+        _boostersText.text = PlayerDataManager.Instance.Points.ToString();
 		_levelText.text = PlayerDataManager.Instance.Level.ToString();
+        _levelInGameText.text = PlayerDataManager.Instance.Level.ToString();
         _expText.text = PlayerDataManager.Instance.Experience.ToString();
 		_expBar.scale = new Vector3(PlayerDataManager.Instance.ExpRatio, 1f, 1f);
+        _expBarInGame.scale = new Vector3(PlayerDataManager.Instance.ExpRatio, 1f, 1f);
 	}
 
 	private void UpdateBackground(bool inGame) {
-        //_lobbyBG.SetActive(!inGame);
-        //_gameBG.SetActive(inGame);
+        _lobbyBG.SetActive(!inGame);
+        _gameBG.SetActive(inGame);
 	}
 
 	private void UpdateCoinsText(int value) {
 		if (_coinsCurrentValue == value) {
 			if (_coinsCurrentValue == 0) {
 				_coinsText.text = "0";
+                _coinsInGameText.text = "0";
 			} 
 
 			else {
 				_coinsText.text = _coinsCurrentValue.ToString("#,#");
+                _coinsInGameText.text = _coinsCurrentValue.ToString("#,#");
 			}
 			return;
 		}
@@ -184,6 +199,7 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 
 		StopCoroutine(IncreaseCoinsText());
 		_coinsText.text = _previousCoinValue.ToString("#,#");
+        _coinsInGameText.text =  _previousCoinValue.ToString("#,#");
 		StartCoroutine(IncreaseCoinsText());
 	}
 
@@ -196,16 +212,17 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 			currentIndex++;
 			_previousCoinValue += incrementAmount;
 			_coinsText.text = _previousCoinValue.ToString("#,#");
+            _coinsInGameText.text = _previousCoinValue.ToString("#,#");
 			yield return new WaitForSeconds(TICK_TIME);
 		}
 
 		_previousCoinValue = _coinsCurrentValue;
 		if (_coinsCurrentValue == 0) {
 			_coinsText.text = "0";
-		} 
-
-		else {
+            _coinsInGameText.text = "0";
+		} else {
 			_coinsText.text = _coinsCurrentValue.ToString("#,#");
+            _coinsInGameText.text = _coinsCurrentValue.ToString("#,#");
 		}
 	}
 
