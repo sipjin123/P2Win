@@ -47,7 +47,6 @@ public class LoginScript : MonoBehaviour {
 
 	void CheckLoginBonus(){
 		DateTime lastLogin = PlayerDataManager.Instance.LastUserLogin;
-		int loginBonus;
 
 		if (DateTime.Compare (lastLogin.AddDays (1), DateTime.Today) == 0) {
 			PlayerDataManager.Instance.curLoginBonus(PlayerDataManager.Instance.LogInBonus + 1);

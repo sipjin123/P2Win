@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WhackAMoleManager : MonoBehaviour {
+public class WhackAMoleManager : MonoBehaviour, IExtraRewardWindow  {
 
+	[SerializeField] private GameObject myCamera;
 	[SerializeField] private tk2dTextMesh scoreBoard;
 	[SerializeField] private tk2dTextMesh multiplierBoard;
 	[SerializeField] private tk2dTextMesh timerText;
@@ -19,6 +20,7 @@ public class WhackAMoleManager : MonoBehaviour {
 
 	private int myScore;
 	private int myMultiplier = 1;
+	private int coin = 0;
 
 	public float timer;
 	private bool gamestart;
@@ -30,6 +32,34 @@ public class WhackAMoleManager : MonoBehaviour {
 			timer += 1.0f * Time.deltaTime;
 			timerText.text = "Timer: " + Mathf.RoundToInt (timer).ToString ();
 		}
+	}
+
+	public void SetMultiplier(int p_multiplier){
+		myMultiplier = p_multiplier;
+		multiplierBoard.text = myMultiplier.ToString();
+	}
+
+	public void SetCoins(float p_coin){
+		coin = (int)p_coin;
+	}
+
+	public void Show() {
+		gamestart = false;
+		timer = 0.0f;
+		myScore = 0;
+		gameover = false;
+		whackBoard.SetBool ("Reset", true);
+		myCamera.SetActive(true);
+	}
+	
+	public void Hide() {
+		myCamera.SetActive(false);
+	}
+	
+	public void End() {
+		PlayerDataManager.Instance.AddChips (myScore);
+		Hide();
+		SignalManager.Instance.Call(SignalType.EXTRA_REWARD_CLOSED);
 	}
 
 	IEnumerator startWhack(){
@@ -44,7 +74,8 @@ public class WhackAMoleManager : MonoBehaviour {
 		yield return new WaitForSeconds (1.0f);
 			scoreEarned.text = myScore.ToString();
 			multiplierEarned.text = myMultiplier.ToString() + "X";
-			totalScore.text = (myScore * myMultiplier).ToString ();
+			totalScore.text = (myScore * myMultiplier * coin).ToString ();
+			myScore = myScore * myMultiplier * coin;
 		yield return new WaitForSeconds (1.0f);
 			whackBoard.SetBool (HIDE_SHOW_BOARD, false);
 
@@ -57,26 +88,15 @@ public class WhackAMoleManager : MonoBehaviour {
 		}
 		UpdateScoreBoard (myScore);
 	}
-	public void AddMultiplier(int p_multiplier){
-		UpdateMultiplier (p_multiplier);
-	}
 
 	private void UpdateScoreBoard(int p_score){
 		scoreBoard.text = "Score: " + p_score.ToString();
 	}
-	private void UpdateMultiplier(int p_multiplier){
-		myMultiplier = p_multiplier;
-		multiplierBoard.text = p_multiplier + "X " + "Multiplier";
-	}
 
 	void ShowHideBoard(){
 		whackBoard.SetBool (HIDE_SHOW_BOARD, true);
+		whackBoard.SetBool ("Reset", false);
 		StartCoroutine (startWhack ());
-	}
-
-	void AcceptBonus(){
-
-		Application.LoadLevel(0);
 	}
 }
   

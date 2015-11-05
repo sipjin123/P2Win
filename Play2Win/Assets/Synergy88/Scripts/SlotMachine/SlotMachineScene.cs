@@ -39,6 +39,9 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 
 	[SerializeField]
 	private SpinTheWheelManager _spinTheWheel;
+
+	[SerializeField]
+	private WhackAMoleManager _WhackAMole;
 	
 	[SerializeField]
 	private BoostersWinManager _boostersWin;
@@ -473,11 +476,11 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		}
 
 		if (_patternManager.PendingSpinTheWheel.totalReward > 0) {
-			_spinTheWheel.SetMultiplier(_patternManager.PendingSpinTheWheel.totalReward);
+			_WhackAMole.SetMultiplier(_patternManager.PendingSpinTheWheel.totalReward);
 
-			_spinTheWheel.SetCoins(_currentCoinBet);
+			_WhackAMole.SetCoins(_currentCoinBet);
 
-			_extraRewardsWindow.Add(_spinTheWheel);
+			_extraRewardsWindow.Add(_WhackAMole);
 			Debug.Log ("Activating Spin the wheel!");
 		}
 

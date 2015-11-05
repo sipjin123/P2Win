@@ -85,15 +85,17 @@ public class WhackAMoleScript : MonoBehaviour {
 	}
 
 	void CheckScoring(){
+		int score = 0;
 		if (moleIndex >= 0 && moleIndex < 30)
-			myManager.AddScore (100);
+			score = 50;
 		else if (moleIndex >= 30 && moleIndex < 60) 
-			myManager.AddScore (200);
+			score = 100;
 		else if (moleIndex >= 60 && moleIndex < 90)
-			myManager.AddScore (-200);
-		else if (moleIndex >= 90) {
-			myManager.AddMultiplier(Random.Range(1,6));
-		}
+			score = -200;
+		else if (moleIndex >= 90) 
+			score = 200;
+
+		myManager.AddScore (score);
 	}
 
 	void HideTheMole(){
