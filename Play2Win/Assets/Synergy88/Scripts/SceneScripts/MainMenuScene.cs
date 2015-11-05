@@ -3,6 +3,10 @@ using System.Collections;
 
 public class MainMenuScene : MonoBehaviour {
 
+	[SerializeField] private tk2dSpriteAnimator[] myAnimator;
+	[SerializeField] private tk2dUIItem[] myUIItem;
+	[SerializeField] private Animator contentAnim;
+
     [SerializeField]
     private GameState _games;
 
@@ -74,18 +78,45 @@ public class MainMenuScene : MonoBehaviour {
     }
 
     public void LoadGameMenu() {
-        GameManager.Instance.LoadScene(_games);
+		StartCoroutine (waitBeforeLoad (_games));
+		myUIItem [0].enabled = false;
     }
 
     public void LoadRewardsScene() {
-        GameManager.Instance.LoadScene(_rewards);
+		StartCoroutine (waitBeforeLoad (_rewards));
+		myUIItem [1].enabled = false;
     }
 
     public void LoadJourneyScene() {
-        GameManager.Instance.LoadScene(_journey);
+		StartCoroutine (waitBeforeLoad (_journey));
+		myUIItem [2].enabled = false;
     }
 
     public void LoadWalletScene() {
-        GameManager.Instance.LoadScene(_wallet);
+		StartCoroutine (waitBeforeLoad (_wallet));
+		myUIItem [3].enabled = false;
     }
+
+	IEnumerator waitBeforeLoad(GameState loadScene){
+		if (loadScene == _games) {
+			myAnimator[0].Play("BtnShine");
+		}
+		else if (loadScene == _rewards) {
+			myAnimator[1].Play("BtnShine");
+		}
+		else if (loadScene == _journey) {
+			myAnimator[2].Play("BtnShine");
+		}
+		else if (loadScene == _wallet) {
+			myAnimator[3].Play("BtnShine");
+		}
+
+		yield return new WaitForSeconds (0.7f);
+
+		contentAnim.SetBool("Hide",true);
+
+		yield return new WaitForSeconds (0.7f);
+
+		GameManager.Instance.LoadScene(loadScene);
+	}
 }
