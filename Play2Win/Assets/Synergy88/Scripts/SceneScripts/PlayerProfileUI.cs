@@ -2,71 +2,86 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public enum ProfileUIType {
+    LOBBY,
+    GEM_SCENES,
+    SLOTS
+}
+
 public class PlayerProfileUI : MonoBehaviour, ISignalListener {
+
+    [System.Serializable]
+    public struct ProfileUIGroup {
+        public ProfileUIType Type;
+        public GameObject Transform;
+        public tk2dTextMesh Coins;
+        public tk2dTextMesh LoyaltyPoints;
+        public tk2dTextMesh Level;
+        public tk2dTextMesh Exp;
+        public tk2dSprite ExpBar;
+    }
 
 	private const string INVALID_STRING = "----";
 	private const float INCREMENT_TIME = 0.5f;
 	private const float TICK_TIME = 0.01f;
 
-    [SerializeField]
-    private GameObject _lobbyBG;
+    //[SerializeField]
+    //private GameObject _lobbyBG;
+
+    //[SerializeField]
+    //private GameObject _gameBG;
+
+    //[SerializeField]
+    //private GameObject _gemOnlyObject;
+
+
+    //[SerializeField]
+    //private tk2dTextMesh _coinsText;
+
+    //[SerializeField]
+    //private tk2dTextMesh _coinsInGameText;
+
+
+    //[SerializeField]
+    //private tk2dTextMesh _boostersText;
+
+
+
+    //[SerializeField]
+    //private tk2dTextMesh _levelText;
+
+    //[SerializeField]
+    //private tk2dTextMesh _levelInGameText;
+
+    //[SerializeField]
+    //private tk2dTextMesh _expText;
+
+    //[SerializeField]
+    //private tk2dSprite _expBar;
+
+    //[SerializeField]
+    //private tk2dSprite _expBarInGame;
+
 
     [SerializeField]
-    private GameObject _gameBG;
+    private ProfileUIGroup[] _uiGroups;
 
-	[SerializeField]
-	private tk2dTextMesh _coinsText;
-
-    [SerializeField]
-    private tk2dTextMesh _coinsInGameText;
-
-    [SerializeField]
-    private tk2dTextMesh _boostersText;
-
-	[SerializeField]
-	private tk2dTextMesh _levelText;
-
-    [SerializeField]
-    private tk2dTextMesh _levelInGameText;
-
-    [SerializeField]
-    private tk2dTextMesh _expText;
-
-	[SerializeField]
-	private tk2dSprite _expBar;
-
-    [SerializeField]
-    private tk2dSprite _expBarInGame;
+    private Dictionary<ProfileUIType, ProfileUIGroup> _uiGroupList;
 
 	private int _previousCoinValue = -1;
 	private int _coinsCurrentValue = 0;
 
 	private bool _inputLocked = false;
 
-    //[SerializeField]
-    //GameObject _profilePicture;
-
-	private Dictionary<string,string> profile;
-
-	private string getDataValueForKey(Dictionary <string,object> dict ,string key){
-		object objectForKey;
-		if (dict.TryGetValue (key, out objectForKey)) {
-			return(string)objectForKey;
-		} 
-
-		else {
-			return "";
-		}
-	}
-
-
-
-
 	void Start() {
 
-		SignalManager.Instance.Register(this, SignalType.LOCAL_DATA_CHANGED);
-		SignalManager.Instance.Register(this, SignalType.LOBBY_ENTERED);
-		SignalManager.Instance.Register(this, SignalType.GAME_ENTERED);
+        _uiGroupList = new Dictionary<ProfileUIType, ProfileUIGroup>();
+        for (int i = 0; i < _uiGroups.Length; i++) {
+            _uiGroupList.Add(_uiGroups[i].Type, _uiGroups[i]);
+        }
+
+        SignalManager.Instance.Register(this, SignalType.LOCAL_DATA_CHANGED);
+        SignalManager.Instance.Register(this, SignalType.UPDATE_PROFILE_HUD);
 
 		SignalManager.Instance.Register(this, SignalType.PGS_LOGIN);
 		SignalManager.Instance.Register(this, SignalType.PGS_SHOW_LEADERBOARD);
@@ -82,17 +97,12 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 		_previousCoinValue = Mathf.FloorToInt(PlayerDataManager.Instance.Chips);
 
 		UpdateDisplay();
-		UpdateBackground(false);
-	}
-	
-	private void HandleAuthenticated(bool success){
-		Debug.Log("*** HandleAuthenticated: success = " + success);
+		UpdateBackground(ProfileUIType.LOBBY);
 	}
 	
 	void OnDestroy() {
 		SignalManager.Instance.Remove(this, SignalType.LOCAL_DATA_CHANGED);
-		SignalManager.Instance.Remove(this, SignalType.LOBBY_ENTERED);
-		SignalManager.Instance.Remove(this, SignalType.GAME_ENTERED);
+        SignalManager.Instance.Remove(this, SignalType.UPDATE_PROFILE_HUD);
 
 		SignalManager.Instance.Remove(this, SignalType.PGS_LOGIN);
 		SignalManager.Instance.Remove(this, SignalType.PGS_SHOW_LEADERBOARD);
@@ -111,7 +121,8 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 		}
 
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
-		GameManager.Instance.LoadScene(GameState.GAME_MENU);
+        //GameManager.Instance.LoadScene(GameState.GAME_MENU);
+        GameManager.Instance.LoadScene(GameState.MAIN_MENU);
 	}
 
 	public void OpenSettings() {
@@ -158,38 +169,56 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 
 	private void UpdateDisplay() {
 		if (PlayerDataManager.Instance == null) {
-			_coinsText.text = INVALID_STRING;
-            _coinsInGameText.text = INVALID_STRING;
-            _boostersText.text = INVALID_STRING;
-			_levelText.text = INVALID_STRING;
-            _levelInGameText.text = INVALID_STRING;
+            foreach (ProfileUIType type in _uiGroupList.Keys) {
+                _uiGroupList[type].Coins.text = INVALID_STRING;
+                _uiGroupList[type].LoyaltyPoints.text = INVALID_STRING;
+                _uiGroupList[type].Level.text = INVALID_STRING;
+                _uiGroupList[type].Exp.text = INVALID_STRING;
+            }
+            //_coinsText.text = INVALID_STRING;
+            //_coinsInGameText.text = INVALID_STRING;
+            //_boostersText.text = INVALID_STRING;
+            //_levelText.text = INVALID_STRING;
+            //_levelInGameText.text = INVALID_STRING;
 			return;
 		}
 
 		UpdateCoinsText(Mathf.FloorToInt(PlayerDataManager.Instance.Chips));
-        _boostersText.text = PlayerDataManager.Instance.Points.ToString();
-		_levelText.text = PlayerDataManager.Instance.Level.ToString();
-        _levelInGameText.text = PlayerDataManager.Instance.Level.ToString();
-        _expText.text = PlayerDataManager.Instance.Experience.ToString();
-		_expBar.scale = new Vector3(PlayerDataManager.Instance.ExpRatio, 1f, 1f);
-        _expBarInGame.scale = new Vector3(PlayerDataManager.Instance.ExpRatio, 1f, 1f);
+
+        foreach (ProfileUIType type in _uiGroupList.Keys) {
+            _uiGroupList[type].LoyaltyPoints.text = PlayerDataManager.Instance.Points.ToString();
+            _uiGroupList[type].Level.text = PlayerDataManager.Instance.Level.ToString();
+            _uiGroupList[type].Exp.text = PlayerDataManager.Instance.Experience.ToString();
+            _uiGroupList[type].ExpBar.scale = new Vector3(PlayerDataManager.Instance.ExpRatio, 1f, 1f);
+        }
+        //_boostersText.text = PlayerDataManager.Instance.Points.ToString();
+        //_levelText.text = PlayerDataManager.Instance.Level.ToString();
+        //_levelInGameText.text = PlayerDataManager.Instance.Level.ToString();
+        //_expText.text = PlayerDataManager.Instance.Experience.ToString();
+        //_expBar.scale = new Vector3(PlayerDataManager.Instance.ExpRatio, 1f, 1f);
+        //_expBarInGame.scale = new Vector3(PlayerDataManager.Instance.ExpRatio, 1f, 1f);
 	}
 
-	private void UpdateBackground(bool inGame) {
-        _lobbyBG.SetActive(!inGame);
-        _gameBG.SetActive(inGame);
+	private void UpdateBackground(ProfileUIType newType) {
+        foreach (ProfileUIType type in _uiGroupList.Keys) {
+            _uiGroupList[type].Transform.SetActive(type == newType);
+        }
 	}
 
 	private void UpdateCoinsText(int value) {
 		if (_coinsCurrentValue == value) {
 			if (_coinsCurrentValue == 0) {
-				_coinsText.text = "0";
-                _coinsInGameText.text = "0";
-			} 
-
-			else {
-				_coinsText.text = _coinsCurrentValue.ToString("#,#");
-                _coinsInGameText.text = _coinsCurrentValue.ToString("#,#");
+                foreach (ProfileUIType type in _uiGroupList.Keys) {
+                    _uiGroupList[type].Coins.text = "0";
+                }
+                //_coinsText.text = "0";
+                //_coinsInGameText.text = "0";
+			} else {
+                foreach (ProfileUIType type in _uiGroupList.Keys) {
+                    _uiGroupList[type].Coins.text = _coinsCurrentValue.ToString("#,#");
+                }
+                //_coinsText.text = _coinsCurrentValue.ToString("#,#");
+                //_coinsInGameText.text = _coinsCurrentValue.ToString("#,#");
 			}
 			return;
 		}
@@ -198,8 +227,11 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 		_coinsCurrentValue = value;
 
 		StopCoroutine(IncreaseCoinsText());
-		_coinsText.text = _previousCoinValue.ToString("#,#");
-        _coinsInGameText.text =  _previousCoinValue.ToString("#,#");
+        foreach (ProfileUIType type in _uiGroupList.Keys) {
+            _uiGroupList[type].Coins.text = _previousCoinValue.ToString("#,#");
+        }
+        //_coinsText.text = _previousCoinValue.ToString("#,#");
+        //_coinsInGameText.text =  _previousCoinValue.ToString("#,#");
 		StartCoroutine(IncreaseCoinsText());
 	}
 
@@ -211,32 +243,29 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 		while (currentIndex < maxIndex) {
 			currentIndex++;
 			_previousCoinValue += incrementAmount;
-			_coinsText.text = _previousCoinValue.ToString("#,#");
-            _coinsInGameText.text = _previousCoinValue.ToString("#,#");
+            foreach (ProfileUIType type in _uiGroupList.Keys) {
+                _uiGroupList[type].Coins.text = _previousCoinValue.ToString("#,#");
+            }
 			yield return new WaitForSeconds(TICK_TIME);
 		}
 
 		_previousCoinValue = _coinsCurrentValue;
 		if (_coinsCurrentValue == 0) {
-			_coinsText.text = "0";
-            _coinsInGameText.text = "0";
+            foreach (ProfileUIType type in _uiGroupList.Keys) {
+                _uiGroupList[type].Coins.text = "0";
+            }
 		} else {
-			_coinsText.text = _coinsCurrentValue.ToString("#,#");
-            _coinsInGameText.text = _coinsCurrentValue.ToString("#,#");
+            foreach (ProfileUIType type in _uiGroupList.Keys) {
+                _uiGroupList[type].Coins.text = _coinsCurrentValue.ToString("#,#");
+            }
 		}
 	}
 
 	public void Execute(SignalType type, ISignalParameters param) {
 		if (type == SignalType.LOCAL_DATA_CHANGED) {
 			UpdateDisplay();
-		} 
-
-		else if (type == SignalType.GAME_ENTERED) {
-			UpdateBackground(true);
-		} 
-
-		else if (type == SignalType.LOBBY_ENTERED) {
-			UpdateBackground(false);
+        } else if (type == SignalType.UPDATE_PROFILE_HUD) {
+			UpdateBackground((ProfileUIType)param.GetParameter("ProfileUIType"));
 		} else if (type == SignalType.SLOT_MACHINE_STATE_CHANGED) {
 			_inputLocked = (bool)param.GetParameter(SlotMachineScene.PARAM_LOCK);
 		}

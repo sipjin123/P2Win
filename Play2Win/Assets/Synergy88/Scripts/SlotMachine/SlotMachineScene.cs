@@ -93,7 +93,11 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	private List<IExtraRewardWindow> _extraRewardsWindow;
 
 	void Start() {
-		SignalManager.Instance.Call(SignalType.GAME_ENTERED);
+
+        ConcreteSignalParameters updateHudParam = new ConcreteSignalParameters();
+        updateHudParam.AddParameter("ProfileUIType", ProfileUIType.SLOTS);
+        SignalManager.Instance.CallWithParam(SignalType.UPDATE_PROFILE_HUD, updateHudParam);
+
 		SignalManager.Instance.Register(this, SignalType.PATTERN_UPDATED);
 		SignalManager.Instance.Register(this, SignalType.EXTRA_REWARD_CLOSED);
 		SignalManager.Instance.Register(this, SignalType.LEVELED_UP);

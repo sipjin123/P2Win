@@ -5,7 +5,10 @@ using System.IO;
 public class LobbyScene : MonoBehaviour {
 	
 	void Start() {
-        SignalManager.Instance.Call(SignalType.LOBBY_ENTERED);
+
+        ConcreteSignalParameters updateHudParam = new ConcreteSignalParameters();
+        updateHudParam.AddParameter("ProfileUIType", ProfileUIType.LOBBY);
+        SignalManager.Instance.CallWithParam(SignalType.UPDATE_PROFILE_HUD, updateHudParam);
 
 		UpdateTimerVisibility();
 

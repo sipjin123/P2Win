@@ -28,7 +28,10 @@ public class MainMenuScene : MonoBehaviour {
     private bool _bonusAvailable = false;
 
     void Start() {
-        SignalManager.Instance.Call(SignalType.LOBBY_ENTERED);
+
+        ConcreteSignalParameters updateHudParam = new ConcreteSignalParameters();
+        updateHudParam.AddParameter("ProfileUIType", ProfileUIType.LOBBY);
+        SignalManager.Instance.CallWithParam(SignalType.UPDATE_PROFILE_HUD, updateHudParam);
 
         if (!GameDataManager.Instance.LobbyWindowsLoaded) {
             Application.LoadLevelAdditive("PlayerProfile");
@@ -82,19 +85,28 @@ public class MainMenuScene : MonoBehaviour {
 		myUIItem [0].enabled = false;
     }
 
+    // TEMP: Disable game menu
+    private void Load5x3Slots() {
+        AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
+        LevelSpriteCollectionManager.Instance.ActiveLevel = 1;
+        GameManager.Instance.LoadScene(GameState.SLOTS);
+
+        AudioManager.Instance.PauseBGM();
+    }
+
     public void LoadRewardsScene() {
-		StartCoroutine (waitBeforeLoad (_rewards));
-		myUIItem [1].enabled = false;
+        StartCoroutine(waitBeforeLoad(_rewards));
+        myUIItem[1].enabled = false;
     }
 
     public void LoadJourneyScene() {
-		StartCoroutine (waitBeforeLoad (_journey));
-		myUIItem [2].enabled = false;
+        StartCoroutine(waitBeforeLoad(_journey));
+        myUIItem[2].enabled = false;
     }
 
     public void LoadWalletScene() {
-		StartCoroutine (waitBeforeLoad (_wallet));
-		myUIItem [3].enabled = false;
+        StartCoroutine(waitBeforeLoad(_wallet));
+        myUIItem[3].enabled = false;
     }
 
 	IEnumerator waitBeforeLoad(GameState loadScene){
@@ -116,7 +128,12 @@ public class MainMenuScene : MonoBehaviour {
 		contentAnim.SetBool("Hide",true);
 
 		yield return new WaitForSeconds (0.7f);
-
-		GameManager.Instance.LoadScene(loadScene);
+        
+        // TEMP: Disable game menu
+        if (loadScene == _games) {
+            Load5x3Slots();
+        } else {
+            GameManager.Instance.LoadScene(loadScene);
+        }
 	}
 }

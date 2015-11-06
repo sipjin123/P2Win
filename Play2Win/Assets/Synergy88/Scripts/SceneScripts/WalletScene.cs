@@ -3,6 +3,12 @@ using System.Collections;
 
 public class WalletScene : MonoBehaviour {
 
+    void Start() {
+        ConcreteSignalParameters updateHudParam = new ConcreteSignalParameters();
+        updateHudParam.AddParameter("ProfileUIType", ProfileUIType.GEM_SCENES);
+        SignalManager.Instance.CallWithParam(SignalType.UPDATE_PROFILE_HUD, updateHudParam);
+    }
+
     void Update() {
         if (Input.GetKeyDown(KeyCode.Backspace)) {
             ExitScene();

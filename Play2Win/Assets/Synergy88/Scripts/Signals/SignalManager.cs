@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public enum SignalType {
 	DEFAULT,
 	LOCAL_DATA_CHANGED,
-	GAME_ENTERED,
-	LOBBY_ENTERED,
+	GAME_ENTERED, // NOTE: Confirm if this is no longer needed, check if it breaks anything if removed
+    LOBBY_ENTERED,  // NOTE: Confirm if this is no longer needed, check if it breaks anything if removed
 	PATTERN_UPDATED,
 	LEVELED_UP,
 	EXTRA_REWARD_CLOSED,
@@ -30,7 +30,8 @@ public enum SignalType {
 	MESSAGE_PROMPT_OK_ONLY,
 	MESSAGE_PROMPT_BUY,
 	MESSAGE_PROMPT_LEADERBOARDS,
-	PURCHASE_FROM_PROMPT
+	PURCHASE_FROM_PROMPT,
+    UPDATE_PROFILE_HUD // This should replace GAME_ENTERED and LOBBY_ENTERED
 }
 
 public class SignalManager : MonoBehaviour {
@@ -77,6 +78,7 @@ public class SignalManager : MonoBehaviour {
 		InitializeListenerType(SignalType.MESSAGE_PROMPT_BUY);
 		InitializeListenerType(SignalType.MESSAGE_PROMPT_LEADERBOARDS);
 		InitializeListenerType(SignalType.PURCHASE_FROM_PROMPT);
+        InitializeListenerType(SignalType.UPDATE_PROFILE_HUD);
 	}
 
 	private void InitializeListenerType(SignalType type) {
