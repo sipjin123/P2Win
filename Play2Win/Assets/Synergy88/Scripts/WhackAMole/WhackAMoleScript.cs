@@ -8,7 +8,6 @@ public class WhackAMoleScript : MonoBehaviour {
 	private int waitTime = 0;
 	private int stateChanged = 0;
 	private int moleIndex = 0;
-	private int moleMultiplier = 1;
 
 	private float stateDuration = 0.0f;
 	private bool isHiding = true;

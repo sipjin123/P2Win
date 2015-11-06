@@ -35,7 +35,7 @@ public class LoginScript : MonoBehaviour {
 		userName.text = p_name;
 		loginUser.SetActive (true);
 
-		yield return new WaitForSeconds (3.0f);
+		yield return new WaitForSeconds (1.5f);
 
 		loginUser.SetActive (false);
 		userNameForVerification.text = userName.text;
@@ -63,7 +63,7 @@ public class LoginScript : MonoBehaviour {
 	}
 
 	void Login(){
-		playerName = pNameInputBox.text == string.Empty ? "Deafult Guest" : pNameInputBox.text;
+		playerName = pNameInputBox.text == string.Empty ? "Default Guest" : pNameInputBox.text;
 		playerBirthday = DateTime.Parse (pBirthdayInputBox[0].text + "/" + pBirthdayInputBox[1].text + "/" + pBirthdayInputBox[2].text);
 		disableUserInput();
 		CheckLoginBonus ();
@@ -72,8 +72,8 @@ public class LoginScript : MonoBehaviour {
 	}
 
 	void FBLogin(){
-		playerName = "Default Guest";
-		playerBirthday = DateTime.Today;	
+		playerName = "Darren Diaz";
+		playerBirthday = DateTime.Parse("12/12/1980");	
 		disableUserInput();
 		PlayerDataManager.Instance.AddChips (FBLoginBonus);
 		CheckLoginBonus ();
