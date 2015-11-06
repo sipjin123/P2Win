@@ -12,6 +12,9 @@ public class LobbyScene : MonoBehaviour {
 		ConcreteSignalParameters stateParam = new ConcreteSignalParameters();
 		stateParam.AddParameter(SlotMachineScene.PARAM_LOCK, false);
 		SignalManager.Instance.CallWithParam(SignalType.SLOT_MACHINE_STATE_CHANGED, stateParam);
+
+        AudioManager.Instance.SwitchBGM(AudioManager.GlobalAudioType.BGM_LOBBY);
+        AudioManager.Instance.ResumeBGM();
 	}
 
 	void Update() {
@@ -47,6 +50,8 @@ public class LobbyScene : MonoBehaviour {
         AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
         LevelSpriteCollectionManager.Instance.ActiveLevel = 1;
         GameManager.Instance.LoadScene(GameState.SLOTS);
+
+        AudioManager.Instance.PauseBGM();
     }
 
     public void LoadGame2() {

@@ -38,6 +38,9 @@ public class MainMenuScene : MonoBehaviour {
         PlayerDataManager.Instance.InitializeListener();
 
         UpdateTimerVisibility();
+
+        AudioManager.Instance.SwitchBGM(AudioManager.GlobalAudioType.BGM_LOBBY);
+        AudioManager.Instance.ResumeBGM();
     }
 
     void Update() {

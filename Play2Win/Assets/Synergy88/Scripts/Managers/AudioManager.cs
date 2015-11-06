@@ -4,7 +4,6 @@ using System.Collections.Generic;
 public class AudioManager : MonoBehaviour {
 
 	public enum GlobalAudioType {
-		BGM_TRIBAL,
 		BUTTON_GENERIC,
 		BUTTON_ADD,
 		BUTTON_DECREASE,
@@ -19,11 +18,7 @@ public class AudioManager : MonoBehaviour {
 		WHEEL_STOP,
 		WHEEL_WIN,
 		LEVELUP,
-		BGM_FANFARE,
-		BGM_JUNGLE,
-		BGM_MONTAGE,
-		BGM_PEACEFUL,
-		BGM_SEXY
+        BGM_LOBBY
 	}
 
 	[System.Serializable]
@@ -47,7 +42,7 @@ public class AudioManager : MonoBehaviour {
 
 	private Dictionary<GlobalAudioType, AudioSource> _globalAudioList;
 
-	private GlobalAudioType _currentBGM = GlobalAudioType.BGM_TRIBAL;
+	private GlobalAudioType _currentBGM = GlobalAudioType.BGM_LOBBY;
 
 	void Start() {
 		_instance = this;
@@ -90,12 +85,7 @@ public class AudioManager : MonoBehaviour {
 
 	private bool IsPlayable(GlobalAudioType type)  {
 		switch (type) {
-		case GlobalAudioType.BGM_TRIBAL:
-		case GlobalAudioType.BGM_FANFARE:
-		case GlobalAudioType.BGM_JUNGLE:
-		case GlobalAudioType.BGM_MONTAGE:
-		case GlobalAudioType.BGM_PEACEFUL:
-		case GlobalAudioType.BGM_SEXY:
+		case GlobalAudioType.BGM_LOBBY:
 			return PlayerDataManager.Instance.UseBGM;
 
 		default:
