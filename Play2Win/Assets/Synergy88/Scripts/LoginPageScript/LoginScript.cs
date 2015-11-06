@@ -84,7 +84,7 @@ public class LoginScript : MonoBehaviour {
 		PlayerDataManager.Instance.lastLogin (DateTime.Today);
 
 
-		if (DateTime.Compare (PlayerDataManager.Instance.SpinBonusTimeLeft.AddDays(1), DateTime.Now) <= 0) {
+		if (DateTime.Compare (PlayerDataManager.Instance.SpinBonusTimeLeft.AddDays(1), DateTime.Now) >= 0) {
 			PlayerDataManager.Instance.lastBonusSpin(DateTime.Now);
 			GameManager.Instance.LoadScene (_BonusSpin);
 		}
@@ -93,15 +93,4 @@ public class LoginScript : MonoBehaviour {
 		}
 
 	}
-
-//	void EnableScroll(){
-////		if (!scrollbar.activeSelf) {
-////			this.scrollable.enabled = true;
-////			this.scrollbar.SetActive (true);
-////		} 
-////		else {
-////			this.scrollable.enabled = false;
-////			this.scrollbar.SetActive (false);
-////		}
-//	}
 }

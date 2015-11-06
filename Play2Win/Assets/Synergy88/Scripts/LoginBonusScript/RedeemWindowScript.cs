@@ -16,9 +16,5 @@ public class RedeemWindowScript : MonoBehaviour {
 		spinResult [1].SetActive (true);
 		yield return new WaitForSeconds (0.3f);
 		spinResult [2].SetActive (true);
-		yield return new WaitForSeconds (0.3f);
-		spinResult [3].SetActive (true);
-		yield return new WaitForSeconds (0.3f);
-		spinResult [4].SetActive (true);
 	}
 }
