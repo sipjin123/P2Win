@@ -47,6 +47,7 @@ public class WhackAMoleManager : MonoBehaviour, IExtraRewardWindow  {
 		gamestart = false;
 		timer = 0.0f;
 		myScore = 0;
+		scoreBoard.text = "Score: 0";
 		gameover = false;
 		whackBoard.SetBool ("Reset", true);
 		myCamera.SetActive(true);
