@@ -18,7 +18,12 @@ public class AudioManager : MonoBehaviour {
 		WHEEL_STOP,
 		WHEEL_WIN,
 		LEVELUP,
-        BGM_LOBBY
+        BGM_LOBBY,
+		EXIT,
+		PURCHASE,
+		SPINNING_REELS,
+		STOP_REELS,
+		SELECT
 	}
 
 	[System.Serializable]

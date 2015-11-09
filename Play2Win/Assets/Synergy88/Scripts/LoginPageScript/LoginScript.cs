@@ -63,6 +63,7 @@ public class LoginScript : MonoBehaviour {
 	}
 
 	void Login(){
+		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.SELECT);
 		playerName = pNameInputBox.text == string.Empty ? "Default Guest" : pNameInputBox.text;
 		playerBirthday = DateTime.Parse (pBirthdayInputBox[0].text + "/" + pBirthdayInputBox[1].text + "/" + pBirthdayInputBox[2].text);
 		disableUserInput();
@@ -72,6 +73,7 @@ public class LoginScript : MonoBehaviour {
 	}
 
 	void FBLogin(){
+		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.SELECT);
 		playerName = "Darren Diaz";
 		playerBirthday = DateTime.Parse("12/12/1980");	
 		disableUserInput();
@@ -81,6 +83,7 @@ public class LoginScript : MonoBehaviour {
 	}
 
 	void LoginContinue(){
+		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.SELECT);
 		PlayerDataManager.Instance.lastLogin (DateTime.Today);
 
 
