@@ -96,4 +96,8 @@ public class LoginScript : MonoBehaviour {
 		}
 
 	}
+
+	void SelectSound(){
+		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.SELECT);
+	}
 }

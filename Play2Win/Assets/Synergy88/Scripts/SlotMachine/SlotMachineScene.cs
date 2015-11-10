@@ -70,6 +70,9 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	[SerializeField]
 	private float[] _betAmounts;
 
+	[SerializeField]
+	private tk2dSprite spinButton;
+
 	private float _totalBet;
 
 	private float _currentCoinBet;
@@ -224,8 +227,9 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 
 			if (!_spinning) {
 				Spin();
+				spinButton.color = new Color(0.5f,0.5f,0.5f);
+				AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.STOP_REELS);
 			}
-			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
 		}
 	}
 
@@ -369,7 +373,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		if (_autoplayActive || _spinning)
 			return;
 
-		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SELECT);
 		_paytable.Show();
 	}
 
@@ -401,9 +405,14 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 				PlayerDataManager.Instance.UseChips (Mathf.FloorToInt (_totalBet));
                 //PlayerDataManager.Instance.UsePoints (_boostersToUse);
 			}
-
-			AudioManager.Instance.ResumeBGM();
+			//if(!_spinning)
+			StartCoroutine(WaitForSound());
 		}
+	}
+
+	IEnumerator WaitForSound(){
+		yield return new WaitForSeconds(0.2f);
+		AudioManager.Instance.ResumeBGM();
 	}
 
 	private IEnumerator DelayedSpin(float spinTime) {
@@ -565,6 +574,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		} else if (_autoplayActive || _freeSpinsActive > 0) {
 			Invoke("AutoStartSpin", AUTOSPIN_DELAY);
 		} else {
+			spinButton.color = new Color(1.0f,1.0f,1.0f);
 			_spinning = false;
 		}
 

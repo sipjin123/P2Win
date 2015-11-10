@@ -44,6 +44,7 @@ public class PaytableManager : MonoBehaviour {
 	}
 
 	public void Hide() {
+		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.EXIT);
 		gameObject.SetActive(false);
 	}
 }
