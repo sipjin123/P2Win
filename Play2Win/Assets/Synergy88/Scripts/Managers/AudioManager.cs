@@ -23,7 +23,9 @@ public class AudioManager : MonoBehaviour {
 		PURCHASE,
 		SPINNING_REELS,
 		STOP_REELS,
-		SELECT
+		SELECT,
+		SPIN_TICK,
+		DAILY_BONUS
 	}
 
 	[System.Serializable]

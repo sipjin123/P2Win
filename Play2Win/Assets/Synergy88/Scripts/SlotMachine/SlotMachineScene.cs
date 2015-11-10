@@ -474,6 +474,8 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		else {
 			_previousWinningsText.text = _previousWinnings.ToString("#,#");
 		}
+		if(_previousWinnings > 0)
+			WinEffectManager.Instance.startCollectChip ();
 		PlayerDataManager.Instance.AddChips(_previousWinnings);
 
 		if ((float)_previousWinnings / _totalBet > 15.0f) {

@@ -66,6 +66,7 @@ public class RouletteControllerScript : MonoBehaviour {
 	
 	void spinTheWheel(){
 		if (m_spin) {
+			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.STOP_REELS);
 			buttonAnim.enabled = false;
 			spinButton.color = new Color(0.5f,0.5f,0.5f);
 			StartCoroutine (WheelSpin ());
@@ -73,6 +74,7 @@ public class RouletteControllerScript : MonoBehaviour {
 	}
 
 	void Claim(){
+		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.WHEEL_WIN);
 		PlayerDataManager.Instance.AddChips ((int)totalReward);
 		GameManager.Instance.LoadScene (_MainMenu);
 	}
@@ -88,6 +90,7 @@ public class RouletteControllerScript : MonoBehaviour {
 			loginMultiplier.text = "X" + loginBonusMultiplier.ToString() + "=";
 			levelMultiplier.text = "+" + levelBonusMultiplier.ToString()+ "%=";
 			claimRewardWindow.SetActive (true);
+			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.DAILY_BONUS);
 		} 
 //		else {
 //			prizeMultiplier = pinScript.rouletteTextPrice == "2X" ? 2 : 3;
