@@ -475,12 +475,11 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 			_previousWinningsText.text = _previousWinnings.ToString("#,#");
 		}
 		if(_previousWinnings > 0)
-			WinEffectManager.Instance.startBonusWin();
+			WinEffectManager.Instance.startCollectChip();
 		PlayerDataManager.Instance.AddChips(_previousWinnings);
 
 		if ((float)_previousWinnings / _totalBet > 15.0f) {
-			_bigWin.SetAmount(_previousWinnings);
-			_extraRewardsWindow.Add(_bigWin);
+			WinEffectManager.Instance.startHugeWin(_previousWinnings);
 		}
 
 		if (_patternManager.ExtraBoostersBonus.totalReward > 0) {
