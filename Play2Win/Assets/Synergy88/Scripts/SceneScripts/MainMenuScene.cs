@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MainMenuScene : MonoBehaviour {
+public class MainMenuScene : AnimatedScene {
 
 	[SerializeField] private tk2dSpriteAnimator[] myAnimator;
 	[SerializeField] private tk2dUIItem[] myUIItem;
-	[SerializeField] private Animator contentAnim;
+    //[SerializeField] private Animator contentAnim;
 
     [SerializeField]
     private GameState _games;
@@ -29,9 +29,9 @@ public class MainMenuScene : MonoBehaviour {
 
     void Start() {
 
-        ConcreteSignalParameters updateHudParam = new ConcreteSignalParameters();
-        updateHudParam.AddParameter("ProfileUIType", ProfileUIType.LOBBY);
-        SignalManager.Instance.CallWithParam(SignalType.UPDATE_PROFILE_HUD, updateHudParam);
+        //ConcreteSignalParameters updateHudParam = new ConcreteSignalParameters();
+        //updateHudParam.AddParameter("ProfileUIType", ProfileUIType.LOBBY);
+        //SignalManager.Instance.CallWithParam(SignalType.UPDATE_PROFILE_HUD, updateHudParam);
 
         if (!GameDataManager.Instance.LobbyWindowsLoaded) {
             Application.LoadLevelAdditive("PlayerProfile");
@@ -40,19 +40,21 @@ public class MainMenuScene : MonoBehaviour {
             Application.LoadLevelAdditive("MessagePrompt");
 
             GameDataManager.Instance.SetLobbyWindowsLoaded();
+
+            PlayerDataManager.Instance.InitializeListener();
         }
 
-        PlayerDataManager.Instance.InitializeListener();
+        Initialize();
 
-        UpdateTimerVisibility();
+        //UpdateTimerVisibility();
 
-        AudioManager.Instance.SwitchBGM(AudioManager.GlobalAudioType.BGM_LOBBY);
-        AudioManager.Instance.ResumeBGM();
+        //AudioManager.Instance.SwitchBGM(AudioManager.GlobalAudioType.BGM_LOBBY);
+        //AudioManager.Instance.ResumeBGM();
     }
 
     void Update() {
         if (Input.GetKeyDown(KeyCode.Backspace)) {
-            Application.Quit();
+            Exit();
         }
 
         if (_bonusAvailable != PlayerDataManager.Instance.BonusAvailable) {
@@ -81,59 +83,67 @@ public class MainMenuScene : MonoBehaviour {
     }
 
     public void LoadGameMenu() {
-		StartCoroutine (waitBeforeLoad (_games));
-		myUIItem [0].enabled = false;
+        //StartCoroutine (waitBeforeLoad (_games));
+		myUIItem[0].enabled = false;
+        myAnimator[0].Play("BtnShine");
+        LoadScene(_games);
     }
 
-    // TEMP: Disable game menu
-    private void Load5x3Slots() {
-        AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
-        LevelSpriteCollectionManager.Instance.ActiveLevel = 1;
-        GameManager.Instance.LoadScene(GameState.SLOTS);
+    //// TEMP: Disable game menu
+    //private void Load5x3Slots() {
+    //    AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
+    //    LevelSpriteCollectionManager.Instance.ActiveLevel = 1;
+    //    GameManager.Instance.LoadScene(GameState.SLOTS);
 
-        AudioManager.Instance.PauseBGM();
-    }
+    //    AudioManager.Instance.PauseBGM();
+    //}
 
     public void LoadRewardsScene() {
-        StartCoroutine(waitBeforeLoad(_rewards));
+        //StartCoroutine(waitBeforeLoad(_rewards));
         myUIItem[1].enabled = false;
+        myAnimator[1].Play("BtnShine");
+        LoadScene(_rewards);
     }
 
     public void LoadJourneyScene() {
-        StartCoroutine(waitBeforeLoad(_journey));
+        //StartCoroutine(waitBeforeLoad(_journey));
         myUIItem[2].enabled = false;
+        myAnimator[2].Play("BtnShine");
+        LoadScene(_journey);
     }
 
     public void LoadWalletScene() {
-        StartCoroutine(waitBeforeLoad(_wallet));
+        //StartCoroutine(waitBeforeLoad(_wallet));
         myUIItem[3].enabled = false;
+        myAnimator[3].Play("BtnShine");
+        LoadScene(_wallet);
     }
 
-	IEnumerator waitBeforeLoad(GameState loadScene){
-		if (loadScene == _games) {
-			myAnimator[0].Play("BtnShine");
-		}
-		else if (loadScene == _rewards) {
-			myAnimator[1].Play("BtnShine");
-		}
-		else if (loadScene == _journey) {
-			myAnimator[2].Play("BtnShine");
-		}
-		else if (loadScene == _wallet) {
-			myAnimator[3].Play("BtnShine");
-		}
+    //IEnumerator waitBeforeLoad(GameState loadScene){
+    //    //if (loadScene == _games) {
+    //    //    myAnimator[0].Play("BtnShine");
+    //    //}
+    //    //else if (loadScene == _rewards) {
+    //    //    myAnimator[1].Play("BtnShine");
+    //    //}
+    //    //else if (loadScene == _journey) {
+    //    //    myAnimator[2].Play("BtnShine");
+    //    //}
+    //    //else if (loadScene == _wallet) {
+    //    //    myAnimator[3].Play("BtnShine");
+    //    //}
 
-		yield return new WaitForSeconds (0.7f);
+    //    yield return new WaitForSeconds (0.7f);
 
-		contentAnim.SetBool("Hide",true);
+    //    contentAnim.SetBool("Hide",true);
 
-		yield return new WaitForSeconds (0.7f);
+    //    yield return new WaitForSeconds (0.7f);
         
-        // TEMP: Disable game menu
-        if (loadScene == _games) {
-            Load5x3Slots();
-        } else {
-            GameManager.Instance.LoadScene(loadScene);
-        }
-	}
+    //    // TEMP: Disable game menu
+    //    if (loadScene == _games) {
+    //        Load5x3Slots();
+    //    } else {
+    //        GameManager.Instance.LoadScene(loadScene);
+    //    }
+    //}
 }

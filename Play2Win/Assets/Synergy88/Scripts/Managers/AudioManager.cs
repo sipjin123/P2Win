@@ -44,6 +44,8 @@ public class AudioManager : MonoBehaviour {
 
 	private GlobalAudioType _currentBGM = GlobalAudioType.BGM_LOBBY;
 
+    private bool _bgmPlaying = false;
+
 	void Start() {
 		_instance = this;
 
@@ -63,10 +65,17 @@ public class AudioManager : MonoBehaviour {
 	}
 
 	public void SwitchBGM(GlobalAudioType newType) {
+        if (_currentBGM == newType) {
+            return;
+        }
+
 		_globalAudioList[_currentBGM].Stop();
 		_currentBGM = newType;
 		_globalAudioList[_currentBGM].Play();
-		_globalAudioList[_currentBGM].Pause();
+
+        if (!_bgmPlaying) {
+            _globalAudioList[_currentBGM].Pause();
+        }
 	}
 
 	public void StopGlobalAudio(GlobalAudioType type) {
@@ -75,11 +84,14 @@ public class AudioManager : MonoBehaviour {
 
 	public void PauseBGM() {
 		_globalAudioList[_currentBGM].Pause();
+
+        _bgmPlaying = false;
 	}
 
 	public void ResumeBGM() {
 		if (PlayerDataManager.Instance.UseBGM) {
 			_globalAudioList[_currentBGM].Play();
+            _bgmPlaying = true;
 		}
 	}
 
