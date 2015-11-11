@@ -464,6 +464,12 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		Invoke("DelayedCheckForWinnings", 0.2f);
 	}
 
+	IEnumerator waitforAnim(){
+		WinEffectManager.Instance.startCollectChip();
+			yield return new WaitForSeconds (1.0f);
+		PlayerDataManager.Instance.AddChips(_previousWinnings);
+	}
+
 	private void DelayedCheckForWinnings() {
 		_patternManager.RegisterPatterns();
 		
@@ -474,9 +480,9 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		else {
 			_previousWinningsText.text = _previousWinnings.ToString("#,#");
 		}
-		if(_previousWinnings > 0)
-			WinEffectManager.Instance.startCollectChip();
-		PlayerDataManager.Instance.AddChips(_previousWinnings);
+		if (_previousWinnings > 0)
+			StartCoroutine (waitforAnim ());
+		
 
 		if ((float)_previousWinnings / _totalBet > 15.0f) {
 			WinEffectManager.Instance.startHugeWin(_previousWinnings);

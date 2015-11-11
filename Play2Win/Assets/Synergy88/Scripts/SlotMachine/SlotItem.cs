@@ -40,6 +40,7 @@ public class SlotItem : MonoBehaviour {
 	private SlotItemType _currentItemType;
 
 	private tk2dSprite _sprite;
+	[SerializeField] private GameObject borderGlow;
 
 	private Dictionary<SlotItemType, float> _itemChances;
 	private float _maxRNGRange = 67.5f;
@@ -49,11 +50,11 @@ public class SlotItem : MonoBehaviour {
 	public bool IsBonus { get { return _currentItemType == SlotItemType.BONUS || _currentItemType == SlotItemType.SCATTER || _currentItemType == SlotItemType.BOOSTER; } }
 
 
-	private Animator _animator;
+	private tk2dSpriteAnimator _animator;
 
 	void Start() {
 		_sprite = GetComponent<tk2dSprite>();
-		_animator = GetComponent<Animator>();
+		_animator = borderGlow.GetComponent<tk2dSpriteAnimator> ();
 
 		_itemChances = new Dictionary<SlotItemType, float>();
 		_itemChances.Add(SlotItemType.ITEM_1, 0f);
@@ -88,11 +89,13 @@ public class SlotItem : MonoBehaviour {
 	}
 
 	public void Shake() {
-		_animator.SetTrigger("Shake");
+		borderGlow.SetActive (true);
+		_animator.Play("BorderGlow");
 	}
 
 	public void Reset() {
-		_animator.SetTrigger("Reset");
+		borderGlow.SetActive (false);
+		_animator.Stop ();
 	}
 
 	private SlotItemType GetRandomItemType() {
