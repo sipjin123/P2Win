@@ -75,7 +75,7 @@ public class MainMenuScene : AnimatedScene {
     }
 
     public void OpenSettings() {
-        AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
+        AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SELECT);
         SignalManager.Instance.Call(SignalType.SHOW_SETTINGS);
     }
 

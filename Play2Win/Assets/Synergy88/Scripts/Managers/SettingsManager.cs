@@ -27,7 +27,7 @@ public class SettingsManager : MonoBehaviour, ISignalListener {
 
 	public void ButtonClose() {
 		Close();
-		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.EXIT);
 	}
 
 	public void Close() {
