@@ -11,9 +11,20 @@ public enum ProfileUIType {
 public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 
     [System.Serializable]
-    public struct ProfileUIGroup {
+    public struct ProfileUIAnimationTransition {
         public ProfileUIType Type;
-        public GameObject Transform;
+        public string AnimationName;
+    }
+
+    [System.Serializable]
+    public struct ProfileUIAnimation {
+        public ProfileUIType Type;
+        public ProfileUIAnimationTransition[] Transitions;
+        public Dictionary<ProfileUIType, ProfileUIAnimationTransition> TransitionList;
+    }
+
+    [System.Serializable]
+    public struct ProfileUIItems {
         public tk2dTextMesh Coins;
         public tk2dTextMesh LoyaltyPoints;
         public tk2dTextMesh Level;
@@ -25,48 +36,18 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 	private const float INCREMENT_TIME = 0.5f;
 	private const float TICK_TIME = 0.01f;
 
-    //[SerializeField]
-    //private GameObject _lobbyBG;
-
-    //[SerializeField]
-    //private GameObject _gameBG;
-
-    //[SerializeField]
-    //private GameObject _gemOnlyObject;
-
-
-    //[SerializeField]
-    //private tk2dTextMesh _coinsText;
-
-    //[SerializeField]
-    //private tk2dTextMesh _coinsInGameText;
-
-
-    //[SerializeField]
-    //private tk2dTextMesh _boostersText;
-
-
-
-    //[SerializeField]
-    //private tk2dTextMesh _levelText;
-
-    //[SerializeField]
-    //private tk2dTextMesh _levelInGameText;
-
-    //[SerializeField]
-    //private tk2dTextMesh _expText;
-
-    //[SerializeField]
-    //private tk2dSprite _expBar;
-
-    //[SerializeField]
-    //private tk2dSprite _expBarInGame;
-
+    [SerializeField]
+    private Animator animator;
 
     [SerializeField]
-    private ProfileUIGroup[] _uiGroups;
+    private ProfileUIItems[] _uiGroups;
 
-    private Dictionary<ProfileUIType, ProfileUIGroup> _uiGroupList;
+    [SerializeField]
+    private ProfileUIAnimation[] _hudAnimations;
+
+    private Dictionary<ProfileUIType, ProfileUIAnimation> _hudAnimationList;
+
+    private ProfileUIType _currentType = ProfileUIType.LOBBY;
 
 	private int _previousCoinValue = -1;
 	private int _coinsCurrentValue = 0;
@@ -75,45 +56,59 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 
 	void Start() {
 
-        _uiGroupList = new Dictionary<ProfileUIType, ProfileUIGroup>();
-        for (int i = 0; i < _uiGroups.Length; i++) {
-            _uiGroupList.Add(_uiGroups[i].Type, _uiGroups[i]);
+        // Re-arranging array data into Dictionaries for easier access later
+        _hudAnimationList = new Dictionary<ProfileUIType, ProfileUIAnimation>();
+        for (int i = 0; i < _hudAnimations.Length; i++) {
+            _hudAnimations[i].TransitionList = new Dictionary<ProfileUIType, ProfileUIAnimationTransition>();
+            for (int j = 0; j < _hudAnimations[i].Transitions.Length; j++) {
+                _hudAnimations[i].TransitionList.Add(_hudAnimations[i].Transitions[j].Type, _hudAnimations[i].Transitions[j]);
+            }
+
+            _hudAnimationList.Add(_hudAnimations[i].Type, _hudAnimations[i]);
         }
 
         SignalManager.Instance.Register(this, SignalType.LOCAL_DATA_CHANGED);
         SignalManager.Instance.Register(this, SignalType.UPDATE_PROFILE_HUD);
 
-		SignalManager.Instance.Register(this, SignalType.PGS_LOGIN);
-		SignalManager.Instance.Register(this, SignalType.PGS_SHOW_LEADERBOARD);
-		SignalManager.Instance.Register(this, SignalType.PGS_UPDATE_LEADERBOARD);
+        SignalManager.Instance.Register(this, SignalType.PGS_LOGIN);
+        SignalManager.Instance.Register(this, SignalType.PGS_SHOW_LEADERBOARD);
+        SignalManager.Instance.Register(this, SignalType.PGS_UPDATE_LEADERBOARD);
 
-		SignalManager.Instance.Register (this, SignalType.FB_USER_LOGGEDIN);
-		SignalManager.Instance.Register (this, SignalType.PARSE_DOWNLOAD);
-		SignalManager.Instance.Register (this, SignalType.PARSE_UPDATE);
+        SignalManager.Instance.Register(this, SignalType.FB_USER_LOGGEDIN);
+        SignalManager.Instance.Register(this, SignalType.PARSE_DOWNLOAD);
+        SignalManager.Instance.Register(this, SignalType.PARSE_UPDATE);
 
-		SignalManager.Instance.Register(this, SignalType.SLOT_MACHINE_STATE_CHANGED);
+        SignalManager.Instance.Register(this, SignalType.SLOT_MACHINE_STATE_CHANGED);
 
-		_coinsCurrentValue = Mathf.FloorToInt(PlayerDataManager.Instance.Chips);
-		_previousCoinValue = Mathf.FloorToInt(PlayerDataManager.Instance.Chips);
+        _coinsCurrentValue = Mathf.FloorToInt(PlayerDataManager.Instance.Chips);
+        _previousCoinValue = Mathf.FloorToInt(PlayerDataManager.Instance.Chips);
 
-		UpdateDisplay();
-		UpdateBackground(ProfileUIType.LOBBY);
+        UpdateDisplay();
+        UpdateBackground(ProfileUIType.LOBBY);
 	}
 	
 	void OnDestroy() {
-		SignalManager.Instance.Remove(this, SignalType.LOCAL_DATA_CHANGED);
+        SignalManager.Instance.Remove(this, SignalType.LOCAL_DATA_CHANGED);
         SignalManager.Instance.Remove(this, SignalType.UPDATE_PROFILE_HUD);
 
-		SignalManager.Instance.Remove(this, SignalType.PGS_LOGIN);
-		SignalManager.Instance.Remove(this, SignalType.PGS_SHOW_LEADERBOARD);
-		SignalManager.Instance.Remove(this, SignalType.PGS_UPDATE_LEADERBOARD);
+        SignalManager.Instance.Remove(this, SignalType.PGS_LOGIN);
+        SignalManager.Instance.Remove(this, SignalType.PGS_SHOW_LEADERBOARD);
+        SignalManager.Instance.Remove(this, SignalType.PGS_UPDATE_LEADERBOARD);
 
-		SignalManager.Instance.Remove (this, SignalType.FB_USER_LOGGEDIN);
-		SignalManager.Instance.Remove (this, SignalType.PARSE_DOWNLOAD);
-		SignalManager.Instance.Remove (this, SignalType.PARSE_UPDATE);
+        SignalManager.Instance.Remove(this, SignalType.FB_USER_LOGGEDIN);
+        SignalManager.Instance.Remove(this, SignalType.PARSE_DOWNLOAD);
+        SignalManager.Instance.Remove(this, SignalType.PARSE_UPDATE);
 
-		SignalManager.Instance.Remove(this, SignalType.SLOT_MACHINE_STATE_CHANGED);
+        SignalManager.Instance.Remove(this, SignalType.SLOT_MACHINE_STATE_CHANGED);
 	}
+
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.Y)) {
+            animator.SetTrigger("MoveRight");
+        } else if (Input.GetKeyDown(KeyCode.U)) {
+            animator.SetTrigger("MoveLeft");
+        }
+    }
 
 	public void GoToLobby() {
 		if (_inputLocked) {
@@ -169,56 +164,62 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 
 	private void UpdateDisplay() {
 		if (PlayerDataManager.Instance == null) {
-            foreach (ProfileUIType type in _uiGroupList.Keys) {
-                _uiGroupList[type].Coins.text = INVALID_STRING;
-                _uiGroupList[type].LoyaltyPoints.text = INVALID_STRING;
-                _uiGroupList[type].Level.text = INVALID_STRING;
-                _uiGroupList[type].Exp.text = INVALID_STRING;
+            foreach (ProfileUIItems item in _uiGroups) {
+                item.Coins.text = INVALID_STRING;
+                item.LoyaltyPoints.text = INVALID_STRING;
+                item.Level.text = INVALID_STRING;
+                item.Exp.text = INVALID_STRING;
             }
-            //_coinsText.text = INVALID_STRING;
-            //_coinsInGameText.text = INVALID_STRING;
-            //_boostersText.text = INVALID_STRING;
-            //_levelText.text = INVALID_STRING;
-            //_levelInGameText.text = INVALID_STRING;
 			return;
 		}
 
 		UpdateCoinsText(Mathf.FloorToInt(PlayerDataManager.Instance.Chips));
 
-        foreach (ProfileUIType type in _uiGroupList.Keys) {
-            _uiGroupList[type].LoyaltyPoints.text = PlayerDataManager.Instance.Points.ToString();
-            _uiGroupList[type].Level.text = PlayerDataManager.Instance.Level.ToString();
-            _uiGroupList[type].Exp.text = PlayerDataManager.Instance.Experience.ToString();
-            _uiGroupList[type].ExpBar.scale = new Vector3(PlayerDataManager.Instance.ExpRatio, 1f, 1f);
+        foreach (ProfileUIItems item in _uiGroups) {
+            item.LoyaltyPoints.text = PlayerDataManager.Instance.Points.ToString();
+            item.Level.text = PlayerDataManager.Instance.Level.ToString();
+            item.Exp.text = PlayerDataManager.Instance.Experience.ToString();
+            item.ExpBar.scale = new Vector3(PlayerDataManager.Instance.ExpRatio, 1f, 1f);
         }
-        //_boostersText.text = PlayerDataManager.Instance.Points.ToString();
-        //_levelText.text = PlayerDataManager.Instance.Level.ToString();
-        //_levelInGameText.text = PlayerDataManager.Instance.Level.ToString();
-        //_expText.text = PlayerDataManager.Instance.Experience.ToString();
-        //_expBar.scale = new Vector3(PlayerDataManager.Instance.ExpRatio, 1f, 1f);
-        //_expBarInGame.scale = new Vector3(PlayerDataManager.Instance.ExpRatio, 1f, 1f);
 	}
 
 	private void UpdateBackground(ProfileUIType newType) {
-        foreach (ProfileUIType type in _uiGroupList.Keys) {
-            _uiGroupList[type].Transform.SetActive(type == newType);
-        }
+        animator.SetTrigger(_hudAnimationList[newType].TransitionList[_currentType].AnimationName);
+        _currentType = newType;
+        //foreach (ProfileUIType type in _uiGroupList.Keys) {
+        //    if (type == newType) {
+        //        if (type != _currentType) {
+        //            _uiGroupList[_currentType].Transform.SetActive(false);
+        //            _uiGroupList[type].Transform.SetActive(true);
+        //            if (_uiGroupList.)
+        //            _currentType = newType;
+        //        }
+        //        break;
+        //    } else if (_uiGroupList[type].SecondaryType == newType) {
+
+        //    }
+
+
+
+        //    _uiGroupList[type].Transform.SetActive(type == newType);
+        //    if (_uiGroupList[type].SecondaryType != type) {
+        //        if (_uiGroupList[type].SecondaryType == newType) {
+
+        //        }
+        //    }
+        //}
 	}
 
 	private void UpdateCoinsText(int value) {
 		if (_coinsCurrentValue == value) {
 			if (_coinsCurrentValue == 0) {
-                foreach (ProfileUIType type in _uiGroupList.Keys) {
-                    _uiGroupList[type].Coins.text = "0";
+                foreach (ProfileUIItems item in _uiGroups) {
+                    item.Coins.text = "0";
                 }
-                //_coinsText.text = "0";
-                //_coinsInGameText.text = "0";
 			} else {
-                foreach (ProfileUIType type in _uiGroupList.Keys) {
-                    _uiGroupList[type].Coins.text = _coinsCurrentValue.ToString("#,#");
+                foreach (ProfileUIItems item in _uiGroups) {
+                    item.Coins.text = _coinsCurrentValue.ToString("#,#");
                 }
-                //_coinsText.text = _coinsCurrentValue.ToString("#,#");
-                //_coinsInGameText.text = _coinsCurrentValue.ToString("#,#");
 			}
 			return;
 		}
@@ -227,11 +228,10 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 		_coinsCurrentValue = value;
 
 		StopCoroutine(IncreaseCoinsText());
-        foreach (ProfileUIType type in _uiGroupList.Keys) {
-            _uiGroupList[type].Coins.text = _previousCoinValue.ToString("#,#");
+        foreach (ProfileUIItems item in _uiGroups) {
+            item.Coins.text = _previousCoinValue.ToString("#,#");
         }
-        //_coinsText.text = _previousCoinValue.ToString("#,#");
-        //_coinsInGameText.text =  _previousCoinValue.ToString("#,#");
+
 		StartCoroutine(IncreaseCoinsText());
 	}
 
@@ -243,20 +243,20 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 		while (currentIndex < maxIndex) {
 			currentIndex++;
 			_previousCoinValue += incrementAmount;
-            foreach (ProfileUIType type in _uiGroupList.Keys) {
-                _uiGroupList[type].Coins.text = _previousCoinValue.ToString("#,#");
+            foreach (ProfileUIItems item in _uiGroups) {
+                item.Coins.text = _previousCoinValue.ToString("#,#");
             }
 			yield return new WaitForSeconds(TICK_TIME);
 		}
 
 		_previousCoinValue = _coinsCurrentValue;
 		if (_coinsCurrentValue == 0) {
-            foreach (ProfileUIType type in _uiGroupList.Keys) {
-                _uiGroupList[type].Coins.text = "0";
+            foreach (ProfileUIItems item in _uiGroups) {
+                item.Coins.text = "0";
             }
 		} else {
-            foreach (ProfileUIType type in _uiGroupList.Keys) {
-                _uiGroupList[type].Coins.text = _coinsCurrentValue.ToString("#,#");
+            foreach (ProfileUIItems item in _uiGroups) {
+                item.Coins.text = _coinsCurrentValue.ToString("#,#");
             }
 		}
 	}
