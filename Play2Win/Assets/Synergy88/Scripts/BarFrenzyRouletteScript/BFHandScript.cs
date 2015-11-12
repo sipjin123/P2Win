@@ -1,18 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RouletteHandScript : MonoBehaviour {
+public class BFHandScript : MonoBehaviour {
 
 	public string rouletteTextPrice;
 	public int roulettePrice;
 	[SerializeField] private tk2dTextMesh rouletteScoreBoard;
 
+	public int getroullettePrice(){
+		return roulettePrice;
+	}
+
 	void OnTriggerEnter(Collider col){
 		//AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.SPIN_TICK);
 		rouletteTextPrice = col.gameObject.name; 
-		rouletteScoreBoard.text = rouletteTextPrice;
-		if(rouletteTextPrice != "2X" && rouletteTextPrice != "3X")
-			roulettePrice = int.Parse (rouletteTextPrice);
-			
+		roulettePrice = int.Parse (rouletteTextPrice);
+		rouletteScoreBoard.text = this.name == "Player" ? rouletteTextPrice + " :Player" : "Opponent: " + rouletteTextPrice;		
 	}
 }
