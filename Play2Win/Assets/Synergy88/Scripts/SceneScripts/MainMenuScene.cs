@@ -39,14 +39,16 @@ public class MainMenuScene : AnimatedScene {
             Application.LoadLevelAdditive("LevelupWindow");
             Application.LoadLevelAdditive("MessagePrompt");
 
+            PlayerDataManager.Instance.InitializeListener();
+
             GameDataManager.Instance.SetLobbyWindowsLoaded();
 
-            PlayerDataManager.Instance.InitializeListener();
+            SignalManager.Instance.Call(SignalType.LOCAL_DATA_CHANGED);
         }
 
         Initialize();
 
-        //UpdateTimerVisibility();
+        UpdateTimerVisibility();
 
         //AudioManager.Instance.SwitchBGM(AudioManager.GlobalAudioType.BGM_LOBBY);
         //AudioManager.Instance.ResumeBGM();
