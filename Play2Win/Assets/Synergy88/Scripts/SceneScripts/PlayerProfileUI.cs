@@ -102,14 +102,6 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
         SignalManager.Instance.Remove(this, SignalType.SLOT_MACHINE_STATE_CHANGED);
 	}
 
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.Y)) {
-            animator.SetTrigger("MoveRight");
-        } else if (Input.GetKeyDown(KeyCode.U)) {
-            animator.SetTrigger("MoveLeft");
-        }
-    }
-
 	public void GoToLobby() {
 		if (_inputLocked) {
 			return;		

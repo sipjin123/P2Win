@@ -2,24 +2,31 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable]
+public struct ItemRewards {
+
+    [SerializeField]
+    private string id;
+
+    [SerializeField]
+    private string name;
+
+    [SerializeField]
+    private int cost;
+
+    [SerializeField]
+    private string imageName;
+
+    public string ID { get { return id; } }
+    public string Name { get { return name; } }
+    public int Cost { get { return cost; } }
+    public string ImageName { get { return imageName; } }
+}
+
 public class InventoryManager : MonoBehaviour {
 
-    [System.Serializable]
-    public struct ItemRewards {
-
-        [SerializeField]
-        private string id;
-
-        [SerializeField]
-        private string name;
-
-        [SerializeField]
-        private int cost;
-
-        public string ID { get { return id; } }
-        public string Name { get { return name; } }
-        public int Cost { get { return cost; } }
-    }
+    private static InventoryManager _instance;
+    public static InventoryManager Instance { get { return _instance; } }
 
     [SerializeField]
     private ItemRewards[] Items;
@@ -32,6 +39,10 @@ public class InventoryManager : MonoBehaviour {
     private List<ItemRewards> _ownedItems;
     public List<ItemRewards> OwnedItems { get { return _ownedItems; } }
 
+    void Awake() {
+        _instance = this;
+    }
+
     void Start() {
         _itemMasterList = new Dictionary<string, ItemRewards>();
         _shopItems = new List<ItemRewards>();
@@ -41,11 +52,14 @@ public class InventoryManager : MonoBehaviour {
             _itemMasterList.Add(Items[i].ID, Items[i]);
             _shopItems.Add(Items[i]);
         }
+
+        RefreshBoughtItems();
     }
 
     public void SetItemAsBought(ItemRewards item) {
         _shopItems.Remove(item);
         _ownedItems.Add(item);
+        PlayerDataManager.Instance.SetInventoryItemBought(item.ID);
     }
 
     public void RefreshBoughtItems() {

@@ -270,7 +270,7 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
     }
 
     public bool CheckIfInventoryItemIsBought(string ItemID) {
-        return (PlayerPrefs.GetInt(PREF_INVENTORY_PREFIX, 0) == 1);
+        return (PlayerPrefs.GetInt(PREF_INVENTORY_PREFIX + ItemID, 0) == 1);
     }
 
 	// Local Data Changed - signal listener
