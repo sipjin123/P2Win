@@ -30,13 +30,18 @@ public class SlotDetection : MonoBehaviour {
 	public int[] _imageMatchCounter;
 	public GameObject [] _imageSprites;
 
-
+	public bool HighlightFinished, BonusHighlightFinished, CustomerServeFinished, CustomerSeatedFinished;
 	void Awake()
 	{
 		_instance = this;
 	}
 	void Start () 
 	{
+		HighlightFinished = true;
+		BonusHighlightFinished = true;
+		CustomerServeFinished = true;
+		CustomerSeatedFinished = false;
+
 		_imageMatchCounter = new int[12];
 		_slotsList = new SLOTSList[9];
 		_possibleMatches = new SLOTSList[3];
@@ -54,7 +59,13 @@ public class SlotDetection : MonoBehaviour {
 	}
 
 
-
+	void OnGUI()
+	{
+		GUI.Box( new Rect(0,30,300,30),"Hilyt: "+ HighlightFinished);
+		GUI.Box( new Rect(0,60,300,30),"BonusHilyt: "+BonusHighlightFinished);
+		GUI.Box( new Rect(0,90,300,30),"Serve: "+CustomerServeFinished);
+		GUI.Box( new Rect(0,120,300,30),"Enter: "+CustomerSeatedFinished);
+	}
 
 
 
@@ -72,6 +83,7 @@ public class SlotDetection : MonoBehaviour {
 				if(_imageSprites[i] != null)
 				{
 					_imageSprites[i].GetComponent<Itemscript>().HighlightObject.SetActive(false);
+					_imageSprites[i].GetComponent<Itemscript>().RewardsObject.SetActive(false);
 					_imageSprites[i] = null;
 				}
 				_slotsList[i] = SLOTSList.NONE;
@@ -122,6 +134,7 @@ public class SlotDetection : MonoBehaviour {
 		{
 			for(int k = 0; k < 3 ; k++)
 			{
+				if(o != 8)//incase bonus icons match
 				if(_possibleMatches[k] == SLOTSList.NONE && _imageMatchCounter[o] >= 3)
 				{
 					_possibleMatches[k] = (SLOTSList)o;
@@ -129,12 +142,74 @@ public class SlotDetection : MonoBehaviour {
 				}
 			}
 		}
-		if(_possibleMatches[0] == SLOTSList.NONE)
+		if(_imageMatchCounter[8] >=1 )
 		{
-			SlotManager.Instance.isSpinning = false;
+			StartCoroutine(BonusHighlight());
+		}
+		else
+		{
+			BonusHighlightFinished = true;
 		}
 		StartCoroutine( HighLightMatches());
 	}
+	public IEnumerator BonusHighlight()
+	{
+		yield return new WaitForSeconds(1);
+		float BonusCounter = 0;
+		for(int i = 0 ; i < 9 ; i++)
+		{
+			if(_imageSprites[i].GetComponent<tk2dSprite>().CurrentSprite.name == "slot_item" + 8)
+			{
+				for(int m = 0 ; m < 5 ; m++)
+				{
+					if(GameManager_ReelChef.Instance.BonusHighlights[m].transform.parent.GetComponent<BonusCheckerScript>().BonusShow.activeSelf == false)
+					{
+						BonusCounter ++;
+						_imageSprites[i].GetComponent<Itemscript>().RewardsObject.SetActive(true);
+						yield return new WaitForSeconds( 0.2f);
+						iTween.MoveTo(_imageSprites[i].GetComponent<Itemscript>().RewardsObject,iTween.Hash(
+							"x"   , GameManager_ReelChef.Instance.BonusHighlights[m].transform.position.x,
+							"y"	,  GameManager_ReelChef.Instance.BonusHighlights[m].transform.position.y,
+							"z"	,  GameManager_ReelChef.Instance.BonusHighlights[m].transform.position.z,
+							"time", 0.1f
+							));
+						yield return new WaitForSeconds( 0.1f);
+						_imageSprites[i].GetComponent<Itemscript>().RewardsObject.SetActive(false);
+						iTween.Stop(_imageSprites[i]);
+						break;
+					}
+				}
+			}
+		}
+		if(BonusCounter > 0)
+		{
+			for( int i = 0 ; i < 5 ; i++)
+			{
+				if(GameManager_ReelChef.Instance.BonusHighlights[i].transform.parent.GetComponent<BonusCheckerScript>().BonusShow.activeSelf == false )
+				{
+					GameManager_ReelChef.Instance.BonusHighlights[i].transform.parent.GetComponent<BonusCheckerScript>().BonusShow.SetActive(true);
+					GameManager_ReelChef.Instance.BonusCounter++;
+					break;
+				}
+			}
+		}
+		if(GameManager_ReelChef.Instance.BonusCounter >= 5)
+		{
+			for(int i = 0 ; i < 5 ; i++)
+			{
+				GameManager_ReelChef.Instance.BonusHighlights[i].transform.parent.GetComponent<BonusCheckerScript>().BonusShow.SetActive(false);
+				GameManager_ReelChef.Instance.BonusCounter = 0;
+			}
+			Debug.LogError("SHOW SPINNING WHEEL DHENZ");
+			StartCoroutine(DelaySpinButtonActive());
+		}
+		Debug.LogError("BONUS HIghlightmatches");
+		BonusHighlightFinished = true;
+		CheckIfSpinCanBeActive();
+	}
+
+
+
 	public IEnumerator HighLightMatches()
 	{
 		for(int q = 0 ; q < 3 ; q++)
@@ -143,11 +218,41 @@ public class SlotDetection : MonoBehaviour {
 			{
 				if(_imageSprites[i].gameObject.name == "slot_item"+(int)_possibleMatches[q])
 				{
-					_imageSprites[i].GetComponent<Itemscript>().HighlightObject.SetActive(true);
-					yield return new WaitForSeconds(0.1f);
+					foreach (Transform child in CustomerManager.Instance.CustomersInside.transform)
+					{
+						if(_imageSprites[i].GetComponent<tk2dSprite>().CurrentSprite.name == child.GetComponent<CustomerScript>().OrderSprite.GetComponent<tk2dSprite>().CurrentSprite.name)//added
+						{
+							_imageSprites[i].GetComponent<Itemscript>().HighlightObject.GetComponent<tk2dSprite>().color = Color.white;
+							_imageSprites[i].GetComponent<Itemscript>().HighlightObject.SetActive(true);
+							yield return new WaitForSeconds(0.1f);
+						}
+					}
 				}
+
 			}
 		}
+		HighlightFinished = true;
+		Debug.LogError("HIghlightmatches");
+		CheckIfSpinCanBeActive();
 		CustomerManager.Instance.ServeCustomerOrders();
+	}
+
+
+	public void CheckIfSpinCanBeActive()
+	{
+		if(HighlightFinished && BonusHighlightFinished && CustomerServeFinished && CustomerSeatedFinished)
+		{
+			StartCoroutine(DelaySpinButtonActive());
+			BonusHighlightFinished = false;
+			HighlightFinished = false;
+			CustomerServeFinished = false;
+			CustomerSeatedFinished = false;
+		}
+	}
+	public IEnumerator DelaySpinButtonActive()
+	{
+		yield return new WaitForSeconds(1);
+		SlotManager.Instance.isSpinning = false;
+		SlotManager.Instance.SpinButton.SetActive(true);
 	}
 }

@@ -9,6 +9,7 @@ public class SlotManager : MonoBehaviour {
 	public GameObject[] SLOTSPINS;
 	public int SpinCheckCounter;
 	public bool isSpinning;
+	public GameObject SpinButton;
 	void Awake()
 	{
 		_instance = this;
@@ -17,28 +18,30 @@ public class SlotManager : MonoBehaviour {
 	{
 		SpinCheckCounter = 0;
 		isSpinning = true;
+		SlotManager.Instance.SpinButton.SetActive(false);
 	}
 
 
-
-
-	void OnGUI()
+	void Update()
 	{
-		if(!isSpinning)
-		if(GUI.Button( new Rect ( Screen.width - Screen.width / 8 , Screen.height - Screen.height /8 , Screen.width /8 , Screen.height /8 ), "SPIN"))
+
+		if(Input.GetKeyDown(KeyCode.Space))
 		{
-			
-			isSpinning = true;
 			StartSpin();
 		}
 	}
 	public void StartSpin()
 	{
-		SlotDetection.Instance.EMPTYData();
-		for(int i = 0 ; i <  3 ; i++)
+		if(!isSpinning)
 		{
-			SLOTSPINS[i].GetComponent<SlotSpin>()._gameState = SlotSpin.GameState.STARTSPIN;
-			SLOTSPINS[i].GetComponent<SlotSpin>().SpinStrength = GameManager_ReelChef.Instance.SpinStrength * (i+1);
+			SlotManager.Instance.SpinButton.SetActive(false);
+			isSpinning = true;
+			SlotDetection.Instance.EMPTYData();
+			for(int i = 0 ; i <  3 ; i++)
+			{
+				SLOTSPINS[i].GetComponent<SlotSpin>()._gameState = SlotSpin.GameState.STARTSPIN;
+				SLOTSPINS[i].GetComponent<SlotSpin>().SpinStrength = GameManager_ReelChef.Instance.SpinStrength * (i+1);
+			}
 		}
 	}
 	public void SpinChecker()

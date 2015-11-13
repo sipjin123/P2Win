@@ -8,6 +8,7 @@ public class CustomerManager : MonoBehaviour {
 
 
 	public int CustomerCount;
+	public int TableUsedCount;
 
 	public GameObject[] ScoreEfxStart;
 	public GameObject ScoreEfxEnd;
@@ -54,7 +55,14 @@ public class CustomerManager : MonoBehaviour {
 		}
 
 	}
-
+	public void CheckTable()
+	{
+		if(TableUsedCount == 6)
+		{
+			SlotDetection.Instance.CustomerSeatedFinished = true;
+			SlotDetection.Instance.CheckIfSpinCanBeActive();
+		}
+	}
 	public void SpawnCustomer()
 	{
 		if(CustomerCount < 6)
@@ -72,16 +80,11 @@ public class CustomerManager : MonoBehaviour {
 					}
 				}
 			}
-			StartCoroutine(waitForCustomerSit());
 		}
-	}
-	public IEnumerator waitForCustomerSit()
-	{
-		yield return new WaitForSeconds(2);
-		SlotManager.Instance.isSpinning = false;
 	}
 	public void ServeCustomerOrders()
 	{
+		int numberofcheckedCustomers = 0;
 		for( int i = 0; i < 3 ;i++)
 		{
 			foreach (Transform child in CustomersInside.transform)
@@ -90,10 +93,20 @@ public class CustomerManager : MonoBehaviour {
 				{
 					child.GetComponent<CustomerScript>()._customerOrder = CustomerScript.CustomerOrder.NONE;
 					StartCoroutine(HighlightMatchedOrder(child.gameObject,i));
+					numberofcheckedCustomers ++;
 				}
 			}
 		}
+		if(numberofcheckedCustomers == 0 && CustomerCount >= 6)
+		{
+			Debug.LogError("CUSTOMER ENTRY");
+			SlotDetection.Instance.CustomerSeatedFinished = true;
+			SlotDetection.Instance.CheckIfSpinCanBeActive();
+		}
+		SlotDetection.Instance.CustomerServeFinished = true;
+		SlotDetection.Instance.CheckIfSpinCanBeActive();
 	}
+
 	public IEnumerator HighlightMatchedOrder(GameObject _obj,int _counter)
 	{
 		_obj.GetComponent<CustomerScript>().OrderSprite.GetComponent<tk2dSprite>().color = Color.red;

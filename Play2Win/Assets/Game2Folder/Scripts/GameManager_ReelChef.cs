@@ -12,7 +12,9 @@ public class GameManager_ReelChef : MonoBehaviour {
 	public tk2dTextMesh ScoreText;
 
 	public float Score;
-
+	public GameObject[] BonusHighlights;
+	public GameObject[] Stars;
+	public float BonusCounter;
 	void Awake ()
 	{
 		_instance = this;

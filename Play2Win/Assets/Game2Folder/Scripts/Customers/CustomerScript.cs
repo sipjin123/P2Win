@@ -94,6 +94,8 @@ public class CustomerScript : MonoBehaviour {
 	
 	public void ShowOrder()
 	{
+		CustomerManager.Instance.TableUsedCount++;
+		CustomerManager.Instance.CheckTable();
 		OrderSprite.SetActive(true);
 		if(_customerOrder != CustomerOrder.NONE)
 		OrderSprite.GetComponent<tk2dSprite>().SetSprite("slot_item"+(((int)_customerOrder)+1));
@@ -118,6 +120,7 @@ public class CustomerScript : MonoBehaviour {
 	public void ExitFinish()
 	{
 		CustomerManager.Instance.CustomerCount --;
+		CustomerManager.Instance.TableUsedCount --;
 		CustomerManager.Instance.SpawnCustomer();
 		
 		transform.position = CustomerManager.Instance.CustomersOutside.transform.position;
