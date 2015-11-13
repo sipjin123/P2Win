@@ -88,17 +88,18 @@ public class MainMenuScene : AnimatedScene {
         //StartCoroutine (waitBeforeLoad (_games));
 		myUIItem[0].enabled = false;
         myAnimator[0].Play("BtnShine");
-        LoadScene(_games);
+        //LoadScene(_games);
+        Load5x3Slots();
     }
 
-    //// TEMP: Disable game menu
-    //private void Load5x3Slots() {
-    //    AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
-    //    LevelSpriteCollectionManager.Instance.ActiveLevel = 1;
-    //    GameManager.Instance.LoadScene(GameState.SLOTS);
+    // TEMP: Disable game menu
+    private void Load5x3Slots() {
+        AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
+        LevelSpriteCollectionManager.Instance.ActiveLevel = 1;
+        GameManager.Instance.LoadScene(GameState.SLOTS);
 
-    //    AudioManager.Instance.PauseBGM();
-    //}
+        AudioManager.Instance.PauseBGM();
+    }
 
     public void LoadRewardsScene() {
         //StartCoroutine(waitBeforeLoad(_rewards));
