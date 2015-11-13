@@ -18,7 +18,7 @@ public enum SlotItemType {
 }
 
 [RequireComponent(typeof(tk2dSprite))]
-[RequireComponent(typeof(Animator))]
+//[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(BoxCollider))]
 public class SlotItem : MonoBehaviour {
 

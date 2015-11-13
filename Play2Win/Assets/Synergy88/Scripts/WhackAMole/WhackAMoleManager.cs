@@ -30,7 +30,7 @@ public class WhackAMoleManager : MonoBehaviour, IExtraRewardWindow  {
 	void Update(){
 		if (gamestart) {
 			timer += 1.0f * Time.deltaTime;
-			timerText.text = "Timer: " + Mathf.RoundToInt (timer).ToString ();
+			timerText.text = Mathf.RoundToInt (timer).ToString ();
 		}
 	}
 
@@ -47,7 +47,7 @@ public class WhackAMoleManager : MonoBehaviour, IExtraRewardWindow  {
 		gamestart = false;
 		timer = 0.0f;
 		myScore = 0;
-		scoreBoard.text = "Score: 0";
+		scoreBoard.text = "0";
 		gameover = false;
 		whackBoard.SetBool ("Reset", true);
 		myCamera.SetActive(true);
@@ -91,7 +91,7 @@ public class WhackAMoleManager : MonoBehaviour, IExtraRewardWindow  {
 	}
 
 	private void UpdateScoreBoard(int p_score){
-		scoreBoard.text = "Score: " + p_score.ToString();
+		scoreBoard.text = p_score.ToString();
 	}
 
 	void ShowHideBoard(){
