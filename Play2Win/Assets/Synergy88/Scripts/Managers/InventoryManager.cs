@@ -12,6 +12,12 @@ public struct ItemRewards {
     private string name;
 
     [SerializeField]
+    private string description;
+
+    [SerializeField]
+    private string description2;
+
+    [SerializeField]
     private int cost;
 
     [SerializeField]
@@ -19,6 +25,8 @@ public struct ItemRewards {
 
     public string ID { get { return id; } }
     public string Name { get { return name; } }
+    public string Description { get { return description; } }
+    public string Description2 { get { return description2; } }
     public int Cost { get { return cost; } }
     public string ImageName { get { return imageName; } }
 }

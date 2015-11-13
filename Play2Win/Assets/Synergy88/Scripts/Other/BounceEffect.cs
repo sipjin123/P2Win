@@ -16,8 +16,11 @@ public class BounceEffect : MonoBehaviour {
 	void Awake(){
 		defaultXPos = this.transform.localPosition.x;
 		originalPos1 = new Vector3(0.0f,0.4102091f,0.0f);
-		leftPos = characters [0].transform.localPosition + new Vector3 (-0.5f, 0.0f, 0.0f);
-		rightPos = characters [0].transform.localPosition + new Vector3 (0.5f, 0.0f, 0.0f);
+
+        if (characters.Length > 0) {
+		    leftPos = characters [0].transform.localPosition + new Vector3 (-0.5f, 0.0f, 0.0f);
+		    rightPos = characters [0].transform.localPosition + new Vector3 (0.5f, 0.0f, 0.0f);
+        }
 	}
 
 	IEnumerator moveCharacter(){
