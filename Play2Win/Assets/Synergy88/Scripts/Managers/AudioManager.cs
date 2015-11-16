@@ -25,7 +25,15 @@ public class AudioManager : MonoBehaviour {
 		STOP_REELS,
 		SELECT,
 		SPIN_TICK,
-		DAILY_BONUS
+		DAILY_BONUS,
+		MONSTER_HIT,
+		PRINCESS_HIT,
+		WHACK_BGM,
+		REGULAR_WIN,
+		BONUS_WIN,
+		BIG_WIN,
+		JTW_INTRO,
+		WHACK_WIN
 	}
 
 	[System.Serializable]
