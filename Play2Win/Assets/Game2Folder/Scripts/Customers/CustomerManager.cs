@@ -91,6 +91,7 @@ public class CustomerManager : MonoBehaviour {
 			{
 				if((int)(SlotDetection.Instance._possibleMatches[i]) == (int)(child.GetComponent<CustomerScript>()._customerOrder+1))
 				{
+					if(child.GetComponent<CustomerScript>()._HungerMeter >= 1000)
 					child.GetComponent<CustomerScript>()._customerOrder = CustomerScript.CustomerOrder.NONE;
 					StartCoroutine(HighlightMatchedOrder(child.gameObject,i));
 					numberofcheckedCustomers ++;
@@ -99,12 +100,13 @@ public class CustomerManager : MonoBehaviour {
 		}
 		if(numberofcheckedCustomers == 0 && CustomerCount >= 6)
 		{
-			Debug.LogError("CUSTOMER ENTRY");
 			SlotDetection.Instance.CustomerSeatedFinished = true;
 			SlotDetection.Instance.CheckIfSpinCanBeActive();
 		}
 		SlotDetection.Instance.CustomerServeFinished = true;
 		SlotDetection.Instance.CheckIfSpinCanBeActive();
+
+
 	}
 
 	public IEnumerator HighlightMatchedOrder(GameObject _obj,int _counter)
@@ -125,6 +127,7 @@ public class CustomerManager : MonoBehaviour {
 	}
 	public IEnumerator ScoreEffects(float _score, GameObject _obj)
 	{
+		/*
 		for(int i = 0; i < 3 ;i++)
 		{
 			if(ScoreEffectsList[i].gameObject.activeSelf == false)
@@ -136,19 +139,77 @@ public class CustomerManager : MonoBehaviour {
 				iTween.MoveBy(ScoreEffectsList[i].gameObject,iTween.Hash(
 					"x"   , ScoreEfxEnd.transform.position.x,
 					"y"	,  ScoreEfxEnd.transform.position.y,
-					"time", 0.5f
+					"time", 0.25f
 					));
-				yield return new WaitForSeconds( 0.4f);
+				yield return new WaitForSeconds( 0.24f);
 				iTween.Stop(ScoreEffectsList[i]);
 				GameManager_ReelChef.Instance.AddScore(_score);
 				ScoreEffectsList[i].gameObject.SetActive(false);
 				ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = "";
 				ScoreEffectsList[i].transform.position = ScoreEfxStart[i].transform.position;
+
+				CustomerScript _customerScript = _obj.GetComponent<CustomerScript>();
 				
-				_obj.GetComponent<CustomerScript>().OrderSprite.SetActive(false);
-				_obj.GetComponent<CustomerScript>()._customerState = CustomerScript.CustomerState.EXIT;
+				_customerScript._HungerMeter+= _score;
+				_customerScript.transform.FindChild("Text").gameObject.GetComponent<tk2dTextMesh>().text = ""+_customerScript._HungerMeter;
+				if(_customerScript._HungerMeter >= 1000)
+				{
+					_customerScript.OrderSprite.SetActive(false);
+					_customerScript._customerState = CustomerScript.CustomerState.EXIT;	
+					_customerScript.transform.FindChild("Text").gameObject.GetComponent<tk2dTextMesh>().text = "0";
+				}
+				else
+				{
+			
+					SlotDetection.Instance.CustomerSeatedFinished = true;
+					SlotDetection.Instance.CheckIfSpinCanBeActive();
+				}
 				break;
 			}
+		}*/
+		
+		CustomerScript _customerScript = _obj.GetComponent<CustomerScript>();
+
+		float DelayTime = 0.25f;
+		for( int i = 0 ; i < 9 ; i++)
+		{
+			tk2dSprite slotSprite = SlotDetection.Instance._imageSprites[i].GetComponent<tk2dSprite>();
+			if(slotSprite.CurrentSprite.name == _customerScript.OrderSprite.GetComponent<tk2dSprite>().CurrentSprite.name)
+			{
+				if(slotSprite.gameObject.GetComponent<Itemscript>().PointsObject.activeSelf == false)
+				{
+					slotSprite.gameObject.GetComponent<Itemscript>().PointsObject.SetActive(true);
+					slotSprite.gameObject.GetComponent<Itemscript>().PointsObject.GetComponent<tk2dSprite>().color = Color.blue;
+
+					iTween.MoveTo(slotSprite.gameObject.GetComponent<Itemscript>().PointsObject ,iTween.Hash(
+						"x" , _obj.transform.position.x,
+						"y"	,  _obj.transform.position.y,
+						"z"	,  _obj.transform.position.z,
+						"time", DelayTime
+						));
+					
+					yield return new WaitForSeconds(DelayTime);
+					slotSprite.gameObject.GetComponent<Itemscript>().PointsObject.SetActive(false);
+					slotSprite.gameObject.GetComponent<Itemscript>().PointsObject.transform.position = slotSprite.transform.position;
+					iTween.Stop(slotSprite.gameObject.GetComponent<Itemscript>().PointsObject);
+				}
+			}
 		}
+		GameManager_ReelChef.Instance.AddScore(_score);				
+		_customerScript._HungerMeter+= _score;
+		_customerScript.transform.FindChild("Text").gameObject.GetComponent<tk2dTextMesh>().text = ""+_customerScript._HungerMeter;
+		if(_customerScript._HungerMeter >= 1000)
+		{
+			yield return new WaitForSeconds(1);
+			_customerScript.OrderSprite.SetActive(false);
+			_customerScript._customerState = CustomerScript.CustomerState.EXIT;	
+			_customerScript.transform.FindChild("Text").gameObject.GetComponent<tk2dTextMesh>().text = "0";
+		}
+		if(CustomerManager.Instance.CustomerCount >= 6)
+		{
+			SlotDetection.Instance.CustomerSeatedFinished = true;
+			SlotDetection.Instance.CheckIfSpinCanBeActive();
+		}
+
 	}
 }

@@ -69,8 +69,8 @@
      <Compile Include="Assets\Game2Folder\Scripts\PassiveScripts\BonusCheckerScript.cs" />
      <Compile Include="Assets\Game2Folder\Scripts\PassiveScripts\Itemscript.cs" />
      <Compile Include="Assets\Game2Folder\Scripts\PassiveScripts\SlotCollider.cs" />
+     <Compile Include="Assets\Game2Folder\Scripts\PassiveScripts\SlotTriggerClicks.cs" />
      <Compile Include="Assets\Game2Folder\Scripts\PassiveScripts\TableScript.cs" />
-     <Compile Include="Assets\Game2Folder\Scripts\SlotTriggerClicks.cs" />
      <Compile Include="Assets\Game2Folder\Scripts\Slots\SlotDetection.cs" />
      <Compile Include="Assets\Game2Folder\Scripts\Slots\SlotManager.cs" />
      <Compile Include="Assets\Game2Folder\Scripts\Slots\SlotSpin.cs" />

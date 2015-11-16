@@ -2,8 +2,8 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game2Folder\Scripts\Slots\SlotDetection.cs">
     <Files>
-      <File FileName="Assets\Game2Folder\Scripts\Slots\SlotDetection.cs" Line="153" Column="58" />
-      <File FileName="Assets\Game2Folder\Scripts\Customers\CustomerManager.cs" Line="131" Column="5" />
+      <File FileName="Assets\Game2Folder\Scripts\Customers\CustomerScript.cs" Line="106" Column="32" />
+      <File FileName="Assets\Game2Folder\Scripts\Slots\SlotDetection.cs" Line="29" Column="38" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

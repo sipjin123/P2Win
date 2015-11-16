@@ -59,7 +59,7 @@ public class SlotDetection : MonoBehaviour {
 	}
 
 
-	void OnGUI()
+	void OnGUIx()
 	{
 		GUI.Box( new Rect(0,30,300,30),"Hilyt: "+ HighlightFinished);
 		GUI.Box( new Rect(0,60,300,30),"BonusHilyt: "+BonusHighlightFinished);
@@ -201,9 +201,8 @@ public class SlotDetection : MonoBehaviour {
 				GameManager_ReelChef.Instance.BonusCounter = 0;
 			}
 			Debug.LogError("SHOW SPINNING WHEEL DHENZ");
-			StartCoroutine(DelaySpinButtonActive());
+			CheckIfSpinCanBeActive();
 		}
-		Debug.LogError("BONUS HIghlightmatches");
 		BonusHighlightFinished = true;
 		CheckIfSpinCanBeActive();
 	}
@@ -232,7 +231,6 @@ public class SlotDetection : MonoBehaviour {
 			}
 		}
 		HighlightFinished = true;
-		Debug.LogError("HIghlightmatches");
 		CheckIfSpinCanBeActive();
 		CustomerManager.Instance.ServeCustomerOrders();
 	}

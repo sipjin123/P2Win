@@ -25,6 +25,7 @@ public class CustomerScript : MonoBehaviour {
 	public GameObject ObjectSprite;
 	public CustomerState _customerState;
 	public CustomerOrder _customerOrder;
+    [Range(0.0f, 1000.0f)] public float _HungerMeter;
 
 	public GameObject _tableToSit;
 
@@ -122,7 +123,8 @@ public class CustomerScript : MonoBehaviour {
 		CustomerManager.Instance.CustomerCount --;
 		CustomerManager.Instance.TableUsedCount --;
 		CustomerManager.Instance.SpawnCustomer();
-		
+
+		_HungerMeter = 0;
 		transform.position = CustomerManager.Instance.CustomersOutside.transform.position;
 		transform.parent = CustomerManager.Instance.CustomersOutside.transform;
 		_customerState = CustomerState.IDLE;
