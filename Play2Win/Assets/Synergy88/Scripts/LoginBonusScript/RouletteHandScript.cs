@@ -8,7 +8,7 @@ public class RouletteHandScript : MonoBehaviour {
 	[SerializeField] private tk2dTextMesh rouletteScoreBoard;
 
 	void OnTriggerEnter(Collider col){
-		//AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.SPIN_TICK);
+		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.SPIN_TICK);
 		rouletteTextPrice = col.gameObject.name; 
 		rouletteScoreBoard.text = rouletteTextPrice;
 		if(rouletteTextPrice != "2X" && rouletteTextPrice != "3X")

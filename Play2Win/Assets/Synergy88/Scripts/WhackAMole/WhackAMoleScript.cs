@@ -184,10 +184,12 @@ public class WhackAMoleScript : MonoBehaviour {
 	void HideTheMole(){
 		if (!isHiding) {
 			if(demonChosen != 2){
+				AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.MONSTER_HIT);
 				MonkeyManagerScript.Instance.MonkeyHitEffect();
 				MonkeyManagerScript.Instance.MonkeyHit(true);
 			}
 			else if(demonChosen == 2){
+				AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.PRINCESS_HIT);
 				MonkeyManagerScript.Instance.MonkeyHit(false);
 			}
 			StartCoroutine(EnableEffect());

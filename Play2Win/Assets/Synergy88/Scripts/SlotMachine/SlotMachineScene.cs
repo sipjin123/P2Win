@@ -458,6 +458,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 
 	private void CheckForWinnings() {
 		if (_patternManager.FreeSpinsBonus.totalReward == 0) {
+			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.REGULAR_WIN);
 			PlayerDataManager.Instance.AddExp (Mathf.FloorToInt (_totalBet));
 		}
 
@@ -479,6 +480,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		PlayerDataManager.Instance.AddChips(_previousWinnings);
 
 		if ((float)_previousWinnings / _totalBet > 15.0f) {
+			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BIG_WIN);
 			WinEffectManager.Instance.startHugeWin(_previousWinnings);
 		}
 

@@ -36,6 +36,11 @@ public class MonkeyManagerScript : MonoBehaviour {
 		MonkeyManagerScript.Instance = this;
 	}
 
+	public void resetMonkey(){
+		MonkeyWin.SetActive (false);
+		MonkeyIdle.SetActive (true);
+	}
+
 	IEnumerator checkAction(bool p_attack){
 		yield return new WaitForSeconds (0.5f);
 		if (p_attack) {
@@ -59,7 +64,7 @@ public class MonkeyManagerScript : MonoBehaviour {
 					hitCount = 1;
 				} else {
 					attack_monkey.Play (MONKEY_ATTACK_2);
-					hitCount = 0;
+					hitCount = 2;
 				}
 			} else {
 				MonkeyLose.SetActive (true);
