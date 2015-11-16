@@ -30,7 +30,7 @@ public class LevelupWindow : MonoBehaviour, ISignalListener {
 
 		PlayerDataManager.Instance.AddChips(giftReward);
 
-		_previousLevelText.text = (PlayerDataManager.Instance.Level - 1).ToString();
+		_previousLevelText.text = PlayerDataManager.Instance.Level.ToString();
 		_rewardText.text = giftReward.ToString("#,#");
 		_maxBetText.text = GameDataManager.Instance.LevelInfo.MaxCoinBet.ToString("#,#");
 

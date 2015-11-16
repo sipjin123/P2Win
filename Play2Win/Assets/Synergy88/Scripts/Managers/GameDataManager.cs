@@ -16,17 +16,27 @@ public struct PlayerLevelData {
 	[SerializeField]
 	private int _expToNextLevel;
 
-	public PlayerLevelData(int level, int maxCoinBet, PatternSet maxLines, int expToNextLevel) {
+    [SerializeField]
+    private int _onLevelUpChips;
+
+    [SerializeField]
+    private int _onLevelUpGems;
+
+	public PlayerLevelData(int level, int maxCoinBet, PatternSet maxLines, int expToNextLevel, int onLevelUpChips, int onLevelUpGems) {
 		_level = level;
 		_maxCoinBet = maxCoinBet;
 		_maxLines = maxLines;
 		_expToNextLevel = expToNextLevel;
+        _onLevelUpChips = onLevelUpChips;
+        _onLevelUpGems = onLevelUpGems;
 	}
 
 	public int Level { get { return _level; } }
 	public int MaxCoinBet { get { return _maxCoinBet; } } // Index
 	public PatternSet MaxLines { get { return _maxLines; } }
 	public int ExpToNextLevel { get { return _expToNextLevel; } }
+    public int OnLevelUpChips { get { return _onLevelUpChips; } }
+    public int OnLevelUpGems { get { return _onLevelUpGems; } }
 }
 
 public class GameDataManager : MonoBehaviour {
@@ -75,7 +85,7 @@ public class GameDataManager : MonoBehaviour {
 	}
 
 	public int GetCurrentBaseEXP() {
-		if (PlayerDataManager.Instance.Level == 1) {
+		if (PlayerDataManager.Instance.Level == 0) {
 			return 0;
 		} else {
 			return _levelProgressionDictionary[PlayerDataManager.Instance.Level - 1].ExpToNextLevel;

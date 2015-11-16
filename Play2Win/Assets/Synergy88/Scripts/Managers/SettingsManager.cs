@@ -4,10 +4,16 @@ using System.Collections;
 public class SettingsManager : MonoBehaviour, ISignalListener {
 	
 	[SerializeField]
-	private Transform _sfxCheckSprite;
+    private Transform _sfxOnSprite;
 
-	[SerializeField]
-	private Transform _bgmCheckSprite; 
+    [SerializeField]
+    private Transform _sfxOffSprite;
+
+    [SerializeField]
+    private Transform _bgmOnSprite;
+
+    [SerializeField]
+    private Transform _bgmOffSprite;
 
 	void Start() {
 		SignalManager.Instance.Register(this, SignalType.SETTINGS_CHANGED);
@@ -63,8 +69,10 @@ public class SettingsManager : MonoBehaviour, ISignalListener {
 	}
 
 	private void UpdateCheckBoxes() {
-		_sfxCheckSprite.gameObject.SetActive(PlayerDataManager.Instance.UseSFX);
-		_bgmCheckSprite.gameObject.SetActive(PlayerDataManager.Instance.UseBGM);
+        _sfxOnSprite.gameObject.SetActive(PlayerDataManager.Instance.UseSFX);
+        _sfxOffSprite.gameObject.SetActive(!PlayerDataManager.Instance.UseSFX);
+        _bgmOnSprite.gameObject.SetActive(PlayerDataManager.Instance.UseBGM);
+        _bgmOffSprite.gameObject.SetActive(!PlayerDataManager.Instance.UseBGM);
 	}
 
 	public void Execute(SignalType type, ISignalParameters param) {

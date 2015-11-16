@@ -34,7 +34,7 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 	private float _totalChipsEarned;
 	private float _chips = 0;
 	private int _points = 0;
-	private int _level = 1;
+	private int _level = 0;
 	private float _exp = 0f;
 	private bool _useBGM = true;
 	private bool _useSFX = true;
@@ -139,7 +139,7 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 		_totalChipsEarned = PlayerPrefs.GetFloat (PREF_TOTALCHIPSEARNED);
 		_chips = PlayerPrefs.GetFloat(PREF_CHIPS, 300f);
 		_points = PlayerPrefs.GetInt(PREF_POINTS, 5);
-		_level = PlayerPrefs.GetInt(PREF_LEVEL, 1);
+		_level = PlayerPrefs.GetInt(PREF_LEVEL, 0);
 		_exp = PlayerPrefs.GetFloat(PREF_EXP, 0f);
 		_lastBonusSpin = PlayerPrefs.GetString (PREF_LAST_BONUS_SPIN,DateTime.Now.ToString());
 		_useBGM = (PlayerPrefs.GetInt(PREF_USE_BGM, 1) == 1);
@@ -151,8 +151,8 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 		_logInBonus = PlayerPrefs.GetInt (PREF_LOGIN_BONUS, 1);
 
 
-		if (_level < 1) {
-			_level = 1;
+		if (_level < 0) {
+			_level = 0;
 		} 
 		else if (_level > GameDataManager.Instance.MaxLevel) {
 			_level = GameDataManager.Instance.MaxLevel;
