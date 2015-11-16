@@ -100,12 +100,14 @@ public class PatternObject : MonoBehaviour {
 		case State.PRESENTING:
 			_sprite.gameObject.SetActive(true);
 			_sprite.color = Color.white;
+			SignalManager.Instance.Call(SignalType.HIDE_SLOT_ITEM);
 			AnimateWinningObjects();
 			break;
 		}
 
 		switch (previousState) {
 		case State.PRESENTING:
+			SignalManager.Instance.Call(SignalType.RETURN_SLOT_ITEM);
 			StopAllObjectAnimations();
 			break;
 		}

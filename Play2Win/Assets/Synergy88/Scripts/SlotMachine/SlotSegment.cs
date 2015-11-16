@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SlotSegment : MonoBehaviour {
+public class SlotSegment : MonoBehaviour,ISignalListener {
 
 //	private const float ROTATION_SPEED_MIN = -360f;
 //	private const float ROTATION_SPEED_MAX = -270f;
@@ -24,13 +24,37 @@ public class SlotSegment : MonoBehaviour {
 	private Animator _animator;
 
 	void Start() {
+		SignalManager.Instance.Register (this, SignalType.HIDE_SLOT_ITEM);
+		SignalManager.Instance.Register (this, SignalType.RETURN_SLOT_ITEM);
 		_animator = GetComponent<Animator>();
+	}
+
+	void OnDestroy(){
+		SignalManager.Instance.Remove (this, SignalType.HIDE_SLOT_ITEM);
+		SignalManager.Instance.Remove (this, SignalType.RETURN_SLOT_ITEM);
 	}
 
 	void Update() {
 		if (rotating) {
 			UpdateRotation();
 		}
+	}
+
+	public void Execute(SignalType type, ISignalParameters param) {
+		switch (type) {
+			case SignalType.HIDE_SLOT_ITEM:
+				for(int i = 0; i < _slotItems.Length; i++){
+					_slotItems[i].changeColor(1);
+				}
+				break;
+			case SignalType.RETURN_SLOT_ITEM:
+				for(int i = 0; i < _slotItems.Length; i++){
+					_slotItems[i].changeColor(0);
+				}
+				break;
+		}
+
+
 	}
 
 	public void SetRotationEnd(RotationEndDelegate OnRotationEnd) {

@@ -38,7 +38,7 @@ public class RouletteControllerScript : MonoBehaviour {
 
 	IEnumerator WheelSpin(){
 		yield return new WaitForSeconds (0.3f);
-		iTween.RotateBy (gameObject, new Vector3 (0, 0, Random.Range(-30.0f,31.0f)), 6);
+		iTween.RotateBy (gameObject, new Vector3 (0, 0, Random.Range(-180.0f,181.0f)), 6);
 		Invoke ("Finished",6.5f);
 		yield return new WaitForSeconds (1.0f);
 		m_spin = false;

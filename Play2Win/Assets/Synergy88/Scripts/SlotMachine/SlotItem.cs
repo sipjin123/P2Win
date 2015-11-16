@@ -76,6 +76,15 @@ public class SlotItem : MonoBehaviour {
 		_sprite.SetSprite(SlotItemName(_currentItemType));
 	}
 
+	public void changeColor(int p_color){
+		if (p_color == 1) {
+			_sprite.color = new Color(0.5f,0.5f,0.5f);
+		}
+		else{
+			_sprite.color = new Color(1.0f,1.0f,1.0f);
+		}
+	}
+
     public void Randomize_Editor(SlotItemType newType) {
         _currentItemType = newType;
         tk2dSprite sprite = GetComponent<tk2dSprite>();
@@ -89,6 +98,7 @@ public class SlotItem : MonoBehaviour {
 	}
 
 	public void Shake() {
+		changeColor (0);
 		borderGlow.SetActive (true);
 		_animator.Play("BorderGlow");
 	}

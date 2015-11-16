@@ -32,7 +32,9 @@ public enum SignalType {
 	MESSAGE_PROMPT_LEADERBOARDS,
 	PURCHASE_FROM_PROMPT,
     UPDATE_PROFILE_HUD, // This should replace GAME_ENTERED and LOBBY_ENTERED
-    REWARD_ITEM_BOUGHT
+    REWARD_ITEM_BOUGHT,
+	HIDE_SLOT_ITEM,
+	RETURN_SLOT_ITEM
 }
 
 public class SignalManager : MonoBehaviour {
@@ -81,6 +83,8 @@ public class SignalManager : MonoBehaviour {
 		InitializeListenerType(SignalType.PURCHASE_FROM_PROMPT);
         InitializeListenerType(SignalType.UPDATE_PROFILE_HUD);
         InitializeListenerType(SignalType.REWARD_ITEM_BOUGHT);
+		InitializeListenerType(SignalType.HIDE_SLOT_ITEM);
+		InitializeListenerType (SignalType.RETURN_SLOT_ITEM);
 	}
 
 	private void InitializeListenerType(SignalType type) {
