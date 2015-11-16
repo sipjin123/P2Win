@@ -115,12 +115,20 @@ public class MainMenuScene : AnimatedScene {
         LoadScene(_journey);
     }
 
-    public void LoadWalletScene() {
-        //StartCoroutine(waitBeforeLoad(_wallet));
+    public void OpenIAPWindow() {
         myUIItem[3].enabled = false;
         myAnimator[3].Play("BtnShine");
+        SignalManager.Instance.Call(SignalType.BUTTON_MORE_COINS);
+    }
+
+    public void LoadWalletScene() {
+        //StartCoroutine(waitBeforeLoad(_wallet));
+        myUIItem[4].enabled = false;
+        myAnimator[4].Play("BtnShine");
         LoadScene(_wallet);
     }
+
+    
 
     //IEnumerator waitBeforeLoad(GameState loadScene){
     //    //if (loadScene == _games) {

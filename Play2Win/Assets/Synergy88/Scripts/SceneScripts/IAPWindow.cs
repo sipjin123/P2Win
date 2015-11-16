@@ -12,10 +12,6 @@ public class IAPWindow : MonoBehaviour, ISignalListener {
         Close();
     }
 
-    void OnDestroy() {
-        SignalManager.Instance.Remove(this, SignalType.BUTTON_MORE_COINS);
-    }
-
     public void Show() {
         _windowParent.SetActive(true);
     }
