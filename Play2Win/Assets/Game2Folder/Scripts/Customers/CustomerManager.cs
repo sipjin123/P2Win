@@ -47,14 +47,6 @@ public class CustomerManager : MonoBehaviour {
 		yield return new WaitForSeconds(2);
 		SpawnCustomer();
 	}
-	void Update () {
-	
-		if(Input.GetKeyDown(KeyCode.Alpha1))
-		{
-			SpawnCustomer();
-		}
-
-	}
 	public void CheckTable()
 	{
 		if(TableUsedCount == 6)
@@ -187,14 +179,19 @@ public class CustomerManager : MonoBehaviour {
 						"z"	,  _obj.transform.position.z,
 						"time", DelayTime
 						));
-					
-					yield return new WaitForSeconds(DelayTime);
-					slotSprite.gameObject.GetComponent<Itemscript>().PointsObject.SetActive(false);
-					slotSprite.gameObject.GetComponent<Itemscript>().PointsObject.transform.position = slotSprite.transform.position;
-					iTween.Stop(slotSprite.gameObject.GetComponent<Itemscript>().PointsObject);
+
 				}
 			}
 		}
+		yield return new WaitForSeconds(DelayTime);
+		for(int i = 0 ; i < 9 ; i++)
+		{
+			tk2dSprite slotSprite = SlotDetection.Instance._imageSprites[i].GetComponent<tk2dSprite>();
+			slotSprite.gameObject.GetComponent<Itemscript>().PointsObject.SetActive(false);
+			slotSprite.gameObject.GetComponent<Itemscript>().PointsObject.transform.position = slotSprite.transform.position;
+			iTween.Stop(slotSprite.gameObject.GetComponent<Itemscript>().PointsObject);
+		}
+
 		GameManager_ReelChef.Instance.AddScore(_score);				
 		_customerScript._HungerMeter+= _score;
 		_customerScript.transform.FindChild("Text").gameObject.GetComponent<tk2dTextMesh>().text = ""+_customerScript._HungerMeter;

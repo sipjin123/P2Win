@@ -31,7 +31,7 @@ public class CustomerScript : MonoBehaviour {
 
 	public float MovementSpeed;
 	void Start () {
-		MovementSpeed =  Random.Range( 0.05f , 0.2f);
+		MovementSpeed =  Random.Range( 0.1f , 0.2f);
 		_customerState = CustomerState.IDLE;
 		ObjectSprite.GetComponent<tk2dSprite>().SetSprite(Random.Range(1,4));
 	}

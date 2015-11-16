@@ -166,20 +166,25 @@ public class SlotDetection : MonoBehaviour {
 					{
 						BonusCounter ++;
 						_imageSprites[i].GetComponent<Itemscript>().RewardsObject.SetActive(true);
-						yield return new WaitForSeconds( 0.2f);
 						iTween.MoveTo(_imageSprites[i].GetComponent<Itemscript>().RewardsObject,iTween.Hash(
 							"x"   , GameManager_ReelChef.Instance.BonusHighlights[m].transform.position.x,
 							"y"	,  GameManager_ReelChef.Instance.BonusHighlights[m].transform.position.y,
 							"z"	,  GameManager_ReelChef.Instance.BonusHighlights[m].transform.position.z,
-							"time", 0.1f
+							"time", 0.25f
 							));
-						yield return new WaitForSeconds( 0.1f);
-						_imageSprites[i].GetComponent<Itemscript>().RewardsObject.SetActive(false);
-						iTween.Stop(_imageSprites[i]);
+						//yield return new WaitForSeconds( 0.25f);
+						//_imageSprites[i].GetComponent<Itemscript>().RewardsObject.SetActive(false);
+						//iTween.Stop(_imageSprites[i]);
 						break;
 					}
 				}
 			}
+		}
+		yield return new WaitForSeconds( 0.25f);
+		for(int i = 0 ; i < 9 ;i++)
+		{
+			_imageSprites[i].GetComponent<Itemscript>().RewardsObject.SetActive(false);
+			iTween.Stop(_imageSprites[i]);
 		}
 		if(BonusCounter > 0)
 		{
