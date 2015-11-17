@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class SlotDetection : MonoBehaviour {
+public class SlotDetection : MonoBehaviour,ISignalListener {
 	private static SlotDetection _instance;
 	public static SlotDetection Instance { get { return _instance; } }
 
@@ -30,6 +31,9 @@ public class SlotDetection : MonoBehaviour {
 	public int[] _imageMatchCounter;
 	public GameObject [] _imageSprites;
 
+	[SerializeField] BFRouletteManager _BFRouletteManager;
+	private List<IExtraRewardWindow> _extraRewardsWindow;
+
 	public bool HighlightFinished, BonusHighlightFinished, CustomerServeFinished, CustomerSeatedFinished;
 	void Awake()
 	{
@@ -37,6 +41,7 @@ public class SlotDetection : MonoBehaviour {
 	}
 	void Start () 
 	{
+		_extraRewardsWindow = new List<IExtraRewardWindow>();
 		HighlightFinished = true;
 		BonusHighlightFinished = true;
 		CustomerServeFinished = true;
@@ -56,8 +61,35 @@ public class SlotDetection : MonoBehaviour {
 			q++;
 		}
 		EMPTYData();
+		SignalManager.Instance.Register (this, SignalType.LEVELUPWINDOW_CLOSED);
+		SignalManager.Instance.Register (this, SignalType.EXTRA_REWARD_CLOSED);
 	}
 
+	void OnDestroy(){
+		SignalManager.Instance.Remove (this, SignalType.EXTRA_REWARD_CLOSED);
+		SignalManager.Instance.Remove (this, SignalType.LEVELUPWINDOW_CLOSED);
+	}
+
+
+	public void Execute(SignalType type, ISignalParameters param) {
+		switch (type) {
+		case SignalType.EXTRA_REWARD_CLOSED:
+			_extraRewardsWindow.RemoveAt (0);
+			CheckForBonusWindows ();
+			break;
+			
+		case SignalType.LEVELUPWINDOW_CLOSED:			
+			CheckForBonusWindows ();
+			break;
+		}
+	}
+
+	void CheckForBonusWindows(){
+		if (_extraRewardsWindow.Count > 0) {
+			//AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BONUS);
+			_extraRewardsWindow[0].Show();
+		} 
+	}
 
 	void OnGUIx()
 	{
@@ -205,11 +237,13 @@ public class SlotDetection : MonoBehaviour {
 				GameManager_ReelChef.Instance.BonusHighlights[i].transform.parent.GetComponent<BonusCheckerScript>().BonusShow.SetActive(false);
 				GameManager_ReelChef.Instance.BonusCounter = 0;
 			}
-			Debug.LogError("SHOW SPINNING WHEEL DHENZ");
+			Debug.LogError("SHOW SPINNING WHEEL DHENZ");			
+			_extraRewardsWindow.Add(_BFRouletteManager);
 			CheckIfSpinCanBeActive();
 		}
 		BonusHighlightFinished = true;
 		CheckIfSpinCanBeActive();
+		CheckForBonusWindows ();
 	}
 
 

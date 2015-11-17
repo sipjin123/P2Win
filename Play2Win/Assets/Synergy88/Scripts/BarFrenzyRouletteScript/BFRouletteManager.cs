@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BFRouletteManager : MonoBehaviour {
+public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 
 	[SerializeField] tk2dTextMesh playerScore;
 	[SerializeField] tk2dTextMesh enemyScore;
