@@ -91,7 +91,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 		} 
 	}
 
-	void OnGUIx()
+	void OnGUItest()
 	{
 		GUI.Box( new Rect(0,30,300,30),"Hilyt: "+ HighlightFinished);
 		GUI.Box( new Rect(0,60,300,30),"BonusHilyt: "+BonusHighlightFinished);
@@ -292,8 +292,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 		SlotManager.Instance.isSpinning = false;
 		SlotManager.Instance.SpinButton.transform.FindChild("ButtonGraphic").GetComponent<tk2dSprite>().color = Color.white;
 
-		
-		if(GameManager_ReelChef.Instance.AutoSpinCounter > 1)
+		if(GameManager_ReelChef.Instance.AutoSpinCounter > 0)
 		{
 			SlotManager.Instance.StartSpin();
 			GameManager_ReelChef.Instance.AutoSpinCounter --;

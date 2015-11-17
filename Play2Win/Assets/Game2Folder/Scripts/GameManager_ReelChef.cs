@@ -40,7 +40,7 @@ public class GameManager_ReelChef : MonoBehaviour {
 		{
 			BetCounter --;
 		}
-		BetCounter = Mathf.Clamp(BetCounter , 1 , 20);
+		BetCounter = Mathf.Clamp(BetCounter , 0 , 20);
 		BetText.text = ""+BetCounter;
 	}
 	public void ShowAutoSpinItems()
