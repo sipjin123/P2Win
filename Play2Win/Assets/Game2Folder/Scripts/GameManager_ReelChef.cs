@@ -32,19 +32,23 @@ public class GameManager_ReelChef : MonoBehaviour {
 	}
 	public void AddBet(bool _ifADD)
 	{
+
 		if(_ifADD)
 		{
 			BetCounter ++;
+			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_ADD);
 		}
 		else
 		{
 			BetCounter --;
+			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_DECREASE);
 		}
 		BetCounter = Mathf.Clamp(BetCounter , 0 , 20);
 		BetText.text = ""+BetCounter;
 	}
 	public void ShowAutoSpinItems()
 	{
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SELECT);
 		if(AutoSpinItems.activeSelf == false)
 			AutoSpinItems.SetActive(true);
 		else
@@ -52,6 +56,7 @@ public class GameManager_ReelChef : MonoBehaviour {
 	}
 	public void AutoSpinSet(int _counter)
 	{
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SELECT);
 		AutoSpinCounter = _counter;
 		AutoSpinText.text = ""+AutoSpinCounter;
 		ShowAutoSpinItems();

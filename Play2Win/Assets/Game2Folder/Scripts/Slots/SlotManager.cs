@@ -35,6 +35,7 @@ public class SlotManager : MonoBehaviour {
 	{
 		if(!isSpinning)
 		{
+			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SELECT);
 			SlotManager.Instance.SpinButton.transform.FindChild("ButtonGraphic").GetComponent<tk2dSprite>().color = Color.red;
 			isSpinning = true;
 			SlotDetection.Instance.EMPTYData();

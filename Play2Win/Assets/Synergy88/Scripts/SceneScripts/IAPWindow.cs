@@ -22,22 +22,27 @@ public class IAPWindow : MonoBehaviour, ISignalListener {
 
     public void BuyItem1() {
         Buy(850000);
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.PURCHASE);
     }
 
     public void BuyItem2() {
-        Buy(390000);
+		Buy(390000);
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.PURCHASE);
     }
 
     public void BuyItem3() {
-        Buy(220000);
+		Buy(220000);
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.PURCHASE);
     }
 
     public void BuyItem4() {
-        Buy(80000);
+		Buy(80000);
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.PURCHASE);
     }
 
     public void BuyItem5() {
-        Buy(32500);
+		Buy(32500);
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.PURCHASE);
     }
 
     private void Buy(int amount) {
