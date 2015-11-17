@@ -74,6 +74,9 @@
      <Compile Include="Assets\Game2Folder\Scripts\Slots\SlotDetection.cs" />
      <Compile Include="Assets\Game2Folder\Scripts\Slots\SlotManager.cs" />
      <Compile Include="Assets\Game2Folder\Scripts\Slots\SlotSpin.cs" />
+     <Compile Include="Assets\Synergy88\Scripts\BarFrenzyRouletteScript\BFHandScript.cs" />
+     <Compile Include="Assets\Synergy88\Scripts\BarFrenzyRouletteScript\BFRouletteManager.cs" />
+     <Compile Include="Assets\Synergy88\Scripts\BarFrenzyRouletteScript\BarFrenzyRoulette.cs" />
      <Compile Include="Assets\Synergy88\Scripts\BonusWindows\BigWinManager.cs" />
      <Compile Include="Assets\Synergy88\Scripts\BonusWindows\BoostersWinManager.cs" />
      <Compile Include="Assets\Synergy88\Scripts\BonusWindows\FreeSpinsWinManager.cs" />
@@ -112,6 +115,7 @@
      <Compile Include="Assets\Synergy88\Scripts\Other\BounceEffect.cs" />
      <Compile Include="Assets\Synergy88\Scripts\Other\ClickEffect.cs" />
      <Compile Include="Assets\Synergy88\Scripts\Other\EffectDisable.cs" />
+     <Compile Include="Assets\Synergy88\Scripts\Other\ScrollManager.cs" />
      <Compile Include="Assets\Synergy88\Scripts\Other\TriggerClick.cs" />
      <Compile Include="Assets\Synergy88\Scripts\Other\WinEffectManager.cs" />
      <Compile Include="Assets\Synergy88\Scripts\Patterns\PatternButton.cs" />
@@ -122,6 +126,10 @@
      <Compile Include="Assets\Synergy88\Scripts\Patterns\PatternSpot.cs" />
      <Compile Include="Assets\Synergy88\Scripts\Paytable\PaytableEntry.cs" />
      <Compile Include="Assets\Synergy88\Scripts\Paytable\PaytableManager.cs" />
+     <Compile Include="Assets\Synergy88\Scripts\RewardsAndWallet\RewardItemObject.cs" />
+     <Compile Include="Assets\Synergy88\Scripts\RewardsAndWallet\WalletItemObject.cs" />
+     <Compile Include="Assets\Synergy88\Scripts\SceneScripts\AnimatedScene.cs" />
+     <Compile Include="Assets\Synergy88\Scripts\SceneScripts\IAPWindow.cs" />
      <Compile Include="Assets\Synergy88\Scripts\SceneScripts\JourneyScene.cs" />
      <Compile Include="Assets\Synergy88\Scripts\SceneScripts\LevelupWindow.cs" />
      <Compile Include="Assets\Synergy88\Scripts\SceneScripts\LobbyScene.cs" />
@@ -140,6 +148,7 @@
      <Compile Include="Assets\Synergy88\Scripts\SlotMachine\SlotItemDetectorManager.cs" />
      <Compile Include="Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs" />
      <Compile Include="Assets\Synergy88\Scripts\SlotMachine\SlotSegment.cs" />
+     <Compile Include="Assets\Synergy88\Scripts\WhackAMole\MonkeyManagerScript.cs" />
      <Compile Include="Assets\Synergy88\Scripts\WhackAMole\WhackAMoleManager.cs" />
      <Compile Include="Assets\Synergy88\Scripts\WhackAMole\WhackAMoleScript.cs" />
      <Compile Include="Assets\Synergy88\Synergy_SplashScreen\Script\SplashScene.cs" />

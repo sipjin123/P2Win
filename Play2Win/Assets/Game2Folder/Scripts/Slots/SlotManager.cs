@@ -18,7 +18,8 @@ public class SlotManager : MonoBehaviour {
 	{
 		SpinCheckCounter = 0;
 		isSpinning = true;
-		SlotManager.Instance.SpinButton.SetActive(false);
+		SlotManager.Instance.SpinButton.transform.FindChild("ButtonGraphic").GetComponent<tk2dSprite>().color = Color.red;
+
 	}
 
 
@@ -34,7 +35,7 @@ public class SlotManager : MonoBehaviour {
 	{
 		if(!isSpinning)
 		{
-			SlotManager.Instance.SpinButton.SetActive(false);
+			SlotManager.Instance.SpinButton.transform.FindChild("ButtonGraphic").GetComponent<tk2dSprite>().color = Color.red;
 			isSpinning = true;
 			SlotDetection.Instance.EMPTYData();
 			for(int i = 0 ; i <  3 ; i++)

@@ -290,6 +290,14 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 	{
 		yield return new WaitForSeconds(1);
 		SlotManager.Instance.isSpinning = false;
-		SlotManager.Instance.SpinButton.SetActive(true);
+		SlotManager.Instance.SpinButton.transform.FindChild("ButtonGraphic").GetComponent<tk2dSprite>().color = Color.white;
+
+		
+		if(GameManager_ReelChef.Instance.AutoSpinCounter > 1)
+		{
+			SlotManager.Instance.StartSpin();
+			GameManager_ReelChef.Instance.AutoSpinCounter --;
+			GameManager_ReelChef.Instance.AutoSpinText.text = ""+GameManager_ReelChef.Instance.AutoSpinCounter;
+		}
 	}
 }
