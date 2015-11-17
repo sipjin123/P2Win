@@ -61,7 +61,12 @@ public class GameMenuScene : AnimatedScene, ISignalListener {
         if (PlayerDataManager.Instance.Level < 2) {
             return;
         }
+		myUIItem[1].enabled = false;
+		myAnimator[1].Play("BtnShine");
 
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
+		LevelSpriteCollectionManager.Instance.ActiveLevel = 2;
+		LoadScene (GameState.BAR_FRENZY);
         // Load Game 2 here
     }
 

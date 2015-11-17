@@ -12,7 +12,8 @@ public enum GameState {
     SHOP,
     ACHIEVEMENTS,
     WALLET,
-	SPINBONUS
+	SPINBONUS,
+	BAR_FRENZY
 }
 
 public class GameManager : MonoBehaviour {
