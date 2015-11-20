@@ -6,18 +6,23 @@ public class SlotCollider : MonoBehaviour {
 	[SerializeField] bool RevealorReset;
 	void OnTriggerEnter(Collider hit)
 	{
-		if(!RevealorReset)
+
+		if(hit.GetComponent<Itemscript>() != null)
 		{
-			hit.transform.localPosition = new Vector3 ( hit.transform.localPosition.x,
-			                                           hit.transform.localPosition.y + 24,
-			                                           hit.transform.localPosition.z );
-			hit.GetComponent<tk2dSprite>().SetSprite("slot_item"+Random.Range(1,9));
-			hit.gameObject.name = hit.gameObject.GetComponent<tk2dSprite>().CurrentSprite.name;
-			hit.GetComponent<MeshRenderer>().enabled = false;
-		}
-		else if(RevealorReset)
-		{
-			hit.GetComponent<MeshRenderer>().enabled = true;
+			GameObject hitChild = hit.GetComponent<Itemscript>().SlotIcon;
+			if(!RevealorReset)
+			{
+				hit.transform.localPosition = new Vector3 ( hit.transform.localPosition.x,
+				                                           hit.transform.localPosition.y + 24,
+				                                           hit.transform.localPosition.z );
+				hitChild.GetComponent<tk2dSprite>().SetSprite("slot_item"+Random.Range(1,9));
+				hitChild.gameObject.name = hitChild.gameObject.GetComponent<tk2dSprite>().CurrentSprite.name;
+				hitChild.GetComponent<MeshRenderer>().enabled = false;
+			}
+			else if(RevealorReset)
+			{
+				hitChild.GetComponent<MeshRenderer>().enabled = true;
+			}
 		}
 	}
 }

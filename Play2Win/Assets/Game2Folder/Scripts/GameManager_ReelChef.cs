@@ -18,6 +18,12 @@ public class GameManager_ReelChef : MonoBehaviour {
 	public float BonusCounter;
 	public float AutoSpinCounter;
 
+	public bool LowerBarIsActive;
+	public GameObject PlayTableObject;
+	public GameObject LowerBarObject;
+	public GameObject LowerBarObjectPosOn;
+	public GameObject LowerBarObjectPosOff;
+	public MeshRenderer PullLowerBarUp, PullLowerBarDown;
 	public GameObject AutoSpinItems;
 	public GameObject[] BonusHighlights;
 	public GameObject[] Stars;
@@ -27,6 +33,7 @@ public class GameManager_ReelChef : MonoBehaviour {
 	}
 	public void AddScore(float _score)
 	{
+		LowerBarIsActive = false;
 		Score += _score;
 		ScoreText.text = ""+Score;
 	}
@@ -60,5 +67,30 @@ public class GameManager_ReelChef : MonoBehaviour {
 		AutoSpinCounter = _counter;
 		AutoSpinText.text = ""+AutoSpinCounter;
 		ShowAutoSpinItems();
+	}
+	public void ShowLowerBar()
+	{
+		if(!LowerBarIsActive)
+		{
+			PullLowerBarUp.enabled = false;
+			PullLowerBarDown.enabled = true;
+			LowerBarIsActive = true;
+			LowerBarObject.transform.position = LowerBarObjectPosOn.transform.position;
+		}
+		else
+		{
+			PullLowerBarUp.enabled = true;
+			PullLowerBarDown.enabled = false;
+			LowerBarIsActive = false;
+			LowerBarObject.transform.position = LowerBarObjectPosOff.transform.position;
+		}
+	}
+	public void ShowPlayTable(bool _switch)
+	{
+		PlayTableObject.SetActive(_switch);
+	}
+	public void GoBackToLevelSelect()
+	{
+		Application.LoadLevel("LevelSelection");
 	}
 }

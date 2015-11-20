@@ -30,11 +30,15 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 	public SLOTSList[] _possibleMatches;
 	public int[] _imageMatchCounter;
 	public GameObject [] _imageSprites;
+	public GameObject[] TableLightings;
 
 	[SerializeField] BFRouletteManager _BFRouletteManager;
 	private List<IExtraRewardWindow> _extraRewardsWindow;
 
 	public bool HighlightFinished, BonusHighlightFinished, CustomerServeFinished, CustomerSeatedFinished;
+
+	public GameObject PatternManager;
+	public LinePattern[] _linePattern;
 	void Awake()
 	{
 		_instance = this;
@@ -114,8 +118,10 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 			{
 				if(_imageSprites[i] != null)
 				{
-					_imageSprites[i].GetComponent<Itemscript>().HighlightObject.SetActive(false);
-					_imageSprites[i].GetComponent<Itemscript>().RewardsObject.SetActive(false);
+					_imageSprites[i].transform.parent.GetComponent<Itemscript>().HighlightObject.SetActive(false);
+					_imageSprites[i].transform.parent.GetComponent<Itemscript>().RewardsObject.SetActive(false);
+					
+					TableLightings[i].GetComponent<MeshRenderer>().enabled = false;
 					_imageSprites[i] = null;
 				}
 				_slotsList[i] = SLOTSList.NONE;
@@ -131,7 +137,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 			{
 				if(SlotRays[i].collider.gameObject.tag == "Slots")
 				{
-					GameObject temp = SlotRays[i].collider.gameObject;
+					GameObject temp = SlotRays[i].collider.gameObject.GetComponent<Itemscript>().SlotIcon.gameObject;
 					for(int q = 0; q < 12 ; q ++)
 					{
 						if(temp.gameObject.name == "slot_item"+q)
@@ -174,7 +180,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 				}
 			}
 		}
-		if(_imageMatchCounter[8] >=1 )
+		if(_imageMatchCounter[8] >=2 )
 		{
 			StartCoroutine(BonusHighlight());
 		}
@@ -188,6 +194,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 	{
 		yield return new WaitForSeconds(1);
 		float BonusCounter = 0;
+		float DelayTime = 1.25f;
 		for(int i = 0 ; i < 9 ; i++)
 		{
 			if(_imageSprites[i].GetComponent<tk2dSprite>().CurrentSprite.name == "slot_item" + 8)
@@ -197,12 +204,12 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 					if(GameManager_ReelChef.Instance.BonusHighlights[m].transform.parent.GetComponent<BonusCheckerScript>().BonusShow.activeSelf == false)
 					{
 						BonusCounter ++;
-						_imageSprites[i].GetComponent<Itemscript>().RewardsObject.SetActive(true);
-						iTween.MoveTo(_imageSprites[i].GetComponent<Itemscript>().RewardsObject,iTween.Hash(
+						_imageSprites[i].transform.parent.GetComponent<Itemscript>().RewardsObject.SetActive(true);
+						iTween.MoveTo(_imageSprites[i].transform.parent.GetComponent<Itemscript>().RewardsObject,iTween.Hash(
 							"x"   , GameManager_ReelChef.Instance.BonusHighlights[m].transform.position.x,
 							"y"	,  GameManager_ReelChef.Instance.BonusHighlights[m].transform.position.y,
 							"z"	,  GameManager_ReelChef.Instance.BonusHighlights[m].transform.position.z,
-							"time", 0.25f
+							"time",DelayTime
 							));
 						//yield return new WaitForSeconds( 0.25f);
 						//_imageSprites[i].GetComponent<Itemscript>().RewardsObject.SetActive(false);
@@ -212,10 +219,10 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 				}
 			}
 		}
-		yield return new WaitForSeconds( 0.25f);
+		yield return new WaitForSeconds(DelayTime);
 		for(int i = 0 ; i < 9 ;i++)
 		{
-			_imageSprites[i].GetComponent<Itemscript>().RewardsObject.SetActive(false);
+			_imageSprites[i].transform.parent.GetComponent<Itemscript>().RewardsObject.SetActive(false);
 			iTween.Stop(_imageSprites[i]);
 		}
 		if(BonusCounter > 0)
@@ -250,6 +257,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 
 	public IEnumerator HighLightMatches()
 	{
+
 		for(int q = 0 ; q < 3 ; q++)
 		{
 			for(int i = 0 ; i < 9 ; i++)
@@ -260,18 +268,66 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 					{
 						if(_imageSprites[i].GetComponent<tk2dSprite>().CurrentSprite.name == child.GetComponent<CustomerScript>().OrderSprite.GetComponent<tk2dSprite>().CurrentSprite.name)//added
 						{
-							_imageSprites[i].GetComponent<Itemscript>().HighlightObject.GetComponent<tk2dSprite>().color = Color.white;
-							_imageSprites[i].GetComponent<Itemscript>().HighlightObject.SetActive(true);
+							TableLightings[i].GetComponent<MeshRenderer>().enabled = true;
+							//_imageSprites[i].transform.parent.GetComponent<Itemscript>().HighlightObject.GetComponent<tk2dSprite>().color = Color.white;
+							//_imageSprites[i].transform.parent.GetComponent<Itemscript>().HighlightObject.SetActive(true);
 							yield return new WaitForSeconds(0.1f);
 						}
 					}
 				}
-
 			}
 		}
 		HighlightFinished = true;
 		CheckIfSpinCanBeActive();
 		CustomerManager.Instance.ServeCustomerOrders();
+
+		//OLD 
+		/*
+		for(int q = 0 ; q < 3 ; q++)
+		{
+			for(int i = 0 ; i < 9 ; i++)
+			{
+				if(_imageSprites[i].gameObject.name == "slot_item"+(int)_possibleMatches[q])
+				{
+					foreach (Transform child in CustomerManager.Instance.CustomersInside.transform)
+					{
+						if(_imageSprites[i].GetComponent<tk2dSprite>().CurrentSprite.name == child.GetComponent<CustomerScript>().OrderSprite.GetComponent<tk2dSprite>().CurrentSprite.name)//added
+						{
+							_imageSprites[i].transform.parent.GetComponent<Itemscript>().HighlightObject.GetComponent<tk2dSprite>().color = Color.white;
+							_imageSprites[i].transform.parent.GetComponent<Itemscript>().HighlightObject.SetActive(true);
+							yield return new WaitForSeconds(0.1f);
+						}
+					}
+				}
+			}
+		}
+		HighlightFinished = true;
+		CheckIfSpinCanBeActive();
+		CustomerManager.Instance.ServeCustomerOrders();
+		*/
+
+
+
+
+		/*NEW
+		foreach(Transform child in PatternManager.transform)
+		{
+			for(int i = 0 ; i < 3 ; i++)
+			{
+				//Debug.LogError(child.gameObject.name + ": " + _imageSprites[ child.GetComponent<LinePattern>().PatternFlow[i] ].gameObject.name);
+				if(_imageSprites[child.GetComponent<LinePattern>().PatternFlow[0]].GetComponent<tk2dSprite>().spriteId == _imageSprites[child.GetComponent<LinePattern>().PatternFlow[1]].GetComponent<tk2dSprite>().spriteId 
+				   && _imageSprites[child.GetComponent<LinePattern>().PatternFlow[0]].GetComponent<tk2dSprite>().spriteId ==  _imageSprites[child.GetComponent<LinePattern>().PatternFlow[2]].GetComponent<tk2dSprite>().spriteId )
+				{
+					_imageSprites[child.GetComponent<LinePattern>().PatternFlow[0]].GetComponent<tk2dSprite>().color = Color.red;
+					_imageSprites[child.GetComponent<LinePattern>().PatternFlow[1]].GetComponent<tk2dSprite>().color = Color.red;
+					_imageSprites[child.GetComponent<LinePattern>().PatternFlow[2]].GetComponent<tk2dSprite>().color = Color.red;
+					Debug.LogError("WAT");
+				}
+			}
+			//Debug.LogError(child.gameObject.name + ": " + child.GetComponent<LinePattern>().PatternFlow[i]);
+		}*/
+
+		yield return new WaitForSeconds(0.1f);
 	}
 
 
@@ -290,7 +346,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 	{
 		yield return new WaitForSeconds(1);
 		SlotManager.Instance.isSpinning = false;
-		SlotManager.Instance.SpinButton.transform.FindChild("ButtonGraphic").GetComponent<tk2dSprite>().color = Color.white;
+		SlotManager.Instance.SpinButton.transform.FindChild("Button").GetComponent<tk2dSprite>().color = Color.white;
 
 		if(GameManager_ReelChef.Instance.AutoSpinCounter > 0)
 		{

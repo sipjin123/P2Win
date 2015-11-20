@@ -12,6 +12,15 @@ public class SlotTriggerClicks : MonoBehaviour {
 			GameManager_ReelChef.Instance.AddBet(true);
 		if(gameObject.name == "DownBetButton")
 			GameManager_ReelChef.Instance.AddBet(false);
+		if(gameObject.name == "LowerBarButton")
+			GameManager_ReelChef.Instance.ShowLowerBar();
+		if(gameObject.name == "PlayTableButtonOn")
+			GameManager_ReelChef.Instance.ShowPlayTable(true);
+		if(gameObject.name == "PlayTableButtonOff")
+			GameManager_ReelChef.Instance.ShowPlayTable(false);
+		if(gameObject.name == "HomeButton")
+			GameManager_ReelChef.Instance.GoBackToLevelSelect();
+
 
 		if(gameObject.name == "RevealAutoSpinItemsButton")
 			GameManager_ReelChef.Instance.ShowAutoSpinItems();

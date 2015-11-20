@@ -18,7 +18,7 @@ public class SlotManager : MonoBehaviour {
 	{
 		SpinCheckCounter = 0;
 		isSpinning = true;
-		SlotManager.Instance.SpinButton.transform.FindChild("ButtonGraphic").GetComponent<tk2dSprite>().color = Color.red;
+		SlotManager.Instance.SpinButton.transform.FindChild("Button").GetComponent<tk2dSprite>().color = Color.red;
 
 	}
 
@@ -35,8 +35,9 @@ public class SlotManager : MonoBehaviour {
 	{
 		if(!isSpinning)
 		{
+			AnimationManager_ReelChef.Instance.Chef.GetComponent<tk2dSpriteAnimator>().Play("Mix");
 			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SELECT);
-			SlotManager.Instance.SpinButton.transform.FindChild("ButtonGraphic").GetComponent<tk2dSprite>().color = Color.red;
+			SlotManager.Instance.SpinButton.transform.FindChild("Button").GetComponent<tk2dSprite>().color = Color.red;
 			isSpinning = true;
 			SlotDetection.Instance.EMPTYData();
 			for(int i = 0 ; i <  3 ; i++)
@@ -50,6 +51,7 @@ public class SlotManager : MonoBehaviour {
 	{
 		if(SpinCheckCounter >= 2)
 		{
+			AnimationManager_ReelChef.Instance.Chef.GetComponent<tk2dSpriteAnimator>().Play("Idle");
 			SlotDetection.Instance.CheckSlots();
 			SpinCheckCounter = 0;
 			return;

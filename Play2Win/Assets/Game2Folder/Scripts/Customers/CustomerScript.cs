@@ -25,21 +25,21 @@ public class CustomerScript : MonoBehaviour {
 	public GameObject ObjectSprite;
 	public CustomerState _customerState;
 	public CustomerOrder _customerOrder;
+	public GameObject Sparkles;
     [Range(0.0f, 1000.0f)] public float _HungerMeter;
 
 	public GameObject _tableToSit;
 
 	public float MovementSpeed;
+
+	public tk2dSpriteAnimator myAnimator;
 	void Start () {
+		myAnimator = transform.FindChild("Sprite").gameObject.GetComponent<tk2dSpriteAnimator>();
 		MovementSpeed =  Random.Range( 0.1f , 0.2f);
 		_customerState = CustomerState.IDLE;
-		ObjectSprite.GetComponent<tk2dSprite>().SetSprite(Random.Range(1,4));
 	}
 	void Update()
 	{
-		if(Input.GetKeyDown(KeyCode.Alpha2))
-			_customerState = CustomerState.ENTER;
-
 		if(_customerState == CustomerState.ENTER)
 			LookForSeat();
 		if(_customerState == CustomerState.SIT)
@@ -51,8 +51,12 @@ public class CustomerScript : MonoBehaviour {
 
 	public void LookForSeat()
 	{
+		//BCOS OF ASSETS
 		OrderSprite.SetActive(false);
 		RaycastHit TableDetector;
+		_customerState = CustomerState.SIT;
+
+		/*
 		if(Physics.Raycast(transform.position , -transform.right * 5, out TableDetector))
 		{
 			if(TableDetector.collider.gameObject.tag == "Table")
@@ -75,11 +79,16 @@ public class CustomerScript : MonoBehaviour {
 				transform.position -= transform.forward * MovementSpeed;
 			}
 		}
-		Debug.DrawRay(transform.position , -transform.right * 5, Color.red);
+		Debug.DrawRay(transform.position , -transform.right * 5, Color.red);*/
 	}
 
 	public void TakeSeat()
 	{
+		myAnimator.Play("Demand");
+		_customerState = CustomerState.ORDER;
+		ShowOrder();
+		//BCOS OF ASSETS
+		/*
 		GameObject chair = _tableToSit.GetComponent<TableScript>().myChild;
 		if(Vector3.Distance( chair.transform.position , transform.position) > 0.5f)
 		{
@@ -91,14 +100,16 @@ public class CustomerScript : MonoBehaviour {
 			_customerState = CustomerState.ORDER;
 			ShowOrder();
 		}
+		*/
 	}
 	
 	public void ShowOrder()
 	{
+		myAnimator.Play("WithoutDrink");
 		CustomerManager.Instance.TableUsedCount++;
 		CustomerManager.Instance.CheckTable();
 		OrderSprite.SetActive(true);
-		if(_customerOrder != CustomerOrder.NONE)
+		//if(_customerOrder != CustomerOrder.NONE)
 		OrderSprite.GetComponent<tk2dSprite>().SetSprite("slot_item"+(((int)_customerOrder)+1));
 
 	}
@@ -129,6 +140,5 @@ public class CustomerScript : MonoBehaviour {
 		transform.parent = CustomerManager.Instance.CustomersOutside.transform;
 		_customerState = CustomerState.IDLE;
 		_tableToSit.GetComponent<TableScript>().isOccupied = true;
-		ObjectSprite.GetComponent<tk2dSprite>().SetSprite(Random.Range(1,4));
 	}
 }

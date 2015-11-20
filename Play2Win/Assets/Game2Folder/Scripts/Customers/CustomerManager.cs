@@ -65,7 +65,8 @@ public class CustomerManager : MonoBehaviour {
 				{
 					if(Customers[i].GetComponent<CustomerScript>()._customerState == CustomerScript.CustomerState.IDLE)
 					{
-						Customers[i].transform.position = Door.transform.position;
+						//BCOS OF ASSETS
+						//Customers[i].transform.position = Door.transform.position;
 						Customers[i].transform.parent = CustomersInside.transform;
 						CustomerCount ++;
 						Customers[i].GetComponent<CustomerScript>()._customerState = CustomerScript.CustomerState.ENTER;
@@ -85,6 +86,11 @@ public class CustomerManager : MonoBehaviour {
 				{
 					if(child.GetComponent<CustomerScript>()._HungerMeter >= 1000)
 					child.GetComponent<CustomerScript>()._customerOrder = CustomerScript.CustomerOrder.NONE;
+
+					child.GetComponent<CustomerScript>().Sparkles.GetComponent<MeshRenderer>().enabled = true;
+					child.GetComponent<CustomerScript>().Sparkles.GetComponent<tk2dSpriteAnimator>().SetFrame(0);
+					child.GetComponent<CustomerScript>().Sparkles.GetComponent<tk2dSpriteAnimator>().Play("Sparkles");
+					child.GetComponent<CustomerScript>().myAnimator.Play("WithDrink");
 					StartCoroutine(HighlightMatchedOrder(child.gameObject,i));
 					numberofcheckedCustomers ++;
 				}
@@ -97,24 +103,27 @@ public class CustomerManager : MonoBehaviour {
 		}
 		SlotDetection.Instance.CustomerServeFinished = true;
 		SlotDetection.Instance.CheckIfSpinCanBeActive();
-
-
 	}
 
 	public IEnumerator HighlightMatchedOrder(GameObject _obj,int _counter)
 	{
-		_obj.GetComponent<CustomerScript>().OrderSprite.GetComponent<tk2dSprite>().color = Color.red;
-		yield return new WaitForSeconds(0.5f);
-		_obj.GetComponent<CustomerScript>().OrderSprite.GetComponent<tk2dSprite>().color = Color.white;
-		yield return new WaitForSeconds(0.5f);
-		_obj.GetComponent<CustomerScript>().OrderSprite.GetComponent<tk2dSprite>().color = Color.red;
-		yield return new WaitForSeconds(0.5f);
-		_obj.GetComponent<CustomerScript>().OrderSprite.GetComponent<tk2dSprite>().color = Color.white;
-
-
+		
+		
 		float ScoreMultiplier = (float)( Mathf.Abs(	SlotDetection.Instance._imageMatchCounter[(int)(SlotDetection.Instance._possibleMatches[_counter])]));
-
+		
 		StartCoroutine(ScoreEffects(100 *ScoreMultiplier, _obj));
+		
+		yield return new WaitForSeconds(0.5f);
+		_obj.GetComponent<CustomerScript>().myAnimator.Play("Cheers");
+		yield return new WaitForSeconds(1f);
+		_obj.GetComponent<CustomerScript>().myAnimator.Play("Drink");
+		yield return new WaitForSeconds(1f);
+		_obj.GetComponent<CustomerScript>().myAnimator.Play("Empty");
+		yield return new WaitForSeconds(0.5f);
+		_obj.GetComponent<CustomerScript>().myAnimator.Play("EmptyBottle");
+		yield return new WaitForSeconds(0.1f);
+		_obj.GetComponent<CustomerScript>().myAnimator.Play("Demand");
+		yield return new WaitForSeconds(0.5f);
 
 	}
 	public IEnumerator ScoreEffects(float _score, GameObject _obj)
@@ -162,46 +171,50 @@ public class CustomerManager : MonoBehaviour {
 		
 		CustomerScript _customerScript = _obj.GetComponent<CustomerScript>();
 
-		float DelayTime = 0.25f;
+		float DelayTime = 1.525f;
 		for( int i = 0 ; i < 9 ; i++)
 		{
 			tk2dSprite slotSprite = SlotDetection.Instance._imageSprites[i].GetComponent<tk2dSprite>();
 			if(slotSprite.CurrentSprite.name == _customerScript.OrderSprite.GetComponent<tk2dSprite>().CurrentSprite.name)
 			{
-				if(slotSprite.gameObject.GetComponent<Itemscript>().PointsObject.activeSelf == false)
+				if(slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject.activeSelf == false)
 				{
-					slotSprite.gameObject.GetComponent<Itemscript>().PointsObject.SetActive(true);
-					slotSprite.gameObject.GetComponent<Itemscript>().PointsObject.GetComponent<tk2dSprite>().color = Color.blue;
+					slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject.SetActive(true);
+					//slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject.GetComponent<tk2dSprite>().color = Color.blue;
 
-					iTween.MoveTo(slotSprite.gameObject.GetComponent<Itemscript>().PointsObject ,iTween.Hash(
-						"x" , _obj.transform.position.x,
-						"y"	,  _obj.transform.position.y,
-						"z"	,  _obj.transform.position.z,
+
+					iTween.MoveTo(slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject ,iTween.Hash(
+						"x" , _obj.transform.position.x   ,
+						"y"	,  _obj.transform.position.y  ,
+						"z"	,  _obj.transform.position.z  ,
 						"time", DelayTime
 						));
 
 				}
 			}
 		}
-		yield return new WaitForSeconds(DelayTime);
+
+
+		yield return new WaitForSeconds(DelayTime*.75f);
 		for(int i = 0 ; i < 9 ; i++)
 		{
 			tk2dSprite slotSprite = SlotDetection.Instance._imageSprites[i].GetComponent<tk2dSprite>();
-			slotSprite.gameObject.GetComponent<Itemscript>().PointsObject.SetActive(false);
-			slotSprite.gameObject.GetComponent<Itemscript>().PointsObject.transform.position = slotSprite.transform.position;
-			iTween.Stop(slotSprite.gameObject.GetComponent<Itemscript>().PointsObject);
+			slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject.SetActive(false);
+			slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject.transform.position = slotSprite.transform.position;
+			iTween.Stop(slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject);
 		}
 
 		GameManager_ReelChef.Instance.AddScore(_score);				
 		_customerScript._HungerMeter+= _score;
 		_customerScript.transform.FindChild("Text").gameObject.GetComponent<tk2dTextMesh>().text = ""+_customerScript._HungerMeter;
+		/*
 		if(_customerScript._HungerMeter >= 1000)
 		{
 			yield return new WaitForSeconds(1);
 			_customerScript.OrderSprite.SetActive(false);
 			_customerScript._customerState = CustomerScript.CustomerState.EXIT;	
 			_customerScript.transform.FindChild("Text").gameObject.GetComponent<tk2dTextMesh>().text = "0";
-		}
+		}*/
 		if(CustomerManager.Instance.CustomerCount >= 6)
 		{
 			SlotDetection.Instance.CustomerSeatedFinished = true;
