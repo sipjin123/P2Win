@@ -18,8 +18,8 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	[SerializeField]
 	private tk2dTextMesh _coinBetText;
 
-	[SerializeField]
-	private tk2dTextMesh _lineBetText;
+    //[SerializeField]
+    //private tk2dTextMesh _lineBetText;
 
     //[SerializeField]
     //private tk2dTextMesh _boosterBetText;
@@ -27,8 +27,8 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	[SerializeField]
 	private tk2dTextMesh _totalBetText;
 
-	[SerializeField]
-	private tk2dTextMesh _previousWinningsText;
+    //[SerializeField]
+    //private tk2dTextMesh _previousWinningsText;
 
 
 	[SerializeField]
@@ -73,6 +73,15 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	[SerializeField]
 	private tk2dSprite spinButton;
 
+    [SerializeField]
+    private Animator _bottomHUDAnimator;
+
+    [SerializeField]
+    private GameObject _showButton;
+
+    [SerializeField]
+    private GameObject _hideButton;
+
 	private float _totalBet;
 
 	private float _currentCoinBet;
@@ -106,15 +115,15 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		SignalManager.Instance.Register(this, SignalType.LEVELED_UP);
 		SignalManager.Instance.Register(this, SignalType.LEVELUPWINDOW_CLOSED);
 
-		_linesActive = PlayerDataManager.Instance.LastPattern;
+        //_linesActive = PlayerDataManager.Instance.LastPattern;
 		_currentCoinBetIndex = PlayerDataManager.Instance.LastBet;
 		
 		_patternManager.Initialize();
 		SetPatternUsed();
 
-		if (_linesActive > _patternManager.MaxLinesAllowed()) {
+        //if (_linesActive > _patternManager.MaxLinesAllowed()) {
 			_linesActive = _patternManager.MaxLinesAllowed();
-		}
+        //}
 
 		if (GetBetAmount(_currentCoinBetIndex) > GameDataManager.Instance.LevelInfo.MaxCoinBet) {
 			_currentCoinBet = 0;
@@ -232,6 +241,18 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 			}
 		}
 	}
+
+    public void ShowControlPanel() {
+        _bottomHUDAnimator.SetTrigger("Show");
+        _hideButton.SetActive(true);
+        _showButton.SetActive(false);
+    }
+
+    public void HideControlPanel() {
+        _bottomHUDAnimator.SetTrigger("Hide");
+        _showButton.SetActive(true);
+        _hideButton.SetActive(false);
+    }
 
 	public void RotationEnded() {
 		AudioManager.Instance.PauseBGM();
@@ -465,19 +486,25 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		Invoke("DelayedCheckForWinnings", 0.2f);
 	}
 
+	IEnumerator waitforAnim(){
+		WinEffectManager.Instance.startCollectChip();
+			yield return new WaitForSeconds (1.5f);
+		PlayerDataManager.Instance.AddChips(_previousWinnings);
+	}
+
 	private void DelayedCheckForWinnings() {
 		_patternManager.RegisterPatterns();
+
+        _previousWinnings = _patternManager.GetTotalWinnings(Mathf.FloorToInt(_currentCoinBet)); // * (_boostersToUse + 1));
+        //if (_previousWinnings == 0) {
+        //    _previousWinningsText.text = "0";
+        //} 
+        //else {
+        //    _previousWinningsText.text = _previousWinnings.ToString("#,#");
+        //}
+		if (_previousWinnings > 0)
+			StartCoroutine (waitforAnim ());
 		
-		_previousWinnings = _patternManager.GetTotalWinnings(Mathf.FloorToInt(_currentCoinBet)); // * (_boostersToUse + 1));
-		if (_previousWinnings == 0) {
-			_previousWinningsText.text = "0";
-		} 
-		else {
-			_previousWinningsText.text = _previousWinnings.ToString("#,#");
-		}
-		if(_previousWinnings > 0)
-			WinEffectManager.Instance.startHugeWin(_previousWinnings);
-		PlayerDataManager.Instance.AddChips(_previousWinnings);
 
 		if ((float)_previousWinnings / _totalBet > 15.0f) {
 			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BIG_WIN);
@@ -610,7 +637,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	}
 
 	private void UpdateLinesActive() {
-		_lineBetText.text = _linesActive.ToString();
+        //_lineBetText.text = _linesActive.ToString();
 		UpdateTotalBet();
 	}
 

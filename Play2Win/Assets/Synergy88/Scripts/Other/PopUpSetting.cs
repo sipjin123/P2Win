@@ -45,7 +45,11 @@ public class PopUpSetting : MonoBehaviour {
 		} 
 		else if (inputCode.text == "LEVELUP!") {
 			PlayerDataManager.Instance.AddExp(1000000);
-		}
+        } 
+        else if (inputCode.text == "RESTART") {
+            PlayerPrefs.DeleteAll();
+            Application.Quit();
+        }
 	}
 
 	void Validate(){

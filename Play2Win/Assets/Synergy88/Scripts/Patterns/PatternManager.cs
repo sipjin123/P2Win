@@ -73,7 +73,8 @@ public class PatternManager : MonoBehaviour, ISignalListener {
 	}
 
 	public void SetActivePattern(PatternSet pattern) {
-		_activePattern = pattern;
+        //_activePattern = pattern;
+        _activePattern = PatternSet.MAX_25;
 		LoadPatternObject(_activePattern);
 		LoadPatternButtons(_activePattern);
 	}
@@ -115,7 +116,8 @@ public class PatternManager : MonoBehaviour, ISignalListener {
 	 **/
 
 	public int MaxLinesAllowed() {
-		return GetLineInt(_activePattern);
+        return GetLineInt(PatternSet.MAX_25);
+        //return GetLineInt(_activePattern);
 	}
 
 	public int GetLineInt(PatternSet pattern) {
@@ -187,7 +189,7 @@ public class PatternManager : MonoBehaviour, ISignalListener {
 
 	private void LoadPatternButtons(PatternSet pattern) {
 		HideAllPatternButtons();
-		_patternButtonList[pattern].Activate();
+        //_patternButtonList[pattern].Activate();
 	}
 
 	private void HideAllPatternObject() {

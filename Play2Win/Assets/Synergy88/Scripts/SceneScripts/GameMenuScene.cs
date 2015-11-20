@@ -47,7 +47,6 @@ public class GameMenuScene : AnimatedScene, ISignalListener {
     }
 
     public void LoadGame1() {
-        Debug.LogWarning("Loading Game 1");
         myUIItem[0].enabled = false;
         myAnimator[0].Play("BtnShine");
 

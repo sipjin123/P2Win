@@ -36,7 +36,7 @@ public class PatternObjectSet : MonoBehaviour {
 
 	public void RegisterWinningPatterns() {
 		_winningPatterns.Clear();
-
+        Debug.Log(_activeLines.ToString());
 		for (int i = 0; i < _activeLines; i++) {
 			if (_patternObjects[i].RegisterPatterns()) {
 				_winningPatterns.Add(_patternObjects[i]);
