@@ -37,7 +37,7 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 		opponentScore = 0;
 		myDrinkScore = 0;
 		opponentDrinkScore = 0;
-		gameBoard.SetActive (true);
+		gameBoard.SetActive (false);
 		rouletteBody.setSpinCounter ();
 		myCamera.SetActive(true);
 		for (int i = 0; i < myDrinks.Length; i ++) {
