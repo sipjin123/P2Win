@@ -44,7 +44,7 @@ public class PopUpSetting : MonoBehaviour {
 			PlayerDataManager.Instance.AddPoints (1000000);
 		} 
 		else if (inputCode.text == "LEVELUP!") {
-			PlayerDataManager.Instance.AddExp(1000000);
+            PlayerDataManager.Instance.AddExp(GameDataManager.Instance.LevelInfo.ExpToNextLevel);
         } 
         else if (inputCode.text == "RESTART") {
             PlayerPrefs.DeleteAll();
