@@ -12,8 +12,8 @@ public class BarFrenzyRoulette : MonoBehaviour {
 	private bool m_spin = true;
 	private int spinCounter = 5;
 
-	public void setCounter(){
-		spinCounter = 0;
+	public void setSpinCounter(){
+		spinCounter = 5;
 	}
 
 	IEnumerator WheelSpin(){
@@ -25,22 +25,29 @@ public class BarFrenzyRoulette : MonoBehaviour {
 	}
 
 	void spinTheWheel(){
-		if (m_spin & spinCounter > 0) {
-			spinCounter -= 1;
-			spinLeft.text = "Spin Left: " + spinCounter.ToString();
+		if (m_spin) {
 			//AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.STOP_REELS);
+			spinCounter -= 1;
+			spinLeft.text = "Spin Left: " + spinCounter;
 			buttonAnim.enabled = false;
 			spinButton.color = new Color(0.5f,0.5f,0.5f);
 			StartCoroutine (WheelSpin ());
 		}
 	}
 
+	IEnumerator WaitForAnim(){
+		myManager.AnimateCharacter ();
+		yield return new WaitForSeconds (3.5f);
+		myManager.CalculateScore();
+		m_spin = true;
+		buttonAnim.enabled = true;
+		spinButton.color = new Color (1.0f, 1.0f, 1.0f);
+	}
+
+
 	void Finished(){
 		if (spinCounter > 0) {
-			myManager.CalculateScore();
-			m_spin = true;
-			buttonAnim.enabled = true;
-			spinButton.color = new Color (1.0f, 1.0f, 1.0f);
+			StartCoroutine(WaitForAnim());
 		} 
 		else {
 			myManager.FinishMiniGame();
