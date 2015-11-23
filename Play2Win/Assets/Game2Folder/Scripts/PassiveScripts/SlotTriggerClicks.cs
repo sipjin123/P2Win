@@ -18,6 +18,8 @@ public class SlotTriggerClicks : MonoBehaviour {
 			GameManager_ReelChef.Instance.ShowPlayTable(true);
 		if(gameObject.name == "PlayTableButtonOff")
 			GameManager_ReelChef.Instance.ShowPlayTable(false);
+		if(gameObject.name == "BetMaxButton")
+			GameManager_ReelChef.Instance.BetMaxButton();
 		if(gameObject.name == "HomeButton")
 			GameManager_ReelChef.Instance.GoBackToLevelSelect();
 

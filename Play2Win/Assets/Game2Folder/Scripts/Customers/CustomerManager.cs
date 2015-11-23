@@ -107,11 +107,41 @@ public class CustomerManager : MonoBehaviour {
 
 	public IEnumerator HighlightMatchedOrder(GameObject _obj,int _counter)
 	{
-		
-		
-		float ScoreMultiplier = (float)( Mathf.Abs(	SlotDetection.Instance._imageMatchCounter[(int)(SlotDetection.Instance._possibleMatches[_counter])]));
-		
-		StartCoroutine(ScoreEffects(100 *ScoreMultiplier, _obj));
+
+		float ScoreMultiplier = 0;
+		if( SlotDetection.Instance._possibleMatches[_counter] == SlotDetection.SLOTSList.IMAGE7)
+		{
+			//Debug.LogError("Tequilla");
+			ScoreMultiplier = 210;
+		}
+		if( SlotDetection.Instance._possibleMatches[_counter] == SlotDetection.SLOTSList.IMAGE6)
+		{
+			//Debug.LogError("Martini");
+			ScoreMultiplier = 150;
+		}
+		if( SlotDetection.Instance._possibleMatches[_counter] == SlotDetection.SLOTSList.IMAGE5)
+		{
+			//Debug.LogError("Vodka");
+			ScoreMultiplier = 45;
+		}
+		if( SlotDetection.Instance._possibleMatches[_counter] == SlotDetection.SLOTSList.IMAGE4)
+		{
+			//Debug.LogError("Rum");
+			ScoreMultiplier = 45;
+		}
+		if( SlotDetection.Instance._possibleMatches[_counter] == SlotDetection.SLOTSList.IMAGE3)
+		{
+			//Debug.LogError("Wine");
+			ScoreMultiplier = 30;
+		}
+		if( SlotDetection.Instance._possibleMatches[_counter] == SlotDetection.SLOTSList.IMAGE2)
+		{
+			//Debug.LogError("Beer");
+			ScoreMultiplier = 20;
+		}
+
+		Debug.Log(ScoreMultiplier *  ((float)GameManager_ReelChef.Instance.BetCounter)+" Points");
+		StartCoroutine(ScoreEffects(ScoreMultiplier *  ((float)GameManager_ReelChef.Instance.BetCounter), _obj));
 		
 		yield return new WaitForSeconds(0.5f);
 		_obj.GetComponent<CustomerScript>().myAnimator.Play("Cheers");
@@ -128,6 +158,27 @@ public class CustomerManager : MonoBehaviour {
 	}
 	public IEnumerator ScoreEffects(float _score, GameObject _obj)
 	{
+		for(int i = 0; i < 3 ;i++)
+		{
+			if(ScoreEffectsList[i].gameObject.activeSelf == false && SlotDetection.Instance._possibleMatches[i] != SlotDetection.SLOTSList.NONE)
+			{
+				ScoreEffectsList[i].gameObject.SetActive(true);
+				
+				ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = ""+_score;
+				yield return new WaitForSeconds (1);
+				iTween.MoveBy(ScoreEffectsList[i].gameObject,iTween.Hash(
+					"x"   , ScoreEfxEnd.transform.position.x,
+					"y"	,  ScoreEfxEnd.transform.position.y,
+					"time", 0.25f
+					));
+				yield return new WaitForSeconds( 0.24f);
+				iTween.Stop(ScoreEffectsList[i]);
+				ScoreEffectsList[i].gameObject.SetActive(false);
+				ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = "";
+				ScoreEffectsList[i].transform.position = ScoreEfxStart[i].transform.position;
+
+			}
+		}
 		/*
 		for(int i = 0; i < 3 ;i++)
 		{
@@ -166,7 +217,7 @@ public class CustomerManager : MonoBehaviour {
 					SlotDetection.Instance.CheckIfSpinCanBeActive();
 				}
 				break;
-			}
+			} 
 		}*/
 		
 		CustomerScript _customerScript = _obj.GetComponent<CustomerScript>();

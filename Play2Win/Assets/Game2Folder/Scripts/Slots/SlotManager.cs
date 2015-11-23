@@ -19,7 +19,6 @@ public class SlotManager : MonoBehaviour {
 		SpinCheckCounter = 0;
 		isSpinning = true;
 		SlotManager.Instance.SpinButton.transform.FindChild("Button").GetComponent<tk2dSprite>().color = Color.red;
-
 	}
 
 
@@ -33,8 +32,11 @@ public class SlotManager : MonoBehaviour {
 	}
 	public void StartSpin()
 	{
+		if(GameManager_ReelChef.Instance.Score > 0 )
 		if(!isSpinning)
 		{
+			GameManager_ReelChef.Instance.AddScore( -GameManager_ReelChef.Instance.BetCounter );
+			GameManager_ReelChef.Instance.AddExp( GameManager_ReelChef.Instance.BetCounter);
 			AnimationManager_ReelChef.Instance.Chef.GetComponent<tk2dSpriteAnimator>().Play("Mix");
 			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SELECT);
 			SlotManager.Instance.SpinButton.transform.FindChild("Button").GetComponent<tk2dSprite>().color = Color.red;

@@ -15,12 +15,20 @@ public class SlotCollider : MonoBehaviour {
 				hit.transform.localPosition = new Vector3 ( hit.transform.localPosition.x,
 				                                           hit.transform.localPosition.y + 24,
 				                                           hit.transform.localPosition.z );
-				hitChild.GetComponent<tk2dSprite>().SetSprite("slot_item"+Random.Range(1,9));
-				hitChild.gameObject.name = hitChild.gameObject.GetComponent<tk2dSprite>().CurrentSprite.name;
+			
 				hitChild.GetComponent<MeshRenderer>().enabled = false;
 			}
 			else if(RevealorReset)
 			{
+				AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SPIN_TICK);
+				int Randomizer = Random.Range(1,9);
+				if(Randomizer < 7)
+				{
+					Randomizer+=10;
+				}
+				hitChild.GetComponent<tk2dSprite>().SetSprite("slot_item"+Randomizer);
+				hitChild.gameObject.name = hitChild.gameObject.GetComponent<tk2dSprite>().CurrentSprite.name;
+				hit.gameObject.name = hitChild.gameObject.name;
 				hitChild.GetComponent<MeshRenderer>().enabled = true;
 			}
 		}

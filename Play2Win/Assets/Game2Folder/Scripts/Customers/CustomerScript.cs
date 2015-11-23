@@ -84,7 +84,6 @@ public class CustomerScript : MonoBehaviour {
 
 	public void TakeSeat()
 	{
-		myAnimator.Play("Demand");
 		_customerState = CustomerState.ORDER;
 		ShowOrder();
 		//BCOS OF ASSETS
@@ -105,7 +104,7 @@ public class CustomerScript : MonoBehaviour {
 	
 	public void ShowOrder()
 	{
-		myAnimator.Play("WithoutDrink");
+		myAnimator.Play("Demand");
 		CustomerManager.Instance.TableUsedCount++;
 		CustomerManager.Instance.CheckTable();
 		OrderSprite.SetActive(true);

@@ -9,11 +9,10 @@ public class GameManager_ReelChef : MonoBehaviour {
 
 	public float SpinSpeed;
 	public float SpinStrength;
-	public tk2dTextMesh ScoreText;
 	public tk2dTextMesh BetText;
 	public tk2dTextMesh AutoSpinText;
 
-	public float Score;
+	public int Score;
 	public float BetCounter;
 	public float BonusCounter;
 	public float AutoSpinCounter;
@@ -27,15 +26,42 @@ public class GameManager_ReelChef : MonoBehaviour {
 	public GameObject AutoSpinItems;
 	public GameObject[] BonusHighlights;
 	public GameObject[] Stars;
+	
+	public int Chips;
+	public int Level;
+	public int Gems;
+	public int Exp;
 	void Awake ()
 	{
 		_instance = this;
 	}
+	void Start()
+	{
+
+		Chips =  (int)PlayerPrefs.GetFloat("PLAYER_CHIPS");
+		Level =  (int)PlayerPrefs.GetFloat("PLAYER_LEVEL");
+		Gems =  (int)PlayerPrefs.GetFloat("PLAYER_POINTS",100);
+		Exp =  (int)PlayerPrefs.GetFloat("PLAYER_EXP");
+		Score = Chips;
+		
+		BetCounter = 1;
+		BetText.text = "1";
+
+	}
+	void Update()
+	{
+		Debug.LogError((int)PlayerPrefs.GetFloat("PLAYER_CHIPS"));
+	}
 	public void AddScore(float _score)
 	{
 		LowerBarIsActive = false;
-		Score += _score;
-		ScoreText.text = ""+Score;
+		Score += (int)_score;
+		PlayerDataManager.Instance.AddChips(Score);
+	}
+	public void AddExp(float _exp)
+	{
+		Exp += (int)_exp;
+		PlayerDataManager.Instance.AddExp(Exp);
 	}
 	public void AddBet(bool _ifADD)
 	{
@@ -50,7 +76,7 @@ public class GameManager_ReelChef : MonoBehaviour {
 			BetCounter --;
 			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_DECREASE);
 		}
-		BetCounter = Mathf.Clamp(BetCounter , 0 , 20);
+		BetCounter = Mathf.Clamp(BetCounter , 1 , 20);
 		BetText.text = ""+BetCounter;
 	}
 	public void ShowAutoSpinItems()
@@ -70,20 +96,46 @@ public class GameManager_ReelChef : MonoBehaviour {
 	}
 	public void ShowLowerBar()
 	{
-		if(!LowerBarIsActive)
+		StartCoroutine(AnimateLowerBar(!LowerBarIsActive));
+	}
+	public IEnumerator AnimateLowerBar(bool isUP)
+	{
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SPIN_TICK);
+		if(isUP)
 		{
+			
 			PullLowerBarUp.enabled = false;
 			PullLowerBarDown.enabled = true;
+			iTween.MoveTo(LowerBarObject,iTween.Hash(
+				"x"   , LowerBarObjectPosOn.transform.position.x,
+				"y"	,  LowerBarObjectPosOn.transform.position.y,
+				"z"	, LowerBarObjectPosOn.transform.position.z,
+				"time", 0.5f
+				));
+			
+			yield return new WaitForSeconds ( 0.5f);
 			LowerBarIsActive = true;
-			LowerBarObject.transform.position = LowerBarObjectPosOn.transform.position;
 		}
 		else
 		{
 			PullLowerBarUp.enabled = true;
 			PullLowerBarDown.enabled = false;
+			iTween.MoveTo(LowerBarObject,iTween.Hash(
+				"x"   , LowerBarObjectPosOff.transform.position.x,
+				"y"	,  LowerBarObjectPosOff.transform.position.y,
+				"z"	, LowerBarObjectPosOff.transform.position.z,
+				"time", 0.5f
+				));
+			yield return new WaitForSeconds ( 0.5f);
+
 			LowerBarIsActive = false;
-			LowerBarObject.transform.position = LowerBarObjectPosOff.transform.position;
 		}
+	}
+	public void BetMaxButton()
+	{
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_ADD);
+		BetCounter = 20;
+		BetText.text = ""+BetCounter;
 	}
 	public void ShowPlayTable(bool _switch)
 	{
@@ -91,6 +143,6 @@ public class GameManager_ReelChef : MonoBehaviour {
 	}
 	public void GoBackToLevelSelect()
 	{
-		Application.LoadLevel("LevelSelection");
+		Application.LoadLevel("GameMenu");
 	}
 }

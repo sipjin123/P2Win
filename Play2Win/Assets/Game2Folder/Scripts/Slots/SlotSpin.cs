@@ -13,6 +13,7 @@ public class SlotSpin : MonoBehaviour {
 	public float SpinSpeed;
 	public float SpinStrength;
 
+
 	[SerializeField] GameObject SlotChild;
 	[SerializeField] GameObject[] SlotItems;
 
@@ -54,8 +55,22 @@ public class SlotSpin : MonoBehaviour {
 		SpinStrength --;
 		if(SpinStrength <= 0)
 		{
+			ResetSlotIconEffects();
 			_gameState = GameState.STOPSPIN;
 			SlotManager.Instance.SpinChecker();
+		}
+	}
+	void ResetSlotIconEffects()
+	{
+		foreach(Transform child in SlotChild.transform)
+		{
+			int SpriteID = child.GetComponent<Itemscript>().SlotIcon.GetComponent<tk2dSprite>().spriteId;
+			if(SpriteID > 7)
+			{
+				child.GetComponent<Itemscript>().SlotIcon.GetComponent<tk2dSprite>().SetSprite("slot_item"+ (SpriteID - 7));
+				child.GetComponent<Itemscript>().SlotIcon.gameObject.name = "slot_item" +  (SpriteID - 7);
+				child.gameObject.name = child.GetComponent<Itemscript>().SlotIcon.gameObject.name;
+			}
 		}
 	}
 	void StopSpinning()
