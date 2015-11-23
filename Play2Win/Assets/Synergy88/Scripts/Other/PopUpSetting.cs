@@ -25,6 +25,7 @@ public class PopUpSetting : MonoBehaviour {
 
 	void ShowSettingsWindow(){
 		SignalManager.Instance.Call (SignalType.SHOW_SETTINGS);
+		settingsAnim.SetBool ("Hide", true);
 	}
 
 	void ShowRedeemWindow(){
@@ -34,6 +35,7 @@ public class PopUpSetting : MonoBehaviour {
 	void CloseRedeemWindow(){
 		inputCode.text = "";
 		redeemWindow.SetActive (false);
+		settingsAnim.SetBool ("Hide", true);
 	}
 
 	void CheckRedeemCode(){
