@@ -41,13 +41,14 @@ public class PopUpSetting : MonoBehaviour {
 	void CheckRedeemCode(){
 		if (inputCode.text == "FREECHIPS") {
 			PlayerDataManager.Instance.AddChips (1000000);
-		} 
-		else if (inputCode.text == "FREEGEMS") {
+		} else if (inputCode.text == "FREEGEMS") {
 			PlayerDataManager.Instance.AddPoints (1000000);
+		} else if (inputCode.text == "LEVELUP!") {
+			PlayerDataManager.Instance.AddExp (GameDataManager.Instance.LevelInfo.ExpToNextLevel);
 		} 
-		else if (inputCode.text == "LEVELUP!") {
-            PlayerDataManager.Instance.AddExp(GameDataManager.Instance.LevelInfo.ExpToNextLevel);
-        } 
+		else if (inputCode.text == "RESETALL") {
+			PlayerPrefs.DeleteAll();
+		}
         else if (inputCode.text == "RESTART") {
             PlayerPrefs.DeleteAll();
             Application.Quit();

@@ -7,7 +7,8 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 	[SerializeField] tk2dTextMesh enemyScore;
 
 	[SerializeField] private tk2dTextMesh bonusChipsWon;
-	[SerializeField] private tk2dTextMesh battleResultBoard;
+	[SerializeField] private GameObject youLose;
+	[SerializeField] private GameObject youWin;
 
 	[SerializeField] BFHandScript enemyPin;
 	[SerializeField] BFHandScript myPin;
@@ -27,7 +28,6 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 	private int myDrinkScore = 0;
 	private int opponentDrinkScore = 0;
 	private int chipsWon;
-	private int battleResult;
 
 	[SerializeField] private tk2dTextMesh PlayerGem;
 	[SerializeField] private tk2dTextMesh PlayerChips;
@@ -171,14 +171,16 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 
 	void GetBattleResult (){
 		if (myScore > opponentScore) {
-			battleResult = 1;
 			chipsWon = 1000 * (myScore - opponentScore);
 			myCharacter.CharacterWin();
 			myOpponent.CharacterLose("Opponent");
+			youLose.SetActive(false);
+			youWin.SetActive(true);
 
 		} 
 		else {
-			battleResult = 2;
+			youLose.SetActive(true);
+			youWin.SetActive(false);
 			chipsWon = 500;
 			myCharacter.CharacterLose("Player");
 			myOpponent.CharacterWin();
@@ -187,9 +189,7 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 	}
 
 	void UpdateResultBoard(){
-		battleResultBoard.text = battleResult == 1 ? "You Won!" : "You Lose!";
 		bonusChipsWon.text = chipsWon.ToString ();
-
 		gameBoard.SetActive (true);
 	}
 
