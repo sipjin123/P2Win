@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public enum ProfileUIType {
     LOBBY,
     GEM_SCENES,
-    SLOTS
+    SLOTS,
+    BAR_FRENZY
 }
 
 public class PlayerProfileUI : MonoBehaviour, ISignalListener {
