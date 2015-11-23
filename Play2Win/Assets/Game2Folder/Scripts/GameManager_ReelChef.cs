@@ -51,20 +51,14 @@ public class GameManager_ReelChef : MonoBehaviour {
 		BetText.text = "1";
 
 	}
-	void Update()
-	{
-		Debug.LogError((int)PlayerPrefs.GetFloat("PLAYER_CHIPS"));
-	}
 	public void AddScore(float _score)
 	{
 		LowerBarIsActive = false;
-		Score += (int)_score;
-		PlayerDataManager.Instance.AddChips(Score);
+		PlayerDataManager.Instance.AddChips((int)_score);
 	}
 	public void AddExp(float _exp)
 	{
-		Exp += (int)_exp;
-		PlayerDataManager.Instance.AddExp(Exp);
+		PlayerDataManager.Instance.AddExp((int)_exp);
 	}
 	public void AddBet(bool _ifADD)
 	{

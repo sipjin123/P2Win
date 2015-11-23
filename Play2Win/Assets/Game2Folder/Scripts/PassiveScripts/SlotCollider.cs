@@ -21,7 +21,7 @@ public class SlotCollider : MonoBehaviour {
 			else if(RevealorReset)
 			{
 				AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SPIN_TICK);
-				int Randomizer = Random.Range(1,9);
+				int Randomizer = Random.Range(1,10);
 				if(Randomizer < 7)
 				{
 					Randomizer+=10;

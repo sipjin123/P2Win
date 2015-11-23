@@ -172,7 +172,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 		{
 			for(int k = 0; k < 3 ; k++)
 			{
-				if(o != 8)//incase bonus icons match
+				if(o != 8 && o != 7 && o != 9)//incase bonus icons match
 				if(_possibleMatches[k] == SLOTSList.NONE && _imageMatchCounter[o] >= 3)
 				{
 					_possibleMatches[k] = (SLOTSList)o;
@@ -183,6 +183,10 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 		if(_imageMatchCounter[8] >=2 )
 		{
 			StartCoroutine(BonusHighlight());
+		}
+		else if(Mathf.Abs(_imageMatchCounter[7])  >=3 || Mathf.Abs(_imageMatchCounter[9]) >=3)
+		{
+			StartCoroutine(WildNScatterHighlight());
 		}
 		else
 		{
@@ -251,8 +255,119 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 		BonusHighlightFinished = true;
 		CheckIfSpinCanBeActive();
 		CheckForBonusWindows ();
-	}
 
+	}
+	public IEnumerator WildNScatterHighlight()
+	{
+	
+			for(int q = 0 ; q < 3 ; q++)
+			{
+				for(int i = 0 ; i < 9 ; i++)
+				{
+				if(_imageSprites[i].gameObject.name == "slot_item7"  && _imageMatchCounter[7] >= 3)
+					{
+						foreach (Transform child in CustomerManager.Instance.CustomersInside.transform)
+						{
+								TableLightings[i].GetComponent<MeshRenderer>().enabled = true;
+							
+						}
+					}
+				if(_imageSprites[i].gameObject.name == "slot_item9"  && _imageMatchCounter[9] >= 3)
+					{
+						foreach (Transform child in CustomerManager.Instance.CustomersInside.transform)
+						{
+							TableLightings[i].GetComponent<MeshRenderer>().enabled = true;
+							
+						}
+					}
+				}
+			}
+			yield return new WaitForSeconds (1);
+
+			for(int q = 0 ; q < 3 ; q++)
+			{
+				for(int i = 0 ; i < 9 ; i++)
+				{
+				if(_imageSprites[i].gameObject.name == "slot_item7" && _imageMatchCounter[7] >= 3 )
+					{
+						foreach (Transform child in CustomerManager.Instance.CustomersInside.transform)
+						{
+							GameObject temp = _imageSprites[i].transform.parent.GetComponent<Itemscript>().RewardsObject;
+							_imageSprites[i].transform.parent.GetComponent<Itemscript>().RewardsObject.SetActive(true);
+							iTween.MoveTo(_imageSprites[i].transform.parent.GetComponent<Itemscript>().RewardsObject,iTween.Hash(
+								"x"   , temp.transform.position.x+10,
+								"y"	,  temp.transform.position.y ,
+								"z"	,  temp.transform.position.z ,
+								"time",1.1f
+								));
+							
+						}
+					}
+				if(_imageSprites[i].gameObject.name == "slot_item9"&& _imageMatchCounter[9] >= 3)
+					{
+						foreach (Transform child in CustomerManager.Instance.CustomersInside.transform)
+						{
+							GameObject temp = _imageSprites[i].transform.parent.GetComponent<Itemscript>().RewardsObject;
+							_imageSprites[i].transform.parent.GetComponent<Itemscript>().RewardsObject.SetActive(true);
+							iTween.MoveTo(_imageSprites[i].transform.parent.GetComponent<Itemscript>().RewardsObject,iTween.Hash(
+								"x"   , temp.transform.position.x +10,
+								"y"	,  temp.transform.position.y ,
+								"z"	,  temp.transform.position.z ,
+								"time",1.1f
+								));
+							
+						}
+					}
+				}
+			}
+
+		if(_imageMatchCounter[7] >= 3 )
+		{
+			if(CustomerManager.Instance.ScoreEffectsList[0].gameObject.activeSelf == false)
+			{
+				CustomerManager.Instance.ScoreEffectsList[0].gameObject.SetActive(true);
+				
+				CustomerManager.Instance.ScoreEffectsList[0].GetComponent<tk2dTextMesh>().text = "250";
+				yield return new WaitForSeconds (1);
+				iTween.MoveBy( CustomerManager.Instance.ScoreEffectsList[0].gameObject,iTween.Hash(
+					"x"   , CustomerManager.Instance.ScoreEfxEnd.transform.position.x,
+					"y"	,  CustomerManager.Instance.ScoreEfxEnd.transform.position.y,
+					"time", 0.25f
+					));
+				yield return new WaitForSeconds( 0.24f);
+				iTween.Stop(CustomerManager.Instance.ScoreEffectsList[0]);
+				CustomerManager.Instance.ScoreEffectsList[0].gameObject.SetActive(false);
+				CustomerManager.Instance.ScoreEffectsList[0].GetComponent<tk2dTextMesh>().text = "";
+				CustomerManager.Instance.ScoreEffectsList[0].transform.position = CustomerManager.Instance.ScoreEfxStart[0].transform.position;
+			}
+			GameManager_ReelChef.Instance.AddScore((int) ( 250 * GameManager_ReelChef.Instance.BetCounter));
+		}
+
+		if(_imageMatchCounter[9] >= 3 )
+		{
+			if(CustomerManager.Instance.ScoreEffectsList[0].gameObject.activeSelf == false)
+			{
+				CustomerManager.Instance.ScoreEffectsList[0].gameObject.SetActive(true);
+				
+				CustomerManager.Instance.ScoreEffectsList[0].GetComponent<tk2dTextMesh>().text = "250";
+				yield return new WaitForSeconds (1);
+				iTween.MoveBy( CustomerManager.Instance.ScoreEffectsList[0].gameObject,iTween.Hash(
+					"x"   , CustomerManager.Instance.ScoreEfxEnd.transform.position.x,
+					"y"	,  CustomerManager.Instance.ScoreEfxEnd.transform.position.y,
+					"time", 0.25f
+					));
+				yield return new WaitForSeconds( 0.24f);
+				iTween.Stop(CustomerManager.Instance.ScoreEffectsList[0]);
+				CustomerManager.Instance.ScoreEffectsList[0].gameObject.SetActive(false);
+				CustomerManager.Instance.ScoreEffectsList[0].GetComponent<tk2dTextMesh>().text = "";
+				CustomerManager.Instance.ScoreEffectsList[0].transform.position = CustomerManager.Instance.ScoreEfxStart[0].transform.position;
+			}
+			GameManager_ReelChef.Instance.AddScore((int) ( 250 * GameManager_ReelChef.Instance.BetCounter));
+		}
+		CheckIfSpinCanBeActive();
+		CheckForBonusWindows ();
+
+	}
 
 
 	public IEnumerator HighLightMatches()

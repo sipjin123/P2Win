@@ -203,6 +203,7 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 	public void AddChips(int amount) {
 		_chips += amount;
 		_totalChipsEarned += amount;
+
 		
 		SignalManager.Instance.Call(SignalType.PGS_UPDATE_LEADERBOARD);
 		SignalManager.Instance.Call(SignalType.LOCAL_DATA_CHANGED);
