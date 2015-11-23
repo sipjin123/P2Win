@@ -37,6 +37,9 @@ public class GameManager_ReelChef : MonoBehaviour {
 	}
 	void Start()
 	{
+        ConcreteSignalParameters updateHudParam = new ConcreteSignalParameters();
+        updateHudParam.AddParameter("ProfileUIType", ProfileUIType.BAR_FRENZY);
+        SignalManager.Instance.CallWithParam(SignalType.UPDATE_PROFILE_HUD, updateHudParam);
 
 		Chips =  (int)PlayerPrefs.GetFloat("PLAYER_CHIPS");
 		Level =  (int)PlayerPrefs.GetFloat("PLAYER_LEVEL");
