@@ -26,6 +26,10 @@ public class SlotCollider : MonoBehaviour {
 				{
 					Randomizer+=10;
 				}
+				if(Randomizer == 7 || Randomizer == 9)
+				{
+					Randomizer = Random.Range(1,10);
+				}
 				hitChild.GetComponent<tk2dSprite>().SetSprite("slot_item" + Randomizer);
 				hitChild.gameObject.name = hitChild.gameObject.GetComponent<tk2dSprite>().CurrentSprite.name;
 				hit.gameObject.name = hitChild.gameObject.name;

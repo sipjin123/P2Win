@@ -332,44 +332,52 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 
 		if(_imageMatchCounter[7] >= 3 )
 		{
-			if(CustomerManager.Instance.ScoreEffectsList[0].gameObject.activeSelf == false)
+			for(int i = 0  ; i < 3 ; i++)
 			{
-				CustomerManager.Instance.ScoreEffectsList[0].gameObject.SetActive(true);
-				
-				CustomerManager.Instance.ScoreEffectsList[0].GetComponent<tk2dTextMesh>().text = "" + (250 * GameManager_ReelChef.Instance.BetCounter );
-				yield return new WaitForSeconds (1);
-				iTween.MoveBy( CustomerManager.Instance.ScoreEffectsList[0].gameObject,iTween.Hash(
-					"x"   , CustomerManager.Instance.ScoreEfxEnd.transform.position.x,
-					"y"	,  CustomerManager.Instance.ScoreEfxEnd.transform.position.y,
-					"time", 0.25f
-					));
-				yield return new WaitForSeconds( 0.24f);
-				iTween.Stop(CustomerManager.Instance.ScoreEffectsList[0]);
-				CustomerManager.Instance.ScoreEffectsList[0].gameObject.SetActive(false);
-				CustomerManager.Instance.ScoreEffectsList[0].GetComponent<tk2dTextMesh>().text = "";
-				CustomerManager.Instance.ScoreEffectsList[0].transform.position = CustomerManager.Instance.ScoreEfxStart[0].transform.position;
+				if(CustomerManager.Instance.ScoreEffectsList[i].gameObject.activeSelf == false)
+				{
+					CustomerManager.Instance.ScoreEffectsList[i].gameObject.SetActive(true);
+					
+					CustomerManager.Instance.ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = "" + (250 * GameManager_ReelChef.Instance.BetCounter );
+					yield return new WaitForSeconds (1);
+					iTween.MoveBy( CustomerManager.Instance.ScoreEffectsList[i].gameObject,iTween.Hash(
+						"x"   , CustomerManager.Instance.ScoreEfxEnd.transform.position.x,
+						"y"	,  CustomerManager.Instance.ScoreEfxEnd.transform.position.y,
+						"time", 0.25f
+						));
+					yield return new WaitForSeconds( 0.24f);
+					iTween.Stop(CustomerManager.Instance.ScoreEffectsList[i]);
+					CustomerManager.Instance.ScoreEffectsList[i].gameObject.SetActive(false);
+					CustomerManager.Instance.ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = "";
+					CustomerManager.Instance.ScoreEffectsList[i].transform.position = CustomerManager.Instance.ScoreEfxStart[i].transform.position;
+					break;
+				}
 			}
 			GameManager_ReelChef.Instance.AddScore((int) ( 250 * GameManager_ReelChef.Instance.BetCounter));
 		}
 
 		if(_imageMatchCounter[9] >= 3 )
 		{
-			if(CustomerManager.Instance.ScoreEffectsList[0].gameObject.activeSelf == false)
+			for(int i = 0  ; i < 3 ; i++)
 			{
-				CustomerManager.Instance.ScoreEffectsList[0].gameObject.SetActive(true);
-				
-				CustomerManager.Instance.ScoreEffectsList[0].GetComponent<tk2dTextMesh>().text = "" + (250 * GameManager_ReelChef.Instance.BetCounter );
-				yield return new WaitForSeconds (1);
-				iTween.MoveBy( CustomerManager.Instance.ScoreEffectsList[0].gameObject,iTween.Hash(
-					"x"   , CustomerManager.Instance.ScoreEfxEnd.transform.position.x,
-					"y"	,  CustomerManager.Instance.ScoreEfxEnd.transform.position.y,
-					"time", 0.25f
-					));
-				yield return new WaitForSeconds( 0.24f);
-				iTween.Stop(CustomerManager.Instance.ScoreEffectsList[0]);
-				CustomerManager.Instance.ScoreEffectsList[0].gameObject.SetActive(false);
-				CustomerManager.Instance.ScoreEffectsList[0].GetComponent<tk2dTextMesh>().text = "";
-				CustomerManager.Instance.ScoreEffectsList[0].transform.position = CustomerManager.Instance.ScoreEfxStart[0].transform.position;
+				if(CustomerManager.Instance.ScoreEffectsList[i].gameObject.activeSelf == false)
+				{
+					CustomerManager.Instance.ScoreEffectsList[i].gameObject.SetActive(true);
+					
+					CustomerManager.Instance.ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = "" + (250 * GameManager_ReelChef.Instance.BetCounter );
+					yield return new WaitForSeconds (1);
+					iTween.MoveBy( CustomerManager.Instance.ScoreEffectsList[i].gameObject,iTween.Hash(
+						"x"   , CustomerManager.Instance.ScoreEfxEnd.transform.position.x,
+						"y"	,  CustomerManager.Instance.ScoreEfxEnd.transform.position.y,
+						"time", 0.25f
+						));
+					yield return new WaitForSeconds( 0.24f);
+					iTween.Stop(CustomerManager.Instance.ScoreEffectsList[i]);
+					CustomerManager.Instance.ScoreEffectsList[i].gameObject.SetActive(false);
+					CustomerManager.Instance.ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = "";
+					CustomerManager.Instance.ScoreEffectsList[i].transform.position = CustomerManager.Instance.ScoreEfxStart[i].transform.position;
+					break;
+				}
 			}
 			GameManager_ReelChef.Instance.AddScore((int) ( 250 * GameManager_ReelChef.Instance.BetCounter));
 		}
