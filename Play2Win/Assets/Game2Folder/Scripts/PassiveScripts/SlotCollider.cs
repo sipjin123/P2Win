@@ -26,7 +26,7 @@ public class SlotCollider : MonoBehaviour {
 				{
 					Randomizer+=10;
 				}
-				hitChild.GetComponent<tk2dSprite>().SetSprite("slot_item"+Randomizer);
+				hitChild.GetComponent<tk2dSprite>().SetSprite("slot_item" + Randomizer);
 				hitChild.gameObject.name = hitChild.gameObject.GetComponent<tk2dSprite>().CurrentSprite.name;
 				hit.gameObject.name = hitChild.gameObject.name;
 				hitChild.GetComponent<MeshRenderer>().enabled = true;

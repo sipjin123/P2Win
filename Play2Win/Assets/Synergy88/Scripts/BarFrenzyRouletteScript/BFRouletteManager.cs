@@ -37,6 +37,9 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 	[SerializeField] private GameObject myCamera;
 	[SerializeField] private GameObject gameBoard;
 
+	[SerializeField]
+	private GameState _backToLobby = GameState.MAIN_MENU;
+
 	public void Show() {
 		PlayerGem.text = PlayerDataManager.Instance.Points.ToString();
 		PlayerChips.text = PlayerDataManager.Instance.Chips.ToString();
@@ -57,7 +60,11 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 			opponentDrinks[i].gameObject.SetActive(false);
 		}
 	}
-	
+
+	void BackToLobby(){
+		GameManager.Instance.LoadScene (_backToLobby);
+	}
+
 	public void Hide() {
 		myCamera.SetActive(false);
 	}

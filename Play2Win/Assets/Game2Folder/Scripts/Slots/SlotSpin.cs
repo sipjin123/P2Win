@@ -65,10 +65,10 @@ public class SlotSpin : MonoBehaviour {
 		foreach(Transform child in SlotChild.transform)
 		{
 			int SpriteID = child.GetComponent<Itemscript>().SlotIcon.GetComponent<tk2dSprite>().spriteId;
-			if(SpriteID > 7)
+			if(SpriteID > 8)
 			{
-				child.GetComponent<Itemscript>().SlotIcon.GetComponent<tk2dSprite>().SetSprite("slot_item"+ (SpriteID - 7));
-				child.GetComponent<Itemscript>().SlotIcon.gameObject.name = "slot_item" +  (SpriteID - 7);
+				child.GetComponent<Itemscript>().SlotIcon.GetComponent<tk2dSprite>().SetSprite("slot_item"+ (SpriteID - 6));
+				child.GetComponent<Itemscript>().SlotIcon.gameObject.name = "slot_item" +  (SpriteID - 6);
 				child.gameObject.name = child.GetComponent<Itemscript>().SlotIcon.gameObject.name;
 			}
 		}
