@@ -52,6 +52,8 @@ public class MainMenuScene : AnimatedScene {
 
         //AudioManager.Instance.SwitchBGM(AudioManager.GlobalAudioType.BGM_LOBBY);
         //AudioManager.Instance.ResumeBGM();
+
+
     }
 
     void Update() {

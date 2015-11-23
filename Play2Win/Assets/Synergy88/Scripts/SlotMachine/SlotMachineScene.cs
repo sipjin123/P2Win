@@ -143,7 +143,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		stateParam.AddParameter(PARAM_LOCK, false);
 		SignalManager.Instance.CallWithParam(SignalType.SLOT_MACHINE_STATE_CHANGED, stateParam);
 
-		AudioManager.Instance.SwitchBGM(LevelSpriteCollectionManager.Instance.GetBGM());
+        AudioManager.Instance.SwitchBGM(AudioManager.GlobalAudioType.BGM_LOBBY);
 
 		// TODO: Put this after a proper loading
 		_spinTheWheel.Hide();

@@ -80,7 +80,7 @@ public class AudioManager : MonoBehaviour {
 	}
 
 	public void SwitchBGM(GlobalAudioType newType) {
-        if (_currentBGM == newType) {
+        if (_currentBGM == newType && _bgmPlaying) {
             return;
         }
 
@@ -113,6 +113,8 @@ public class AudioManager : MonoBehaviour {
 	private bool IsPlayable(GlobalAudioType type)  {
 		switch (type) {
 		case GlobalAudioType.BGM_LOBBY:
+        case GlobalAudioType.WHACK_BGM:
+        case GlobalAudioType.WHEEL_BGM:
 			return PlayerDataManager.Instance.UseBGM;
 
 		default:
