@@ -35,7 +35,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 	[SerializeField] BFRouletteManager _BFRouletteManager;
 	private List<IExtraRewardWindow> _extraRewardsWindow;
 
-	public bool HighlightFinished, BonusHighlightFinished, CustomerServeFinished, CustomerSeatedFinished;
+	public bool HighlightFinished, BonusHighlightFinished, WildandScatterFinished, CustomerServeFinished, CustomerSeatedFinished;
 
 	public GameObject PatternManager;
 	public LinePattern[] _linePattern;
@@ -48,6 +48,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 		_extraRewardsWindow = new List<IExtraRewardWindow>();
 		HighlightFinished = true;
 		BonusHighlightFinished = true;
+		WildandScatterFinished = true;
 		CustomerServeFinished = true;
 		CustomerSeatedFinished = false;
 
@@ -184,13 +185,18 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 		{
 			StartCoroutine(BonusHighlight());
 		}
-		else if(Mathf.Abs(_imageMatchCounter[7])  >=3 || Mathf.Abs(_imageMatchCounter[9]) >=3)
+		else
+		{
+			BonusHighlightFinished = true;
+		}
+
+		if(Mathf.Abs(_imageMatchCounter[7])  >=3 || Mathf.Abs(_imageMatchCounter[9]) >=3)
 		{
 			StartCoroutine(WildNScatterHighlight());
 		}
 		else
 		{
-			BonusHighlightFinished = true;
+			WildandScatterFinished = true;
 		}
 		StartCoroutine( HighLightMatches());
 	}
@@ -288,7 +294,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 			{
 				for(int i = 0 ; i < 9 ; i++)
 				{
-				if(_imageSprites[i].gameObject.name == "slot_item7" && _imageMatchCounter[7] >= 3 )
+					if(_imageSprites[i].gameObject.name == "slot_item7" && _imageMatchCounter[7] >= 3 )
 					{
 						foreach (Transform child in CustomerManager.Instance.CustomersInside.transform)
 						{
@@ -298,12 +304,11 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 								"x"   , temp.transform.position.x+10,
 								"y"	,  temp.transform.position.y ,
 								"z"	,  temp.transform.position.z ,
-								"time",1.1f
+								"time",0.5f
 								));
-							
 						}
 					}
-				if(_imageSprites[i].gameObject.name == "slot_item9"&& _imageMatchCounter[9] >= 3)
+					if(_imageSprites[i].gameObject.name == "slot_item9"&& _imageMatchCounter[9] >= 3)
 					{
 						foreach (Transform child in CustomerManager.Instance.CustomersInside.transform)
 						{
@@ -313,13 +318,17 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 								"x"   , temp.transform.position.x +10,
 								"y"	,  temp.transform.position.y ,
 								"z"	,  temp.transform.position.z ,
-								"time",1.1f
+								"time",0.5f
 								));
 							
 						}
 					}
 				}
 			}
+		
+		yield return new WaitForSeconds(0.5f);
+		for(int i = 0 ; i  < 9 ;i++)
+		_imageSprites[i].transform.parent.GetComponent<Itemscript>().RewardsObject.SetActive(false);
 
 		if(_imageMatchCounter[7] >= 3 )
 		{
@@ -327,7 +336,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 			{
 				CustomerManager.Instance.ScoreEffectsList[0].gameObject.SetActive(true);
 				
-				CustomerManager.Instance.ScoreEffectsList[0].GetComponent<tk2dTextMesh>().text = "250";
+				CustomerManager.Instance.ScoreEffectsList[0].GetComponent<tk2dTextMesh>().text = "" + (250 * GameManager_ReelChef.Instance.BetCounter );
 				yield return new WaitForSeconds (1);
 				iTween.MoveBy( CustomerManager.Instance.ScoreEffectsList[0].gameObject,iTween.Hash(
 					"x"   , CustomerManager.Instance.ScoreEfxEnd.transform.position.x,
@@ -349,7 +358,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 			{
 				CustomerManager.Instance.ScoreEffectsList[0].gameObject.SetActive(true);
 				
-				CustomerManager.Instance.ScoreEffectsList[0].GetComponent<tk2dTextMesh>().text = "250";
+				CustomerManager.Instance.ScoreEffectsList[0].GetComponent<tk2dTextMesh>().text = "" + (250 * GameManager_ReelChef.Instance.BetCounter );
 				yield return new WaitForSeconds (1);
 				iTween.MoveBy( CustomerManager.Instance.ScoreEffectsList[0].gameObject,iTween.Hash(
 					"x"   , CustomerManager.Instance.ScoreEfxEnd.transform.position.x,
@@ -364,6 +373,8 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 			}
 			GameManager_ReelChef.Instance.AddScore((int) ( 250 * GameManager_ReelChef.Instance.BetCounter));
 		}
+		yield return new WaitForSeconds(1);
+		WildandScatterFinished = true;
 		CheckIfSpinCanBeActive();
 		CheckForBonusWindows ();
 
@@ -448,10 +459,11 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 
 	public void CheckIfSpinCanBeActive()
 	{
-		if(HighlightFinished && BonusHighlightFinished && CustomerServeFinished && CustomerSeatedFinished)
+		if(HighlightFinished && BonusHighlightFinished && CustomerServeFinished && CustomerSeatedFinished && WildandScatterFinished)
 		{
 			StartCoroutine(DelaySpinButtonActive());
 			BonusHighlightFinished = false;
+			WildandScatterFinished = false;
 			HighlightFinished = false;
 			CustomerServeFinished = false;
 			CustomerSeatedFinished = false;
