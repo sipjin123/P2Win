@@ -19,15 +19,24 @@ public class myCharacterManager : MonoBehaviour {
 		myCharacterStates [3].SetActive (true);
 	}
 
+	public void ResetCharacter(){
+		myCharacterStates [0].SetActive (false);
+		myCharacterStates [1].SetActive (false);
+		myCharacterStates [2].SetActive (false);
+		myCharacterStates [3].SetActive (true);
+		myCharacterStates [4].SetActive (false);
+	}
+
 	public void StartMixing(string p_sender){
 		StartCoroutine (characterMix (p_sender));
 	}
-	public void CharacterWin(string p_sender){
-		myCharacterStates [3].SetActive (false);
-		myCharacterStates [4].SetActive (true);
+	public void CharacterWin(){
+			myCharacterStates [3].SetActive (false);
+			myCharacterStates [4].SetActive (true);
 	}
 	public void CharacterLose(string p_sender){
-		myCharacterStates [3].SetActive (false);
-		myCharacterAnimator[2].Play(p_sender == "Player" ? "GirlMix" : "BoyMix");
+			myCharacterStates [3].SetActive (false);
+			myCharacterStates[2].SetActive(true);
+			myCharacterAnimator [2].Play (p_sender == "Player" ? "GirlLose" : "BoyLose");
 	}
 } 

@@ -16,8 +16,8 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 	[SerializeField] myCharacterManager myCharacter;
 	[SerializeField]myCharacterManager myOpponent;
 
-	[SerializeField] private GameObject[] myDrinks;
-	[SerializeField] private GameObject[] opponentDrinks;
+	[SerializeField] private tk2dSprite[] myDrinks;
+	[SerializeField] private tk2dSprite[] opponentDrinks;
 	[SerializeField] private GameObject[] pieGlow;
 	[SerializeField] private GameObject myDrinkSparkle;
 	[SerializeField] private GameObject opponentDrinkSparkle;
@@ -29,20 +29,32 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 	private int chipsWon;
 	private int battleResult;
 
+	[SerializeField] private tk2dTextMesh PlayerGem;
+	[SerializeField] private tk2dTextMesh PlayerChips;
+	[SerializeField] private tk2dTextMesh PlayerLevel;
+	[SerializeField] private tk2dSprite expBar;
+
 	[SerializeField] private GameObject myCamera;
 	[SerializeField] private GameObject gameBoard;
 
 	public void Show() {
+		PlayerGem.text = PlayerDataManager.Instance.Points.ToString();
+		PlayerChips.text = PlayerDataManager.Instance.Chips.ToString();
+		PlayerLevel.text = PlayerDataManager.Instance.Level.ToString ();
+		expBar.scale = new Vector3(PlayerDataManager.Instance.ExpRatio, 1f, 1f);
+		myCharacter.ResetCharacter ();
+		myOpponent.ResetCharacter ();
 		myScore = 0;
 		opponentScore = 0;
 		myDrinkScore = 0;
 		opponentDrinkScore = 0;
+		UpdateScoreBoard ();
 		gameBoard.SetActive (false);
 		rouletteBody.setSpinCounter ();
 		myCamera.SetActive(true);
 		for (int i = 0; i < myDrinks.Length; i ++) {
-			myDrinks[i].SetActive(false);
-			opponentDrinks[i].SetActive(false);
+			myDrinks[i].gameObject.SetActive(false);
+			opponentDrinks[i].gameObject.SetActive(false);
 		}
 	}
 	
@@ -56,16 +68,78 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 		SignalManager.Instance.Call(SignalType.EXTRA_REWARD_CLOSED);
 	}
 
+	void ChangeDrinks(int p_drinks,int p_counter,int p_drinkScore,bool isPlayer){
+		if (isPlayer) {
+			if (p_drinks == 1) {
+				myDrinks [p_drinkScore + p_counter].spriteId = 17;
+			} 
+			else if (p_drinks == 2) {
+				if (p_counter == 0)
+					myDrinks [p_drinkScore + p_counter].spriteId = 51;
+				else if (p_counter == 1)
+					myDrinks [p_drinkScore + p_counter].spriteId = 50;
+			} 
+			else if (p_drinks == 3) {
+				if (p_counter == 0)
+					myDrinks [p_drinkScore + p_counter].spriteId = 51;
+				else if (p_counter == 1)
+					myDrinks [p_drinkScore + p_counter].spriteId = 50;
+				else if (p_counter == 2)
+					myDrinks [p_drinkScore + p_counter].spriteId = 50;
+			} 
+			else if (p_drinks == 4) {
+				if (p_counter == 0)
+					myDrinks [p_drinkScore + p_counter].spriteId = 51;
+				else if (p_counter == 1)
+					myDrinks [p_drinkScore + p_counter].spriteId = 4;
+				else if (p_counter == 2)
+					myDrinks [p_drinkScore + p_counter].spriteId = 23;
+				else if (p_counter == 3)
+					myDrinks [p_drinkScore + p_counter].spriteId = 67;
+			}
+		} 
+		else {
+			if (p_drinks == 1) {
+				opponentDrinks [p_drinkScore + p_counter].spriteId = 17;
+			} 
+			else if (p_drinks == 2) {
+				if (p_counter == 0)
+					opponentDrinks [p_drinkScore + p_counter].spriteId = 51;
+				else if (p_counter == 1)
+					opponentDrinks [p_drinkScore + p_counter].spriteId = 15;
+			} 
+			else if (p_drinks == 3) {
+				if (p_counter == 0)
+					opponentDrinks [p_drinkScore + p_counter].spriteId = 51;
+				else if (p_counter == 1)
+					opponentDrinks [p_drinkScore + p_counter].spriteId = 15;
+				else if (p_counter == 2)
+					opponentDrinks [p_drinkScore + p_counter].spriteId = 50;
+			} 
+			else if (p_drinks == 4) {
+				if (p_counter == 0)
+					opponentDrinks [p_drinkScore + p_counter].spriteId = 51;
+				else if (p_counter == 1)
+					opponentDrinks [p_drinkScore + p_counter].spriteId = 4;
+				else if (p_counter == 2)
+					opponentDrinks [p_drinkScore + p_counter].spriteId = 23;
+				else if (p_counter == 3)
+					opponentDrinks [p_drinkScore + p_counter].spriteId = 50;
+			}
+		}
+	}
 	IEnumerator EnableEnemyDrinks(int p_drinks){
 		for(int i = 0; i < p_drinks; i++){
-			opponentDrinks[opponentDrinkScore + i].SetActive(true);
+			ChangeDrinks(p_drinks,i,opponentDrinkScore,false);
+			opponentDrinks[opponentDrinkScore + i].gameObject.SetActive(true);
 			yield return new WaitForSeconds(0.25f);
 		}
 		opponentDrinkScore += p_drinks;
 	}
 	IEnumerator EnableMyDrinks(int p_drinks){
 		for(int i = 0; i < p_drinks; i++){
-			myDrinks[myDrinkScore + i].SetActive(true);
+			ChangeDrinks(p_drinks,i,myDrinkScore,true);
+			myDrinks[myDrinkScore + i].gameObject.SetActive(true);
 			yield return new WaitForSeconds(0.25f);
 		}
 		myDrinkScore += p_drinks;
@@ -92,10 +166,15 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 		if (myScore > opponentScore) {
 			battleResult = 1;
 			chipsWon = 1000 * (myScore - opponentScore);
+			myCharacter.CharacterWin();
+			myOpponent.CharacterLose("Opponent");
+
 		} 
 		else {
 			battleResult = 2;
 			chipsWon = 500;
+			myCharacter.CharacterLose("Player");
+			myOpponent.CharacterWin();
 		}
 
 	}
@@ -108,12 +187,18 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 	}
 
 	IEnumerator WaitForAnim(){
+		myPin.ActivateGlow ();
+		yield return new WaitForSeconds (1.5f);
+		myPin.DisableGlow ();
 		myDrinkSparkle.SetActive (true);
-		yield return  new WaitForSeconds (0.5f);
+		yield return  new WaitForSeconds (0.4f);
 		myCharacter.StartMixing ("Player");
-		yield return  new WaitForSeconds (0.5f);
+		yield return  new WaitForSeconds (0.4f);
+		enemyPin.ActivateGlow ();
+		yield return new WaitForSeconds (1.5f);
+		enemyPin.DisableGlow ();
 		opponentDrinkSparkle.SetActive (true);
-		yield return new WaitForSeconds (1.0f);
+		yield return new WaitForSeconds (0.4f);
 		myOpponent.StartMixing("Opponent");
 	}
 
@@ -123,9 +208,10 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 
 	IEnumerator GameOver(){
 		AnimateCharacter ();
-		yield return new WaitForSeconds (3.5f);
+		yield return new WaitForSeconds (7.0f);
 		CalculateScore ();
 		GetBattleResult ();
+		yield return new WaitForSeconds (2.0f);
 		UpdateResultBoard ();
 	}
 	public void FinishMiniGame(){
