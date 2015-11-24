@@ -99,6 +99,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	private bool _autoplayActive = false;
 	private bool _spinning = false;
 	private bool _wasAutoplaying = false;
+	private bool bonusWinAnim = false;
 
 	private bool _extraPopupShown = false;
 
@@ -227,6 +228,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 
 		// If not enough time to trigger autoplay
 		if (_spinButtonHeld) {
+			bonusWinAnim = false;
 			_holdTimerRemaining = 0f;
 			_spinButtonHeld = false;
 
@@ -531,7 +533,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		}
 
 		if (_patternManager.PendingSpinTheWheel.totalReward > 0) {
-
+			bonusWinAnim = true;
 			StartCoroutine(WaitForBonusAnim());
 			Debug.Log ("Activating Spin the wheel!");
 		}
@@ -579,6 +581,10 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 			_extraRewardsWindow[0].Show();
 		} 
 		else {
+			if(!bonusWinAnim){
+				spinButton.color = new Color(1.0f,1.0f,1.0f);
+				_spinning = false;
+			}
 			PlayWinningSound();
 			ContinueSpinning();
 		}
@@ -611,9 +617,6 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 			Spin();
 		} else if (_autoplayActive || _freeSpinsActive > 0) {
 			Invoke("AutoStartSpin", AUTOSPIN_DELAY);
-		} else {
-			spinButton.color = new Color(1.0f,1.0f,1.0f);
-			_spinning = false;
 		}
 
 		ConcreteSignalParameters stateParam = new ConcreteSignalParameters();
@@ -663,6 +666,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 			break;
 
 		case SignalType.EXTRA_REWARD_CLOSED:
+			bonusWinAnim = false;
 			_extraRewardsWindow.RemoveAt(0);
 			CheckForBonusWindows();
 			break;
