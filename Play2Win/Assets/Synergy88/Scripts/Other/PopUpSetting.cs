@@ -14,28 +14,34 @@ public class PopUpSetting : MonoBehaviour {
 
 	void ShowSetting(){
 		if (isHide) {
+			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SELECT);
 			settingsAnim.SetBool ("Hide", false);
 			isHide = false;
 		}
 		else {
+			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.EXIT);
 			settingsAnim.SetBool ("Hide", true);
 			isHide = true;
 		}
 	}
 
 	void ShowSettingsWindow(){
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SELECT);
 		SignalManager.Instance.Call (SignalType.SHOW_SETTINGS);
 		settingsAnim.SetBool ("Hide", true);
+		isHide = true;
 	}
 
 	void ShowRedeemWindow(){
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SELECT);
 		redeemWindow.SetActive (true);
-
 	}
 	void CloseRedeemWindow(){
+		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.EXIT);
 		inputCode.text = "";
 		redeemWindow.SetActive (false);
 		settingsAnim.SetBool ("Hide", true);
+		isHide = true;
 	}
 
 	void CheckRedeemCode(){
@@ -56,8 +62,12 @@ public class PopUpSetting : MonoBehaviour {
 	}
 
 	void Validate(){
+		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.SELECT);
 		CheckRedeemCode ();
-		CloseRedeemWindow ();
+		inputCode.text = "";
+		redeemWindow.SetActive (false);
+		settingsAnim.SetBool ("Hide", true);
+		isHide = true;
 	}
 	
 }

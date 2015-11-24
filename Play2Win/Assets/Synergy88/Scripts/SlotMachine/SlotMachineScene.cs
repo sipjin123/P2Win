@@ -105,7 +105,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	private List<IExtraRewardWindow> _extraRewardsWindow;
 
 	void Start() {
-
+		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.JTW_INTRO);
         ConcreteSignalParameters updateHudParam = new ConcreteSignalParameters();
         updateHudParam.AddParameter("ProfileUIType", ProfileUIType.SLOTS);
         SignalManager.Instance.CallWithParam(SignalType.UPDATE_PROFILE_HUD, updateHudParam);
@@ -255,7 +255,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
     }
 
 	public void RotationEnded() {
-		AudioManager.Instance.PauseBGM();
+		AudioManager.Instance.StopGlobalAudio(AudioManager.GlobalAudioType.SPINNING_REELS);
 		CheckForWinnings();
 //		ContinueSpinning();
 	}
@@ -433,7 +433,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 
 	IEnumerator WaitForSound(){
 		yield return new WaitForSeconds(0.2f);
-		AudioManager.Instance.ResumeBGM();
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SPINNING_REELS);
 	}
 
 	private IEnumerator DelayedSpin(float spinTime) {
