@@ -46,7 +46,8 @@ public class GameMenuScene : AnimatedScene, ISignalListener {
         _level2LockedSprite.SetActive(PlayerDataManager.Instance.Level < 2);
     }
 
-    public void LoadGame1() {
+	public void LoadGame1() {
+		AudioManager.Instance.PauseBGM();
         myUIItem[0].enabled = false;
         myAnimator[0].Play("BtnShine");
 
@@ -57,6 +58,7 @@ public class GameMenuScene : AnimatedScene, ISignalListener {
     }
 
     public void LoadGame2() {
+		AudioManager.Instance.PauseBGM();
         if (PlayerDataManager.Instance.Level < 2) {
             return;
         }

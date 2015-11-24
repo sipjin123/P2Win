@@ -140,6 +140,7 @@ public class GameManager_ReelChef : MonoBehaviour {
 	}
 	public void GoBackToLevelSelect()
 	{
+		AudioManager.Instance.ResumeBGM();
 		Application.LoadLevel("GameMenu");
 	}
 }

@@ -80,6 +80,7 @@ public class AudioManager : MonoBehaviour {
 	}
 
 	public void SwitchBGM(GlobalAudioType newType) {
+
         if (_currentBGM == newType && _bgmPlaying) {
             return;
         }

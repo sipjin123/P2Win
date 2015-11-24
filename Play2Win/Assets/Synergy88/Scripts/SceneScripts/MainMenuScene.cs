@@ -28,7 +28,9 @@ public class MainMenuScene : AnimatedScene {
     private bool _bonusAvailable = false;
 
     void Start() {
-
+		
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BGM_LOBBY);
+		AudioManager.Instance.ResumeBGM();
         //ConcreteSignalParameters updateHudParam = new ConcreteSignalParameters();
         //updateHudParam.AddParameter("ProfileUIType", ProfileUIType.LOBBY);
         //SignalManager.Instance.CallWithParam(SignalType.UPDATE_PROFILE_HUD, updateHudParam);

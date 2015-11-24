@@ -56,7 +56,6 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 	private bool _inputLocked = false;
 
 	void Start() {
-
         // Re-arranging array data into Dictionaries for easier access later
         _hudAnimationList = new Dictionary<ProfileUIType, ProfileUIAnimation>();
         for (int i = 0; i < _hudAnimations.Length; i++) {
@@ -107,7 +106,8 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 		if (_inputLocked) {
 			return;		
 		}
-
+		
+		AudioManager.Instance.ResumeBGM();
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
         //GameManager.Instance.LoadScene(GameState.GAME_MENU);
         GameManager.Instance.LoadScene(GameState.MAIN_MENU);
