@@ -15,6 +15,7 @@ public class WhackAMoleManager : MonoBehaviour, IExtraRewardWindow  {
  
 	[SerializeField] private GameObject[] moles;
 	[SerializeField] private GameObject winNotification;
+	[SerializeField] private tk2dTextMesh playerCoin;
 
 	[SerializeField] private Animator whackBoard;
 
@@ -46,7 +47,7 @@ public class WhackAMoleManager : MonoBehaviour, IExtraRewardWindow  {
 	}
 
 	public void Show() {
-
+		playerCoin.text = PlayerDataManager.Instance.Chips.ToString("#,#");
 		winNotification.SetActive (false);
 		gamestart = false;
 		timer = 0.0f;
@@ -66,7 +67,7 @@ public class WhackAMoleManager : MonoBehaviour, IExtraRewardWindow  {
 	void ShowMonkey(){
 		AudioManager.Instance.StopGlobalAudio (AudioManager.GlobalAudioType.WHACK_BGM);
 		PlayerDataManager.Instance.AddChips (myScore);
-		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.BONUS_WIN);
+		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.CONGRATULATION_SFX);
 		winNotification.SetActive (true);
 	}
 

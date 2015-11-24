@@ -492,6 +492,18 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		PlayerDataManager.Instance.AddChips(_previousWinnings);
 	}
 
+	IEnumerator WaitForBonusAnim(){
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BONUS);
+		WinEffectManager.Instance.startBonusWin(_previousWinnings);
+
+		yield return new WaitForSeconds (3.0f);
+
+		_WhackAMole.SetMultiplier(_patternManager.PendingSpinTheWheel.totalReward);
+		_WhackAMole.SetCoins(_currentCoinBet);
+		_extraRewardsWindow.Add(_WhackAMole);
+		CheckForBonusWindows ();
+	}
+
 	private void DelayedCheckForWinnings() {
 		_patternManager.RegisterPatterns();
 
@@ -519,11 +531,8 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		}
 
 		if (_patternManager.PendingSpinTheWheel.totalReward > 0) {
-			_WhackAMole.SetMultiplier(_patternManager.PendingSpinTheWheel.totalReward);
 
-			_WhackAMole.SetCoins(_currentCoinBet);
-
-			_extraRewardsWindow.Add(_WhackAMole);
+			StartCoroutine(WaitForBonusAnim());
 			Debug.Log ("Activating Spin the wheel!");
 		}
 
@@ -567,7 +576,6 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 			return;
 
 		if (_extraRewardsWindow.Count > 0) {
-			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BONUS);
 			_extraRewardsWindow[0].Show();
 		} 
 		else {

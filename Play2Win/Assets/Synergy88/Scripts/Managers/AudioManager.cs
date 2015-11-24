@@ -33,7 +33,8 @@ public class AudioManager : MonoBehaviour {
 		BONUS_WIN,
 		BIG_WIN,
 		JTW_INTRO,
-		WHACK_WIN
+		WHACK_WIN,
+		CONGRATULATION_SFX
 	}
 
 	[System.Serializable]
