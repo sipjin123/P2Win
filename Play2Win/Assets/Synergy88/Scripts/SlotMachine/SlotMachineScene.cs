@@ -700,4 +700,12 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 			break;
 		}
 	}
+	public GameObject InfoWindoObject;
+	public void OpenInfoWindow()
+	{
+		if(InfoWindoObject.activeSelf == false)
+			InfoWindoObject.SetActive(true);
+		else
+			InfoWindoObject.SetActive(false);
+	}
 }

@@ -18,6 +18,7 @@ public class GameManager_ReelChef : MonoBehaviour {
 	public float AutoSpinCounter;
 
 	public bool LowerBarIsActive;
+	public GameObject InfoWindowObject;
 	public GameObject PlayTableObject;
 	public GameObject LowerBarObject;
 	public GameObject LowerBarObjectPosOn;
@@ -137,6 +138,10 @@ public class GameManager_ReelChef : MonoBehaviour {
 	public void ShowPlayTable(bool _switch)
 	{
 		PlayTableObject.SetActive(_switch);
+	}
+	public void ShowInfoWindow(bool _switch)
+	{
+		InfoWindowObject.SetActive(_switch);
 	}
 	public void GoBackToLevelSelect()
 	{

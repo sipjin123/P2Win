@@ -14,15 +14,21 @@ public class SlotTriggerClicks : MonoBehaviour {
 			GameManager_ReelChef.Instance.AddBet(false);
 		if(gameObject.name == "LowerBarButton")
 			GameManager_ReelChef.Instance.ShowLowerBar();
+
 		if(gameObject.name == "PlayTableButtonOn")
 			GameManager_ReelChef.Instance.ShowPlayTable(true);
 		if(gameObject.name == "PlayTableButtonOff")
 			GameManager_ReelChef.Instance.ShowPlayTable(false);
 		if(gameObject.name == "BetMaxButton")
 			GameManager_ReelChef.Instance.BetMaxButton();
-		if(gameObject.name == "HomeButton")
-			GameManager_ReelChef.Instance.GoBackToLevelSelect();
+		if(gameObject.name == "TriStar")
+			GameManager_ReelChef.Instance.ShowInfoWindow(true);
+		if(gameObject.name == "CloseInfo")
+			GameManager_ReelChef.Instance.ShowInfoWindow(false);
 
+		
+		if(gameObject.name == "LowerBarButton")
+			GameManager_ReelChef.Instance.ShowLowerBar();
 
 		if(gameObject.name == "RevealAutoSpinItemsButton")
 			GameManager_ReelChef.Instance.ShowAutoSpinItems();
