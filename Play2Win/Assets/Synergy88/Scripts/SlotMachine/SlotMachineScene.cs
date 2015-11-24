@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class SlotMachineScene : MonoBehaviour, ISignalListener {
 
@@ -102,10 +103,13 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	private bool bonusWinAnim = false;
 
 	private bool _extraPopupShown = false;
+	[SerializeField]
+	private Image gemFill;
 
 	private List<IExtraRewardWindow> _extraRewardsWindow;
 
 	void Start() {
+		gemFill.fillAmount = PlayerDataManager.Instance.ExpRatio;
 		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.JTW_INTRO);
         ConcreteSignalParameters updateHudParam = new ConcreteSignalParameters();
         updateHudParam.AddParameter("ProfileUIType", ProfileUIType.SLOTS);
@@ -483,6 +487,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		if (_patternManager.FreeSpinsBonus.totalReward == 0) {
 			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.REGULAR_WIN);
 			PlayerDataManager.Instance.AddExp (Mathf.FloorToInt (_totalBet));
+			gemFill.fillAmount = PlayerDataManager.Instance.ExpRatio;
 		}
 
 		Invoke("DelayedCheckForWinnings", 0.2f);
