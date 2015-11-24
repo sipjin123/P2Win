@@ -1,34 +1,19 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs">
     <Files>
-      <File FileName="Assets\Synergy88\Scripts\Other\TriggerClick.cs" Line="1" Column="1" />
-      <File FileName="Assets\Synergy88\Scripts\SceneScripts\MainMenuScene.cs" Line="1" Column="1" />
-      <File FileName="Assets\Synergy88\Scripts\SceneScripts\IAPWindow.cs" Line="1" Column="1" />
+      <File FileName="..\..\UFrame\Assets\Synergy88\MainDiagram\Scenes\SplashScene.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game2Folder\Scripts\Slots\SlotDetection.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game2Folder\Scripts\PassiveScripts\SlotCollider.cs" Line="1" Column="1" />
+      <File FileName="Assets\Synergy88\Scripts\Other\PopUpSetting.cs" Line="1" Column="1" />
+      <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs" Line="112" Column="60" />
+      <File FileName="Assets\Synergy88\Scripts\SceneScripts\LevelupWindow.cs" Line="1" Column="1" />
       <File FileName="Assets\Synergy88\Scripts\Managers\AudioManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Synergy88\Scripts\SceneScripts\PlayerProfileUI.cs" Line="1" Column="1" />
-      <File FileName="Assets\Synergy88\Scripts\SceneScripts\GameMenuScene.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game2Folder\Scripts\GameManager_ReelChef.cs" Line="144" Column="1" />
-      <File FileName="Assets\Synergy88\Scripts\Managers\GameManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game2Folder\Scripts\PassiveScripts\SlotTriggerClicks.cs" Line="1" Column="1" />
-      <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs" Line="708" Column="7" />
+      <File FileName="Assets\Synergy88\Scripts\WhackAMole\WhackAMoleManager.cs" Line="70" Column="89" />
+      <File FileName="Assets\Synergy88\Scripts\Other\WinEffectManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Synergy88\Scripts\SceneScripts\PlayerProfileUI.cs" Line="175" Column="90" />
+      <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotItem.cs" Line="196" Column="4" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="Assembly-CSharp" expanded="True">
-            <Node name="Synergy88" expanded="True">
-              <Node name="Scripts" expanded="True">
-                <Node name="Other" expanded="True" />
-                <Node name="SlotMachine" expanded="True">
-                  <Node name="SlotMachineScene.cs" selected="True" />
-                </Node>
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

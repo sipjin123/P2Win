@@ -104,12 +104,13 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 
 	private bool _extraPopupShown = false;
 	[SerializeField]
-	private Image gemFill;
+	private GameObject[] gemFill;
 
 	private List<IExtraRewardWindow> _extraRewardsWindow;
 
 	void Start() {
-		gemFill.fillAmount = PlayerDataManager.Instance.ExpRatio;
+		if(gemFill[0].transform.rotation.z < 180)
+			gemFill[0].transform.Rotate(new Vector3(0.0f,0.0f,-360.0f) * PlayerDataManager.Instance.ExpRatio);
 		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.JTW_INTRO);
         ConcreteSignalParameters updateHudParam = new ConcreteSignalParameters();
         updateHudParam.AddParameter("ProfileUIType", ProfileUIType.SLOTS);
@@ -487,7 +488,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		if (_patternManager.FreeSpinsBonus.totalReward == 0) {
 			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.REGULAR_WIN);
 			PlayerDataManager.Instance.AddExp (Mathf.FloorToInt (_totalBet));
-			gemFill.fillAmount = PlayerDataManager.Instance.ExpRatio;
+			gemFill[0].transform.Rotate(new Vector3(0.0f,0.0f,360.0f) * PlayerDataManager.Instance.ExpRatio);
 		}
 
 		Invoke("DelayedCheckForWinnings", 0.2f);
