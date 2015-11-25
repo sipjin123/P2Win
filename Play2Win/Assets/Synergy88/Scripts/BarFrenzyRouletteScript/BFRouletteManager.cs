@@ -41,6 +41,7 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 	private GameState _backToLobby = GameState.MAIN_MENU;
 
 	public void Show() {
+		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.BARFRENZY_MINIGAMEBGM);
 		PlayerGem.text = PlayerDataManager.Instance.Points.ToString();
 		PlayerChips.text = PlayerDataManager.Instance.Chips.ToString();
 		PlayerLevel.text = PlayerDataManager.Instance.Level.ToString ();
@@ -70,6 +71,7 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 	}
 	
 	public void End() {
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SELECT);
 		PlayerDataManager.Instance.AddChips (myScore);
 		Hide();
 		SignalManager.Instance.Call(SignalType.EXTRA_REWARD_CLOSED);
@@ -181,6 +183,7 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 
 	void GetBattleResult (){
 		if (myScore > opponentScore) {
+			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_WINANIMATION);
 			chipsWon = 1000 * (myScore - opponentScore);
 			myCharacter.CharacterWin();
 			myOpponent.CharacterLose("Opponent");
@@ -199,22 +202,28 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 
 	void UpdateResultBoard(){
 		bonusChipsWon.text = chipsWon.ToString ();
+		AudioManager.Instance.StopGlobalAudio (AudioManager.GlobalAudioType.BARFRENZY_WINANIMATION);
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_CONGRATULATIONPOP);
 		gameBoard.SetActive (true);
 	}
 
 	IEnumerator WaitForAnim(){
+		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.BARFRENZY_DRINKSELECT);
 		myPin.ActivateGlow ();
 		yield return new WaitForSeconds (1.5f);
 		myPin.DisableGlow ();
 		myDrinkSparkle.SetActive (true);
 		yield return  new WaitForSeconds (0.4f);
+		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.BARFRENZY_POURDRINK);
 		myCharacter.StartMixing ("Player");
 		yield return  new WaitForSeconds (0.4f);
+		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.BARFRENZY_DRINKSELECT);
 		enemyPin.ActivateGlow ();
 		yield return new WaitForSeconds (1.5f);
 		enemyPin.DisableGlow ();
 		opponentDrinkSparkle.SetActive (true);
 		yield return new WaitForSeconds (0.4f);
+		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.BARFRENZY_POURDRINK);
 		myOpponent.StartMixing("Opponent");
 	}
 

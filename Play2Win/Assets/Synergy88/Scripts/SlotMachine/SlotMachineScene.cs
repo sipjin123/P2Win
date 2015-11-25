@@ -115,16 +115,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, 0.0f);
 		gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, 0.0f);
 
-		if (PlayerDataManager.Instance.ExpRatio <= 0.5f) {
-			gemOrder.SortingOrder = 5;
-			gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
-			gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
-		} 
-		else if (PlayerDataManager.Instance.ExpRatio > 0.5f) {
-			gemOrder.SortingOrder = 7;
-			gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -180.0f);
-			gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
-		}
+		UpdateGemMeter ();
 
 		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.JTW_INTRO);
         ConcreteSignalParameters updateHudParam = new ConcreteSignalParameters();
@@ -175,6 +166,19 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		_bigWin.Hide();
 		_paytable.Load();
 		_paytable.Hide();
+	}
+
+	void UpdateGemMeter(){
+		if (PlayerDataManager.Instance.ExpRatio <= 0.5f) {
+			gemOrder.SortingOrder = 5;
+			gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
+			gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
+		} 
+		else if (PlayerDataManager.Instance.ExpRatio > 0.5f) {
+			gemOrder.SortingOrder = 7;
+			gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -180.0f);
+			gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
+		}
 	}
 
 	void Update() {
@@ -503,16 +507,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		if (_patternManager.FreeSpinsBonus.totalReward == 0) {
 			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.REGULAR_WIN);
 			PlayerDataManager.Instance.AddExp (Mathf.FloorToInt (_totalBet));
-			if (PlayerDataManager.Instance.ExpRatio <= 0.5f) {
-				gemOrder.SortingOrder = 5;
-				gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
-				gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
-			} 
-			else if (PlayerDataManager.Instance.ExpRatio > 0.5f) {
-				gemOrder.SortingOrder = 7;
-				gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -180.0f);
-				gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
-			}
+			UpdateGemMeter();
 		}
 
 		Invoke("DelayedCheckForWinnings", 0.2f);

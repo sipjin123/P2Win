@@ -20,7 +20,8 @@ public class BarFrenzyRoulette : MonoBehaviour {
 
 	IEnumerator WheelSpin(){
 		yield return new WaitForSeconds (0.3f);
-		iTween.RotateBy (gameObject, new Vector3 (0, 0, Random.Range(-30.0f,31.0f)), 6);
+		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.BARFRENZY_ROULETTESPIN);
+		iTween.RotateBy (gameObject, new Vector3 (0, 0, Random.Range(-80.0f,81.0f)), 6);
 		Invoke ("Finished",6.5f);
 		yield return new WaitForSeconds (1.0f);
 	}
@@ -28,7 +29,7 @@ public class BarFrenzyRoulette : MonoBehaviour {
 	void spinTheWheel(){
 		if (m_spin) {
 			m_spin = false;
-			//AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.STOP_REELS);
+			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_SPINBUTTON);
 			spinCounter -= 1;
 			spinLeft.text = spinCounter.ToString();
 			buttonAnim.enabled = false;
@@ -48,6 +49,7 @@ public class BarFrenzyRoulette : MonoBehaviour {
 
 
 	void Finished(){
+		AudioManager.Instance.StopGlobalAudio (AudioManager.GlobalAudioType.BARFRENZY_ROULETTESPIN);
 		if (spinCounter > 0) {
 			StartCoroutine(WaitForAnim());
 		} 

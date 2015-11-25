@@ -45,16 +45,7 @@ public class GameManager_ReelChef : MonoBehaviour {
 		gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, 0.0f);
 		gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, 0.0f);
 		
-		if (PlayerDataManager.Instance.ExpRatio <= 0.5f) {
-			gemOrder.SortingOrder = 5;
-			gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
-			gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
-		} 
-		else if (PlayerDataManager.Instance.ExpRatio > 0.5f) {
-			gemOrder.SortingOrder = 7;
-			gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -180.0f);
-			gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
-		}
+		UpdateGemMeter ();
         ConcreteSignalParameters updateHudParam = new ConcreteSignalParameters();
         updateHudParam.AddParameter("ProfileUIType", ProfileUIType.BAR_FRENZY);
         SignalManager.Instance.CallWithParam(SignalType.UPDATE_PROFILE_HUD, updateHudParam);
@@ -70,15 +61,8 @@ public class GameManager_ReelChef : MonoBehaviour {
 
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_INTRO);
 	}
-	public void AddScore(float _score)
-	{
-		LowerBarIsActive = false;
-		PlayerDataManager.Instance.AddChips((int)_score);
-	}
-	public void AddExp(float _exp)
-	{
-		PlayerDataManager.Instance.AddExp((int)_exp);
 
+	void UpdateGemMeter(){
 		if (PlayerDataManager.Instance.ExpRatio <= 0.5f) {
 			gemOrder.SortingOrder = 5;
 			gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
@@ -89,6 +73,17 @@ public class GameManager_ReelChef : MonoBehaviour {
 			gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -180.0f);
 			gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
 		}
+	}
+
+	public void AddScore(float _score)
+	{
+		LowerBarIsActive = false;
+		PlayerDataManager.Instance.AddChips((int)_score);
+	}
+	public void AddExp(float _exp)
+	{
+		PlayerDataManager.Instance.AddExp((int)_exp);
+		UpdateGemMeter ();
 	}
 	public void AddBet(bool _ifADD)
 	{
