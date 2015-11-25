@@ -229,6 +229,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 				}
 			}
 		}
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_STAR);
 		yield return new WaitForSeconds(DelayTime);
 		for(int i = 0 ; i < 9 ;i++)
 		{

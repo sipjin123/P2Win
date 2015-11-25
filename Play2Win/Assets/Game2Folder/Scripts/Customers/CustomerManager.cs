@@ -139,7 +139,7 @@ public class CustomerManager : MonoBehaviour {
 			//Debug.LogError("Beer");
 			ScoreMultiplier = 20;
 		}
-
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_MATCH_DRINKS);
 		Debug.Log(ScoreMultiplier *  ((float)GameManager_ReelChef.Instance.BetCounter)+" Points");
 		StartCoroutine(ScoreEffects(ScoreMultiplier *  ((float)GameManager_ReelChef.Instance.BetCounter), _obj));
 		
@@ -244,7 +244,7 @@ public class CustomerManager : MonoBehaviour {
 				}
 			}
 		}
-
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_POINTS);
 
 		yield return new WaitForSeconds(DelayTime*.75f);
 		for(int i = 0 ; i < 9 ; i++)

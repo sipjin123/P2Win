@@ -20,7 +20,12 @@ public class SlotCollider : MonoBehaviour {
 			}
 			else if(RevealorReset)
 			{
-				AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SPIN_TICK);
+				if(Random.Range(1,3) == 1)
+				{
+					AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_SPIN1);
+				}
+				else
+					AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_SPIN2);
 				int Randomizer = Random.Range(1,10);
 				if(Randomizer < 7)
 				{

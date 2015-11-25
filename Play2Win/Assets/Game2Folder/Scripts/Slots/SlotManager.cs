@@ -35,6 +35,7 @@ public class SlotManager : MonoBehaviour {
 		if(GameManager_ReelChef.Instance.Score > 0 )
 		if(!isSpinning)
 		{
+			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_SPIN_BUTTON);
 			GameManager_ReelChef.Instance.AddScore( -GameManager_ReelChef.Instance.BetCounter );
 			GameManager_ReelChef.Instance.AddExp( GameManager_ReelChef.Instance.BetCounter);
 			AnimationManager_ReelChef.Instance.Chef.GetComponent<tk2dSpriteAnimator>().Play("Mix");

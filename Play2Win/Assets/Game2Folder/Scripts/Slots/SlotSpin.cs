@@ -57,6 +57,7 @@ public class SlotSpin : MonoBehaviour {
 		{
 			ResetSlotIconEffects();
 			_gameState = GameState.STOPSPIN;
+			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_STOP);
 			SlotManager.Instance.SpinChecker();
 		}
 	}

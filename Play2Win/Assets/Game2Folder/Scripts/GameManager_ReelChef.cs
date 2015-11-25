@@ -51,6 +51,7 @@ public class GameManager_ReelChef : MonoBehaviour {
 		BetCounter = 1;
 		BetText.text = "1";
 
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_INTRO);
 	}
 	public void AddScore(float _score)
 	{
