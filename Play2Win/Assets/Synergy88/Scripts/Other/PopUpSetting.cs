@@ -12,6 +12,32 @@ public class PopUpSetting : MonoBehaviour {
 		settingsAnim = this.GetComponent<Animator> ();
 	}
 
+	void CheckHit(){
+		RaycastHit hit = new RaycastHit ();
+		Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);					
+		if (Physics.Raycast (ray, out hit)) {
+			if (hit.collider.gameObject != this.gameObject) {
+				settingsAnim.SetBool ("Hide", true);
+				isHide = true;
+			}
+		}
+	}
+	void Update(){
+
+#if UNITY_ANDROID
+		if (Input.touchCount > 0) {
+			if (Input.GetTouch (0).phase == TouchPhase.Ended) {
+				CheckHit ();
+			}
+		}
+#endif
+#if UNITY_EDITOR
+		if (Input.GetMouseButton (0)) {
+			CheckHit ();
+		}
+
+#endif
+	}
 	void ShowSetting(){
 		if (isHide) {
 			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SELECT);
