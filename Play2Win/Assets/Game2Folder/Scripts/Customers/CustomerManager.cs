@@ -87,10 +87,6 @@ public class CustomerManager : MonoBehaviour {
 					if(child.GetComponent<CustomerScript>()._HungerMeter >= 1000)
 					child.GetComponent<CustomerScript>()._customerOrder = CustomerScript.CustomerOrder.NONE;
 
-					child.GetComponent<CustomerScript>().Sparkles.GetComponent<MeshRenderer>().enabled = true;
-					child.GetComponent<CustomerScript>().Sparkles.GetComponent<tk2dSpriteAnimator>().SetFrame(0);
-					child.GetComponent<CustomerScript>().Sparkles.GetComponent<tk2dSpriteAnimator>().Play("SparkleExplode");
-					child.GetComponent<CustomerScript>().myAnimator.Play("WithDrink");
 					StartCoroutine(HighlightMatchedOrder(child.gameObject,i));
 					numberofcheckedCustomers ++;
 				}
@@ -142,7 +138,12 @@ public class CustomerManager : MonoBehaviour {
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_MATCH_DRINKS);
 		Debug.Log(ScoreMultiplier *  ((float)GameManager_ReelChef.Instance.BetCounter)+" Points");
 		StartCoroutine(ScoreEffects(ScoreMultiplier *  ((float)GameManager_ReelChef.Instance.BetCounter), _obj));
+
 		
+		yield return new WaitForSeconds(1.5f);
+
+		_obj.GetComponent<CustomerScript>().myAnimator.Play("WithDrink");
+
 		yield return new WaitForSeconds(0.5f);
 		_obj.GetComponent<CustomerScript>().myAnimator.Play("Cheers");
 		yield return new WaitForSeconds(1f);
@@ -223,6 +224,8 @@ public class CustomerManager : MonoBehaviour {
 		CustomerScript _customerScript = _obj.GetComponent<CustomerScript>();
 
 		float DelayTime = 1.525f;
+
+		/* REMOVED DUE TO NEW ANIMATION
 		for( int i = 0 ; i < 9 ; i++)
 		{
 			tk2dSprite slotSprite = SlotDetection.Instance._imageSprites[i].GetComponent<tk2dSprite>();
@@ -230,7 +233,7 @@ public class CustomerManager : MonoBehaviour {
 			{
 				if(slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject.activeSelf == false)
 				{
-					//xxxslotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject.SetActive(true);
+					slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject.SetActive(true);
 					//slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject.GetComponent<tk2dSprite>().color = Color.blue;
 
 
@@ -244,25 +247,29 @@ public class CustomerManager : MonoBehaviour {
 				}
 			}
 		}
+		*/
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_POINTS);
-		Debug.LogError(_obj.gameObject.name);
-
+	
 		for(int i = 1 ; i < 7 ; i++)
 		{
 			if(_obj.gameObject.name == "Customer"+i)
 			{
-				SparklesEffects[i].SetActive(true);
+				SparklesEffects[i-1].SetActive(true);
 			}
 		}
 
 		//yield return new WaitForSeconds(DelayTime*.75f);
-		yield return new WaitForSeconds(1.75f);	
+		yield return new WaitForSeconds(1.25f);	
 
 		for(int i = 1 ; i < 7 ; i++)
 		{
 			if(_obj.gameObject.name == "Customer"+i)
 			{
-				SparklesEffects[i].SetActive(false);
+				SparklesEffects[i-1].SetActive(false);
+				
+				_obj.GetComponent<CustomerScript>().Sparkles.GetComponent<MeshRenderer>().enabled = true;
+				_obj.GetComponent<CustomerScript>().Sparkles.GetComponent<tk2dSpriteAnimator>().SetFrame(0);
+				_obj.GetComponent<CustomerScript>().Sparkles.GetComponent<tk2dSpriteAnimator>().Play("SparkleExplode");
 			}
 		}
 

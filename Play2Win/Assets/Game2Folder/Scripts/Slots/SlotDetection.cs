@@ -264,6 +264,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 		CheckForBonusWindows ();
 
 	}
+	#region TO REMOVE
 	public IEnumerator WildNScatterHighlight()
 	{
 	
@@ -388,7 +389,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 		CheckForBonusWindows ();
 
 	}
-
+	#endregion
 
 	public IEnumerator HighLightMatches()
 	{
