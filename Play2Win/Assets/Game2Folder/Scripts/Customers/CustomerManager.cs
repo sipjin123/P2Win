@@ -3,6 +3,7 @@ using System.Collections;
 
 public class CustomerManager : MonoBehaviour {
 
+	#region DECLARATIONS
 	private static CustomerManager _instance;
 	public static CustomerManager Instance { get { return _instance; } }
 
@@ -23,6 +24,9 @@ public class CustomerManager : MonoBehaviour {
 
 	public GameObject[] ScoreEffectsList;
 	public GameObject[] SparklesEffects;
+	public GameObject[] StarSparklesEffects;
+	#endregion
+
 	void Start () {
 		_instance = this;
 		CustomerCount = 0;
@@ -47,6 +51,7 @@ public class CustomerManager : MonoBehaviour {
 		yield return new WaitForSeconds(2);
 		SpawnCustomer();
 	}
+
 	public void CheckTable()
 	{
 		if(TableUsedCount == 6)
@@ -55,6 +60,7 @@ public class CustomerManager : MonoBehaviour {
 			SlotDetection.Instance.CheckIfSpinCanBeActive();
 		}
 	}
+
 	public void SpawnCustomer()
 	{
 		if(CustomerCount < 6)
@@ -75,6 +81,7 @@ public class CustomerManager : MonoBehaviour {
 			}
 		}
 	}
+
 	public void ServeCustomerOrders()
 	{
 		int numberofcheckedCustomers = 0;
@@ -157,8 +164,10 @@ public class CustomerManager : MonoBehaviour {
 		yield return new WaitForSeconds(0.5f);
 
 	}
+
 	public IEnumerator ScoreEffects(float _score, GameObject _obj)
 	{
+		//SCORE AMOUNT INDICATOR
 		for(int i = 0; i < 3 ;i++)
 		{
 			if(ScoreEffectsList[i].gameObject.activeSelf == false && SlotDetection.Instance._possibleMatches[i] != SlotDetection.SLOTSList.NONE)
@@ -180,74 +189,9 @@ public class CustomerManager : MonoBehaviour {
 
 			}
 		}
-		/*
-		for(int i = 0; i < 3 ;i++)
-		{
-			if(ScoreEffectsList[i].gameObject.activeSelf == false)
-			{
-				ScoreEffectsList[i].gameObject.SetActive(true);
 
-				ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = ""+_score;
-				yield return new WaitForSeconds (1);
-				iTween.MoveBy(ScoreEffectsList[i].gameObject,iTween.Hash(
-					"x"   , ScoreEfxEnd.transform.position.x,
-					"y"	,  ScoreEfxEnd.transform.position.y,
-					"time", 0.25f
-					));
-				yield return new WaitForSeconds( 0.24f);
-				iTween.Stop(ScoreEffectsList[i]);
-				GameManager_ReelChef.Instance.AddScore(_score);
-				ScoreEffectsList[i].gameObject.SetActive(false);
-				ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = "";
-				ScoreEffectsList[i].transform.position = ScoreEfxStart[i].transform.position;
-
-				CustomerScript _customerScript = _obj.GetComponent<CustomerScript>();
-				
-				_customerScript._HungerMeter+= _score;
-				_customerScript.transform.FindChild("Text").gameObject.GetComponent<tk2dTextMesh>().text = ""+_customerScript._HungerMeter;
-				if(_customerScript._HungerMeter >= 1000)
-				{
-					_customerScript.OrderSprite.SetActive(false);
-					_customerScript._customerState = CustomerScript.CustomerState.EXIT;	
-					_customerScript.transform.FindChild("Text").gameObject.GetComponent<tk2dTextMesh>().text = "0";
-				}
-				else
-				{
-			
-					SlotDetection.Instance.CustomerSeatedFinished = true;
-					SlotDetection.Instance.CheckIfSpinCanBeActive();
-				}
-				break;
-			} 
-		}*/
-		
+		//SLOT MATCH SPECIAL EFFECTS (SPARKLES GO TOWARDS CUSTOMERS)
 		CustomerScript _customerScript = _obj.GetComponent<CustomerScript>();
-
-		float DelayTime = 1.525f;
-
-		/* REMOVED DUE TO NEW ANIMATION
-		for( int i = 0 ; i < 9 ; i++)
-		{
-			tk2dSprite slotSprite = SlotDetection.Instance._imageSprites[i].GetComponent<tk2dSprite>();
-			if(slotSprite.CurrentSprite.name == _customerScript.OrderSprite.GetComponent<tk2dSprite>().CurrentSprite.name)
-			{
-				if(slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject.activeSelf == false)
-				{
-					slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject.SetActive(true);
-					//slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject.GetComponent<tk2dSprite>().color = Color.blue;
-
-
-					iTween.MoveTo(slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject ,iTween.Hash(
-						"x" , _obj.transform.position.x   ,
-						"y"	,  _obj.transform.position.y  ,
-						"z"	,  _obj.transform.position.z  ,
-						"time", DelayTime
-						));
-
-				}
-			}
-		}
-		*/
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_POINTS);
 	
 		for(int i = 1 ; i < 7 ; i++)
@@ -257,10 +201,7 @@ public class CustomerManager : MonoBehaviour {
 				SparklesEffects[i-1].SetActive(true);
 			}
 		}
-
-		//yield return new WaitForSeconds(DelayTime*.75f);
 		yield return new WaitForSeconds(1.25f);	
-
 		for(int i = 1 ; i < 7 ; i++)
 		{
 			if(_obj.gameObject.name == "Customer"+i)
@@ -273,25 +214,14 @@ public class CustomerManager : MonoBehaviour {
 			}
 		}
 
-		for(int i = 0 ; i < 9 ; i++)
-		{
-			tk2dSprite slotSprite = SlotDetection.Instance._imageSprites[i].GetComponent<tk2dSprite>();
-			slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject.SetActive(false);
-			slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject.transform.position = slotSprite.transform.position;
-			iTween.Stop(slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject);
-		}
+		//ADD SCORE
+		GameManager_ReelChef.Instance.AddScore(_score);		
 
-		GameManager_ReelChef.Instance.AddScore(_score);				
+		/*
 		_customerScript._HungerMeter+= _score;
 		_customerScript.transform.FindChild("Text").gameObject.GetComponent<tk2dTextMesh>().text = ""+_customerScript._HungerMeter;
-		/*
-		if(_customerScript._HungerMeter >= 1000)
-		{
-			yield return new WaitForSeconds(1);
-			_customerScript.OrderSprite.SetActive(false);
-			_customerScript._customerState = CustomerScript.CustomerState.EXIT;	
-			_customerScript.transform.FindChild("Text").gameObject.GetComponent<tk2dTextMesh>().text = "0";
-		}*/
+		*/
+
 		if(CustomerManager.Instance.CustomerCount >= 6)
 		{
 			SlotDetection.Instance.CustomerSeatedFinished = true;
