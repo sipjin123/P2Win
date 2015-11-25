@@ -105,12 +105,27 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	private bool _extraPopupShown = false;
 	[SerializeField]
 	private GameObject[] gemFill;
+	[SerializeField]
+	private tk2dSprite gemOrder;
 
 	private List<IExtraRewardWindow> _extraRewardsWindow;
 
 	void Start() {
-		if(gemFill[0].transform.rotation.z < 180)
-			gemFill[0].transform.Rotate(new Vector3(0.0f,0.0f,-360.0f) * PlayerDataManager.Instance.ExpRatio);
+
+		gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, 0.0f);
+		gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, 0.0f);
+
+		if (PlayerDataManager.Instance.ExpRatio <= 0.5f) {
+			gemOrder.SortingOrder = 5;
+			gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
+			gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
+		} 
+		else if (PlayerDataManager.Instance.ExpRatio > 0.5f) {
+			gemOrder.SortingOrder = 7;
+			gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -180.0f);
+			gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
+		}
+
 		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.JTW_INTRO);
         ConcreteSignalParameters updateHudParam = new ConcreteSignalParameters();
         updateHudParam.AddParameter("ProfileUIType", ProfileUIType.SLOTS);
@@ -488,7 +503,16 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		if (_patternManager.FreeSpinsBonus.totalReward == 0) {
 			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.REGULAR_WIN);
 			PlayerDataManager.Instance.AddExp (Mathf.FloorToInt (_totalBet));
-			gemFill[0].transform.Rotate(new Vector3(0.0f,0.0f,360.0f) * PlayerDataManager.Instance.ExpRatio);
+			if (PlayerDataManager.Instance.ExpRatio <= 0.5f) {
+				gemOrder.SortingOrder = 5;
+				gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
+				gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
+			} 
+			else if (PlayerDataManager.Instance.ExpRatio > 0.5f) {
+				gemOrder.SortingOrder = 7;
+				gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -180.0f);
+				gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
+			}
 		}
 
 		Invoke("DelayedCheckForWinnings", 0.2f);
