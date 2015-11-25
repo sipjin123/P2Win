@@ -32,12 +32,29 @@ public class GameManager_ReelChef : MonoBehaviour {
 	public int Level;
 	public int Gems;
 	public int Exp;
+
+	[SerializeField] private GameObject[] gemFill;
+	[SerializeField] private tk2dSprite gemOrder;
+
 	void Awake ()
 	{
 		_instance = this;
 	}
 	void Start()
 	{
+		gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, 0.0f);
+		gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, 0.0f);
+		
+		if (PlayerDataManager.Instance.ExpRatio <= 0.5f) {
+			gemOrder.SortingOrder = 5;
+			gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
+			gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
+		} 
+		else if (PlayerDataManager.Instance.ExpRatio > 0.5f) {
+			gemOrder.SortingOrder = 7;
+			gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -180.0f);
+			gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
+		}
         ConcreteSignalParameters updateHudParam = new ConcreteSignalParameters();
         updateHudParam.AddParameter("ProfileUIType", ProfileUIType.BAR_FRENZY);
         SignalManager.Instance.CallWithParam(SignalType.UPDATE_PROFILE_HUD, updateHudParam);
@@ -61,6 +78,17 @@ public class GameManager_ReelChef : MonoBehaviour {
 	public void AddExp(float _exp)
 	{
 		PlayerDataManager.Instance.AddExp((int)_exp);
+
+		if (PlayerDataManager.Instance.ExpRatio <= 0.5f) {
+			gemOrder.SortingOrder = 5;
+			gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
+			gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
+		} 
+		else if (PlayerDataManager.Instance.ExpRatio > 0.5f) {
+			gemOrder.SortingOrder = 7;
+			gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -180.0f);
+			gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
+		}
 	}
 	public void AddBet(bool _ifADD)
 	{
