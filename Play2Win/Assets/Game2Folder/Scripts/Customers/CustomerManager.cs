@@ -22,7 +22,7 @@ public class CustomerManager : MonoBehaviour {
 	public GameObject[] Tables;
 
 	public GameObject[] ScoreEffectsList;
-
+	public GameObject[] SparklesEffects;
 	void Start () {
 		_instance = this;
 		CustomerCount = 0;
@@ -89,7 +89,7 @@ public class CustomerManager : MonoBehaviour {
 
 					child.GetComponent<CustomerScript>().Sparkles.GetComponent<MeshRenderer>().enabled = true;
 					child.GetComponent<CustomerScript>().Sparkles.GetComponent<tk2dSpriteAnimator>().SetFrame(0);
-					child.GetComponent<CustomerScript>().Sparkles.GetComponent<tk2dSpriteAnimator>().Play("Sparkles");
+					child.GetComponent<CustomerScript>().Sparkles.GetComponent<tk2dSpriteAnimator>().Play("SparkleExplode");
 					child.GetComponent<CustomerScript>().myAnimator.Play("WithDrink");
 					StartCoroutine(HighlightMatchedOrder(child.gameObject,i));
 					numberofcheckedCustomers ++;
@@ -230,7 +230,7 @@ public class CustomerManager : MonoBehaviour {
 			{
 				if(slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject.activeSelf == false)
 				{
-					slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject.SetActive(true);
+					//xxxslotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject.SetActive(true);
 					//slotSprite.transform.parent.gameObject.GetComponent<Itemscript>().PointsObject.GetComponent<tk2dSprite>().color = Color.blue;
 
 
@@ -245,8 +245,27 @@ public class CustomerManager : MonoBehaviour {
 			}
 		}
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_POINTS);
+		Debug.LogError(_obj.gameObject.name);
 
-		yield return new WaitForSeconds(DelayTime*.75f);
+		for(int i = 1 ; i < 7 ; i++)
+		{
+			if(_obj.gameObject.name == "Customer"+i)
+			{
+				SparklesEffects[i].SetActive(true);
+			}
+		}
+
+		//yield return new WaitForSeconds(DelayTime*.75f);
+		yield return new WaitForSeconds(1.75f);	
+
+		for(int i = 1 ; i < 7 ; i++)
+		{
+			if(_obj.gameObject.name == "Customer"+i)
+			{
+				SparklesEffects[i].SetActive(false);
+			}
+		}
+
 		for(int i = 0 ; i < 9 ; i++)
 		{
 			tk2dSprite slotSprite = SlotDetection.Instance._imageSprites[i].GetComponent<tk2dSprite>();
