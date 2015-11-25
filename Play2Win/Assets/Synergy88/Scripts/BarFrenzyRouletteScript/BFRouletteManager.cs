@@ -19,7 +19,6 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 
 	[SerializeField] private tk2dSprite[] myDrinks;
 	[SerializeField] private tk2dSprite[] opponentDrinks;
-	[SerializeField] private GameObject[] pieGlow;
 	[SerializeField] private GameObject myDrinkSparkle;
 	[SerializeField] private GameObject opponentDrinkSparkle;
 
@@ -36,6 +35,7 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 
 	[SerializeField] private GameObject myCamera;
 	[SerializeField] private GameObject gameBoard;
+	[SerializeField] private tk2dSpriteAnimator[] winSparkle;
 
 	[SerializeField]
 	private GameState _backToLobby = GameState.MAIN_MENU;
@@ -90,7 +90,7 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 				if (p_counter == 0)
 					myDrinks [p_drinkScore + p_counter].spriteId = 51;
 				else if (p_counter == 1)
-					myDrinks [p_drinkScore + p_counter].spriteId = 50;
+					myDrinks [p_drinkScore + p_counter].spriteId = 15;
 				else if (p_counter == 2)
 					myDrinks [p_drinkScore + p_counter].spriteId = 50;
 			} 
@@ -169,6 +169,16 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 
 	}
 
+	IEnumerator ShowSparkle(int p_sender){
+		for (int i = 0; i < 5; i++) {
+			winSparkle [p_sender].gameObject.SetActive (true);
+			winSparkle[p_sender].Play("WinSparkle");
+			yield return new WaitForSeconds (0.75f);
+			winSparkle [p_sender].gameObject.SetActive (false);
+			yield return new WaitForSeconds(1.25f);
+		}
+	}
+
 	void GetBattleResult (){
 		if (myScore > opponentScore) {
 			chipsWon = 1000 * (myScore - opponentScore);
@@ -176,7 +186,6 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 			myOpponent.CharacterLose("Opponent");
 			youLose.SetActive(false);
 			youWin.SetActive(true);
-
 		} 
 		else {
 			youLose.SetActive(true);
@@ -185,7 +194,7 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 			myCharacter.CharacterLose("Player");
 			myOpponent.CharacterWin();
 		}
-
+		StartCoroutine (ShowSparkle (myScore > opponentScore ? 0 : 1));
 	}
 
 	void UpdateResultBoard(){
