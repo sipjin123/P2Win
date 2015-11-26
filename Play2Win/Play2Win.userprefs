@@ -1,10 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game2Folder\Scripts\Slots\SlotDetection.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game2Folder\Scripts\GameManager_ReelChef.cs">
     <Files>
-      <File FileName="Assets\Game2Folder\Scripts\Customers\CustomerManager.cs" Line="46" Column="26" />
-      <File FileName="Assets\Game2Folder\Scripts\Slots\SlotDetection.cs" Line="211" Column="39" />
-      <File FileName="Assets\Game2Folder\Scripts\AnimationManager_ReelChef.cs" Line="14" Column="20" />
+      <File FileName="Assets\Game2Folder\Scripts\Customers\CustomerManager.cs" Line="44" Column="12" />
+      <File FileName="Assets\Game2Folder\Scripts\Slots\SlotDetection.cs" Line="124" Column="5" />
+      <File FileName="Assets\Game2Folder\Scripts\AnimationManager_ReelChef.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game2Folder\Scripts\GameManager_ReelChef.cs" Line="157" Column="3" />
+      <File FileName="Assets\Synergy88\Scripts\Managers\AudioManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Synergy88\Scripts\SceneScripts\PlayerProfileUI.cs" Line="107" Column="91" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -12,10 +15,14 @@
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Game2Folder" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="Customers" expanded="True" />
-                <Node name="Slots" expanded="True">
-                  <Node name="SlotDetection.cs" selected="True" />
-                </Node>
+                <Node name="Slots" expanded="True" />
+                <Node name="GameManager_ReelChef.cs" selected="True" />
+              </Node>
+            </Node>
+            <Node name="Synergy88" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="Managers" expanded="True" />
+                <Node name="SceneScripts" expanded="True" />
               </Node>
             </Node>
           </Node>

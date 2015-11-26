@@ -169,6 +169,8 @@ public class GameManager_ReelChef : MonoBehaviour {
 	}
 	public void GoBackToLevelSelect()
 	{
+		Debug.LogError("WAT");
+		AudioManager.Instance.StopGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_INTRO);
 		AudioManager.Instance.ResumeBGM();
 		Application.LoadLevel("GameMenu");
 	}

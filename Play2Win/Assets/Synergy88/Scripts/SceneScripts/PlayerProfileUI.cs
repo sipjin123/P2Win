@@ -103,6 +103,8 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 	}
 
 	public void GoToLobby() {
+		AudioManager.Instance.StopGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_INTRO);
+		AudioManager.Instance.StopGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_MINIGAMEBGM);
 		if (_inputLocked) {
 			return;		
 		}
