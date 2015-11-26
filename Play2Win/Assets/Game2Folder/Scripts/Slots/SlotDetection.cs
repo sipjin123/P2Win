@@ -259,7 +259,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 			{
 				for(int i = 0 ; i < 9 ; i++)
 				{
-				if(_imageSprites[i].gameObject.name == "slot_item7"  && _imageMatchCounter[7] >= 3)
+					if(_imageSprites[i].gameObject.name == "slot_item7"  && _imageMatchCounter[7] >= 3)
 					{
 						foreach (Transform child in CustomerManager.Instance.CustomersInside.transform)
 						{
@@ -267,7 +267,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 							
 						}
 					}
-				if(_imageSprites[i].gameObject.name == "slot_item9"  && _imageMatchCounter[9] >= 3)
+					if(_imageSprites[i].gameObject.name == "slot_item9"  && _imageMatchCounter[9] >= 3)
 					{
 						foreach (Transform child in CustomerManager.Instance.CustomersInside.transform)
 						{
@@ -314,12 +314,14 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 				if(CustomerManager.Instance.ScoreEffectsList[i].gameObject.activeSelf == false)
 				{
 					CustomerManager.Instance.ScoreEffectsList[i].gameObject.SetActive(true);
+					AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.PURCHASE);
 					
 					CustomerManager.Instance.ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = "" + (250 * GameManager_ReelChef.Instance.BetCounter );
 					yield return new WaitForSeconds (1);
 
 					iTween.Stop(CustomerManager.Instance.ScoreEffectsList[i]);
 					CustomerManager.Instance.ScoreEffectsList[i].gameObject.SetActive(false);
+					AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_ADD);
 					break;
 				}
 			}
@@ -333,11 +335,13 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 				if(CustomerManager.Instance.ScoreEffectsList[i].gameObject.activeSelf == false)
 				{
 					CustomerManager.Instance.ScoreEffectsList[i].gameObject.SetActive(true);
+					AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.PURCHASE);
 					
 					CustomerManager.Instance.ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = "" + (250 * GameManager_ReelChef.Instance.BetCounter );
 					yield return new WaitForSeconds (1);
 					iTween.Stop(CustomerManager.Instance.ScoreEffectsList[i]);
 					CustomerManager.Instance.ScoreEffectsList[i].gameObject.SetActive(false);
+					AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_ADD);
 					CustomerManager.Instance.ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = "";
 					break;
 				}

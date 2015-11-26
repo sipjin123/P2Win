@@ -154,22 +154,9 @@ public class CustomerManager : MonoBehaviour {
 
 	public IEnumerator ScoreEffects(float _score, GameObject _obj)
 	{
-		//SCORE AMOUNT INDICATOR
-		for(int i = 0; i < 3 ;i++)
-		{
-			if(ScoreEffectsList[i].gameObject.activeSelf == false && SlotDetection.Instance._possibleMatches[i] != SlotDetection.SLOTSList.NONE)
-			{
-				ScoreEffectsList[i].gameObject.SetActive(true);
-				ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = ""+_score;
-				yield return new WaitForSeconds (1);
-				ScoreEffectsList[i].gameObject.SetActive(false);
-
-			}
-		}
-
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_POINTS);
 		//SLOT MATCH SPECIAL EFFECTS (SPARKLES GO TOWARDS CUSTOMERS)
 		CustomerScript _customerScript = _obj.GetComponent<CustomerScript>();
-		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_POINTS);
 	
 		for(int i = 1 ; i < 7 ; i++)
 		{
@@ -203,6 +190,20 @@ public class CustomerManager : MonoBehaviour {
 		{
 			SlotDetection.Instance.CustomerSeatedFinished = true;
 			SlotDetection.Instance.CheckIfSpinCanBeActive();
+		}
+		//SCORE AMOUNT INDICATOR
+		for(int i = 0; i < 3 ;i++)
+		{
+			if(ScoreEffectsList[i].gameObject.activeSelf == false && SlotDetection.Instance._possibleMatches[i] != SlotDetection.SLOTSList.NONE)
+			{
+				AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.PURCHASE);
+				ScoreEffectsList[i].gameObject.SetActive(true);
+				ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = ""+_score;
+				yield return new WaitForSeconds (1);
+				ScoreEffectsList[i].gameObject.SetActive(false);
+				AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_ADD);
+				
+			}
 		}
 
 	}
