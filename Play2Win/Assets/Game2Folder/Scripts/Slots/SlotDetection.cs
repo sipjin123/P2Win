@@ -203,6 +203,14 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 
 	public IEnumerator BonusHighlight()
 	{
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_MATCH_DRINKS);
+		for(int i = 0 ; i < 9 ; i++)
+		{
+			if(_imageSprites[i].gameObject.name == "slot_item8")
+			{
+				TableLightings[i].GetComponent<MeshRenderer>().enabled = true;
+			}
+		}
 		yield return new WaitForSeconds(1);
 		float BonusCounter = 0;
 
@@ -268,6 +276,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 					}
 				}
 			}
+			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_MATCH_DRINKS);
 			yield return new WaitForSeconds (1);
 
 			for(int q = 0 ; q < 3 ; q++)
@@ -280,12 +289,6 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 						{
 							GameObject temp = _imageSprites[i].transform.parent.GetComponent<Itemscript>().RewardsObject;
 							_imageSprites[i].transform.parent.GetComponent<Itemscript>().RewardsObject.SetActive(true);
-							iTween.MoveTo(_imageSprites[i].transform.parent.GetComponent<Itemscript>().RewardsObject,iTween.Hash(
-								"x"   , temp.transform.position.x+10,
-								"y"	,  temp.transform.position.y ,
-								"z"	,  temp.transform.position.z ,
-								"time",0.5f
-								));
 						}
 					}
 					if(_imageSprites[i].gameObject.name == "slot_item9"&& _imageMatchCounter[9] >= 3)
@@ -294,13 +297,6 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 						{
 							GameObject temp = _imageSprites[i].transform.parent.GetComponent<Itemscript>().RewardsObject;
 							_imageSprites[i].transform.parent.GetComponent<Itemscript>().RewardsObject.SetActive(true);
-							iTween.MoveTo(_imageSprites[i].transform.parent.GetComponent<Itemscript>().RewardsObject,iTween.Hash(
-								"x"   , temp.transform.position.x +10,
-								"y"	,  temp.transform.position.y ,
-								"z"	,  temp.transform.position.z ,
-								"time",0.5f
-								));
-							
 						}
 					}
 				}
@@ -339,16 +335,9 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 					
 					CustomerManager.Instance.ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = "" + (250 * GameManager_ReelChef.Instance.BetCounter );
 					yield return new WaitForSeconds (1);
-					iTween.MoveBy( CustomerManager.Instance.ScoreEffectsList[i].gameObject,iTween.Hash(
-						"x"   , CustomerManager.Instance.ScoreEfxEnd.transform.position.x,
-						"y"	,  CustomerManager.Instance.ScoreEfxEnd.transform.position.y,
-						"time", 0.25f
-						));
-					yield return new WaitForSeconds( 0.24f);
 					iTween.Stop(CustomerManager.Instance.ScoreEffectsList[i]);
 					CustomerManager.Instance.ScoreEffectsList[i].gameObject.SetActive(false);
 					CustomerManager.Instance.ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = "";
-					CustomerManager.Instance.ScoreEffectsList[i].transform.position = CustomerManager.Instance.ScoreEfxStart[i].transform.position;
 					break;
 				}
 			}

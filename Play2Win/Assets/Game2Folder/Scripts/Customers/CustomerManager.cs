@@ -11,9 +11,6 @@ public class CustomerManager : MonoBehaviour {
 	public int CustomerCount;
 	public int TableUsedCount;
 
-	public GameObject[] ScoreEfxStart;
-	public GameObject ScoreEfxEnd;
-
 	public GameObject CustomersInside;
 	public GameObject CustomersOutside;
 
