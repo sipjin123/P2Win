@@ -66,8 +66,8 @@ public class SlotItem : MonoBehaviour {
 		_itemChances.Add(SlotItemType.ITEM_7, 50f);
 		_itemChances.Add(SlotItemType.ITEM_8, 55f);
 		_itemChances.Add(SlotItemType.BONUS, 60f);
-//		_itemChances.Add(SlotItemType.SCATTER, 62.5f);
-//		_itemChances.Add(SlotItemType.WILD, 65f);
+		_itemChances.Add(SlotItemType.SCATTER, 62.5f);
+		_itemChances.Add(SlotItemType.WILD, 65f);
         //_itemChances.Add(SlotItemType.BOOSTER, 67.5f);
 	}
 
