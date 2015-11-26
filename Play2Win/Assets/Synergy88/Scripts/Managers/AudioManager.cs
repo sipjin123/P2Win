@@ -80,6 +80,7 @@ public class AudioManager : MonoBehaviour {
 
     private bool _bgmPlaying = false;
 
+	public GameObject SFXParent,BGMParent;
 	void Start() {
 		_instance = this;
 
@@ -97,7 +98,6 @@ public class AudioManager : MonoBehaviour {
 			_globalAudioList[type].Play();
 		}
 	}
-
 	public void SwitchBGM(GlobalAudioType newType) {
 
         if (_currentBGM == newType && _bgmPlaying) {

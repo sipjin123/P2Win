@@ -61,6 +61,13 @@ public class GameManager_ReelChef : MonoBehaviour {
 
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_INTRO);
 	}
+	void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.Escape))
+		{
+			PlayerProfileUI.Instance.GoToLobby();
+		}
+	}
 
 	void UpdateGemMeter(){
 		if (PlayerDataManager.Instance.ExpRatio <= 0.5f) {

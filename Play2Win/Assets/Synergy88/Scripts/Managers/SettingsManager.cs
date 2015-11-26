@@ -73,6 +73,18 @@ public class SettingsManager : MonoBehaviour, ISignalListener {
         _sfxOffSprite.gameObject.SetActive(!PlayerDataManager.Instance.UseSFX);
         _bgmOnSprite.gameObject.SetActive(PlayerDataManager.Instance.UseBGM);
         _bgmOffSprite.gameObject.SetActive(!PlayerDataManager.Instance.UseBGM);
+
+	
+		foreach(Transform child in AudioManager.Instance.SFXParent.transform)
+		{
+			child.GetComponent<AudioSource>().mute = !PlayerDataManager.Instance.UseSFX;
+		}
+		foreach(Transform child in AudioManager.Instance.BGMParent.transform)
+		{
+			child.GetComponent<AudioSource>().mute = !PlayerDataManager.Instance.UseBGM;
+		}
+
+	
 	}
 
 	public void Execute(SignalType type, ISignalParameters param) {

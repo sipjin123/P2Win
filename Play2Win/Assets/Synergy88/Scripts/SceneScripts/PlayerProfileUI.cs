@@ -10,7 +10,8 @@ public enum ProfileUIType {
 }
 
 public class PlayerProfileUI : MonoBehaviour, ISignalListener {
-
+	private static PlayerProfileUI _instance;
+	public static PlayerProfileUI Instance { get { return _instance; } }
     [System.Serializable]
     public struct ProfileUIAnimationTransition {
         public ProfileUIType Type;
@@ -56,6 +57,7 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 	private bool _inputLocked = false;
 
 	void Start() {
+		_instance = this;
         // Re-arranging array data into Dictionaries for easier access later
         _hudAnimationList = new Dictionary<ProfileUIType, ProfileUIAnimation>();
         for (int i = 0; i < _hudAnimations.Length; i++) {
@@ -105,14 +107,14 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 	public void GoToLobby() {
 		AudioManager.Instance.StopGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_INTRO);
 		AudioManager.Instance.StopGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_MINIGAMEBGM);
+		AudioManager.Instance.StopGlobalAudio(AudioManager.GlobalAudioType.JTW_INTRO);
 		if (_inputLocked) {
 			return;		
 		}
 		
 		AudioManager.Instance.ResumeBGM();
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
-        //GameManager.Instance.LoadScene(GameState.GAME_MENU);
-        GameManager.Instance.LoadScene(GameState.MAIN_MENU);
+		GameManager.Instance.LoadScene(GameState.GAME_MENU);
 	}
 
 	public void OpenSettings() {
