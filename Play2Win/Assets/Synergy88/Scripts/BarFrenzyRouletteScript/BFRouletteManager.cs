@@ -191,6 +191,7 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 			youWin.SetActive(true);
 		} 
 		else {
+			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_MINIGAMELOSE);
 			youLose.SetActive(true);
 			youWin.SetActive(false);
 			chipsWon = 500;
