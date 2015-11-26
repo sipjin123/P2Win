@@ -175,7 +175,7 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 		UpdateCoinsText(Mathf.FloorToInt(PlayerDataManager.Instance.Chips));
 
         foreach (ProfileUIItems item in _uiGroups) {
-            item.LoyaltyPoints.text = PlayerDataManager.Instance.Points.ToString();
+            item.LoyaltyPoints.text = ConvertTotalCoin(PlayerDataManager.Instance.Points);
             item.Level.text = PlayerDataManager.Instance.Level.ToString();
             item.Exp.text = PlayerDataManager.Instance.Experience.ToString();
             item.ExpBar.scale = new Vector3(PlayerDataManager.Instance.ExpRatio, 1f, 1f);
@@ -217,7 +217,7 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
                 }
 			} else {
                 foreach (ProfileUIItems item in _uiGroups) {
-                    item.Coins.text = _coinsCurrentValue.ToString("#,#");
+                    item.Coins.text = ConvertTotalCoin(_coinsCurrentValue);
                 }
 			}
 			return;
@@ -234,7 +234,34 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 		StartCoroutine(IncreaseCoinsText());
 	}
 
+	string ConvertTotalCoin(int p_value){
+		int count = 6;
+		string chipsToDisplay = string.Empty;
+		string[] placeValue = new string[]{"M","E","E","B","E","E","T"};
+		if (p_value < 10000000) {
+			chipsToDisplay = p_value.ToString ("#,#");
+		} 
+
+		else {
+			while (count >= 0) {
+				if(count == 0 || count == 3 || count == 6){
+					if (p_value > 1000000 * Mathf.Pow (10,count)) {
+						chipsToDisplay = (p_value / (1000000 * Mathf.Pow (10, count))).ToString ("f0") + placeValue [count];
+						break;
+					}
+
+					else 
+						count --;
+				}
+				else 
+					count --;
+			}
+		}
+		return chipsToDisplay;
+	}
+
 	private IEnumerator IncreaseCoinsText() {
+		string displayChips = ConvertTotalCoin (_coinsCurrentValue);
 		int increase = _coinsCurrentValue - _previousCoinValue;
 		int currentIndex = 0;
 		int maxIndex = Mathf.FloorToInt(INCREMENT_TIME / TICK_TIME);
@@ -255,7 +282,7 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
             }
 		} else {
             foreach (ProfileUIItems item in _uiGroups) {
-                item.Coins.text = _coinsCurrentValue.ToString("#,#");
+                item.Coins.text = displayChips;
             }
 		}
 	}
