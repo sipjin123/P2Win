@@ -430,6 +430,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
         //} else if (_freeSpinsActive <= 0 /* && _boostersToUse > PlayerDataManager.Instance.Points */) {
         //    _notEnoughBoosters.Show();
 		} else {
+			if(!bonusWinAnim){
 			_patternManager.HideWinningPattern ();
 
 			_spinning = true;
@@ -454,6 +455,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 			}
 			//if(!_spinning)
 			StartCoroutine(WaitForSound());
+			}
 		}
 	}
 
@@ -622,7 +624,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	}
 
 	void SpinAgain(){
-		if(_wasAutoplaying)
+		if(_wasAutoplaying && !bonusWinAnim)
 			SwitchAutoplay ();
 		_wasAutoplaying = false;
 
