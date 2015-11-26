@@ -84,7 +84,7 @@ public class MainMenuScene : AnimatedScene {
     }
 
     public void CollectBonus() {
-        AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.COINS);
+        AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SFX_FREECHIPS);
         PlayerDataManager.Instance.CollectBonus();
     }
 
