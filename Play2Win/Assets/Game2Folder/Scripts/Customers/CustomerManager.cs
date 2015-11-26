@@ -16,11 +16,8 @@ public class CustomerManager : MonoBehaviour {
 
 	public GameObject CustomersInside;
 	public GameObject CustomersOutside;
-	public GameObject Door;
-	public GameObject TableParent;
 
 	public GameObject[] Customers;
-	public GameObject[] Tables;
 
 	public GameObject[] ScoreEffectsList;
 	public GameObject[] SparklesEffects;
@@ -38,11 +35,6 @@ public class CustomerManager : MonoBehaviour {
 			i++;
 		}
 		int q = 0;
-		foreach (Transform child in TableParent.transform)
-		{
-			Tables[q] = child.gameObject;
-			q++;
-		}
 		StartCoroutine(StartSpawn());
 	}
 
@@ -71,8 +63,6 @@ public class CustomerManager : MonoBehaviour {
 				{
 					if(Customers[i].GetComponent<CustomerScript>()._customerState == CustomerScript.CustomerState.IDLE)
 					{
-						//BCOS OF ASSETS
-						//Customers[i].transform.position = Door.transform.position;
 						Customers[i].transform.parent = CustomersInside.transform;
 						CustomerCount ++;
 						Customers[i].GetComponent<CustomerScript>()._customerState = CustomerScript.CustomerState.ENTER;
@@ -173,19 +163,9 @@ public class CustomerManager : MonoBehaviour {
 			if(ScoreEffectsList[i].gameObject.activeSelf == false && SlotDetection.Instance._possibleMatches[i] != SlotDetection.SLOTSList.NONE)
 			{
 				ScoreEffectsList[i].gameObject.SetActive(true);
-				
 				ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = ""+_score;
 				yield return new WaitForSeconds (1);
-				iTween.MoveBy(ScoreEffectsList[i].gameObject,iTween.Hash(
-					"x"   , ScoreEfxEnd.transform.position.x,
-					"y"	,  ScoreEfxEnd.transform.position.y,
-					"time", 0.25f
-					));
-				yield return new WaitForSeconds( 0.24f);
-				iTween.Stop(ScoreEffectsList[i]);
 				ScoreEffectsList[i].gameObject.SetActive(false);
-				ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = "";
-				ScoreEffectsList[i].transform.position = ScoreEfxStart[i].transform.position;
 
 			}
 		}

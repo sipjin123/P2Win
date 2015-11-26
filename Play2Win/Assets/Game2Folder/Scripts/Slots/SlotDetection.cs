@@ -320,16 +320,9 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 					
 					CustomerManager.Instance.ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = "" + (250 * GameManager_ReelChef.Instance.BetCounter );
 					yield return new WaitForSeconds (1);
-					iTween.MoveBy( CustomerManager.Instance.ScoreEffectsList[i].gameObject,iTween.Hash(
-						"x"   , CustomerManager.Instance.ScoreEfxEnd.transform.position.x,
-						"y"	,  CustomerManager.Instance.ScoreEfxEnd.transform.position.y,
-						"time", 0.25f
-						));
-					yield return new WaitForSeconds( 0.24f);
+
 					iTween.Stop(CustomerManager.Instance.ScoreEffectsList[i]);
 					CustomerManager.Instance.ScoreEffectsList[i].gameObject.SetActive(false);
-					CustomerManager.Instance.ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = "";
-					CustomerManager.Instance.ScoreEffectsList[i].transform.position = CustomerManager.Instance.ScoreEfxStart[i].transform.position;
 					break;
 				}
 			}

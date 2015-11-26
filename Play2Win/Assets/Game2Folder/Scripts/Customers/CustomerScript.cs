@@ -44,8 +44,6 @@ public class CustomerScript : MonoBehaviour {
 			LookForSeat();
 		if(_customerState == CustomerState.SIT)
 			TakeSeat();
-		if(_customerState == CustomerState.EXIT)
-			ExitRoomTransition();
 	}
 
 
@@ -56,50 +54,13 @@ public class CustomerScript : MonoBehaviour {
 		RaycastHit TableDetector;
 		_customerState = CustomerState.SIT;
 
-		/*
-		if(Physics.Raycast(transform.position , -transform.right * 5, out TableDetector))
-		{
-			if(TableDetector.collider.gameObject.tag == "Table")
-			{
-				_tableToSit = TableDetector.collider.gameObject;
-				if(_tableToSit.GetComponent<TableScript>().isOccupied == true)
-				{
-					_tableToSit.GetComponent<TableScript>().isOccupied = false;
-					_customerState = CustomerState.SIT;
 
-					_customerOrder = (CustomerOrder) ( _tableToSit.GetComponent<TableScript>().TableNumber -1);
-				}
-				else
-				{
-					transform.position -= transform.forward * MovementSpeed;
-				}
-			}
-			else
-			{
-				transform.position -= transform.forward * MovementSpeed;
-			}
-		}
-		Debug.DrawRay(transform.position , -transform.right * 5, Color.red);*/
 	}
 
 	public void TakeSeat()
 	{
 		_customerState = CustomerState.ORDER;
 		ShowOrder();
-		//BCOS OF ASSETS
-		/*
-		GameObject chair = _tableToSit.GetComponent<TableScript>().myChild;
-		if(Vector3.Distance( chair.transform.position , transform.position) > 0.5f)
-		{
-			transform.position -= transform.right * MovementSpeed;
-		}
-		else
-		{
-			transform.position = chair.transform.position;
-			_customerState = CustomerState.ORDER;
-			ShowOrder();
-		}
-		*/
 	}
 	
 	public void ShowOrder()
@@ -113,21 +74,6 @@ public class CustomerScript : MonoBehaviour {
 
 	}
 
-	public void ExitRoomTransition()
-	{
-		if(Vector3.Distance(transform.position , CustomerManager.Instance.Door.transform.position) < 1)
-		{
-			ExitFinish();
-		}
-		else
-		{
-			if(CustomerManager.Instance.Door.transform.position.x > transform.position.x)
-				transform.position += transform.right * MovementSpeed;
-			else
-				transform.position += transform.forward * MovementSpeed;
-		}
-
-	}
 	public void ExitFinish()
 	{
 		CustomerManager.Instance.CustomerCount --;
