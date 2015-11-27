@@ -60,6 +60,8 @@ public class GameManager_ReelChef : MonoBehaviour {
 		BetText.text = "1";
 
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_INTRO);
+		AudioManager.Instance.SwitchBGM(AudioManager.GlobalAudioType.BARFRENZY_INTRO);
+		AudioManager.Instance.ResumeBGM();
 	}
 	void Update()
 	{

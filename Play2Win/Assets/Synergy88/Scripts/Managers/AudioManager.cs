@@ -52,7 +52,8 @@ public class AudioManager : MonoBehaviour {
 		BARFRENZY_WINANIMATION,
 		BARFRENZY_POURDRINK,
 		BARFRENZY_MINIGAMELOSE,
-		SFX_FREECHIPS
+		SFX_FREECHIPS,
+		BARFRENZY_BGMLOOP
 	}
 
 	[System.Serializable]
@@ -112,7 +113,20 @@ public class AudioManager : MonoBehaviour {
             _globalAudioList[_currentBGM].Pause();
         }
 	}
+	void Update()
+	{
+		if(_globalAudioList[_currentBGM].name == GlobalAudioType.BARFRENZY_INTRO.ToString())
+		{
+			if(_globalAudioList[_currentBGM].time > 15)
+			{
+				
+				SwitchBGM(GlobalAudioType.BARFRENZY_BGMLOOP);
+				PlayGlobalAudio(GlobalAudioType.BARFRENZY_BGMLOOP);
+				ResumeBGM();
+			}
+		}
 
+	}
 	public void StopGlobalAudio(GlobalAudioType type) {
 		_globalAudioList[type].Stop();
 	}

@@ -85,6 +85,8 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 		switch (type) {
 		case SignalType.EXTRA_REWARD_CLOSED:
 			AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_INTRO);
+			AudioManager.Instance.SwitchBGM(AudioManager.GlobalAudioType.BARFRENZY_INTRO);
+			AudioManager.Instance.ResumeBGM();
 			_extraRewardsWindow.RemoveAt (0);
 			CheckForBonusWindows ();
 			break;
