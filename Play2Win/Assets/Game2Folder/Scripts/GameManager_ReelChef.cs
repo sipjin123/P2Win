@@ -70,17 +70,21 @@ public class GameManager_ReelChef : MonoBehaviour {
 			PlayerProfileUI.Instance.GoToLobby();
 		}
 	}
-
 	void UpdateGemMeter(){
-		if (PlayerDataManager.Instance.ExpRatio <= 0.5f) {
+
+		int currentExp = PlayerDataManager.Instance.currentExp();
+		int expPercentage = PlayerDataManager.Instance.ExpRatioPercentage();
+		int gemCurrentRatio = expPercentage * PlayerDataManager.Instance.getGemCounterExpRatio();
+
+		if (currentExp - (gemCurrentRatio) <= expPercentage * 0.5f) {
 			gemOrder.SortingOrder = 5;
-			gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
-			gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
+			gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * (((float)currentExp - (float)gemCurrentRatio) / (float)expPercentage));
+			gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * (((float)currentExp - (float)gemCurrentRatio) / (float)expPercentage));
 		} 
-		else if (PlayerDataManager.Instance.ExpRatio > 0.5f) {
+		else if (currentExp - (gemCurrentRatio)  > expPercentage * 0.5f) {
 			gemOrder.SortingOrder = 7;
 			gemFill [0].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -180.0f);
-			gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * PlayerDataManager.Instance.ExpRatio);
+			gemFill [1].transform.localRotation = Quaternion.Euler (0.0f, 0.0f, -360.0f * (((float)currentExp - (float)gemCurrentRatio) / (float)expPercentage));
 		}
 	}
 

@@ -45,6 +45,7 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 	private int _lastBet;
 	private int _lastPattern;
 	private int _logInBonus;
+	private int _gemCounter = 1;
 
 	public List<int> _boughtIAPLevels;
 
@@ -126,6 +127,7 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 		_instance = this;
 		BONUS_TIME_DURATION = TimeSpan.FromHours(4);
 		LoadAllData();
+		UpdateGemMeter();
 
 		_boughtIAPLevels = new List<int>();
 	}
@@ -221,15 +223,40 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 		_points -= amount;
 		SignalManager.Instance.Call(SignalType.LOCAL_DATA_CHANGED);
 	}
+	public int getGemCounterExpRatio(){
+		return currentExp() / ExpRatioPercentage();
+	}
+
+	public void UpdateGemMeter(){
+		_gemCounter = (currentExp() / ExpRatioPercentage()) + 1 ;
+	}
+
+	public int ExpRatioPercentage(){
+		return (GameDataManager.Instance.LevelInfo.ExpToNextLevel - GameDataManager.Instance.GetCurrentBaseEXP()) / 10;
+	}
+	public int currentExp(){
+		return (int)_exp - GameDataManager.Instance.GetCurrentBaseEXP();
+	}
 
 	public void AddExp(int amount) {
 		if (_level < GameDataManager.Instance.MaxLevel) {
 			_exp += amount;
+
 			if (_exp >= GameDataManager.Instance.LevelInfo.ExpToNextLevel) {
 				_level++;
+				PlayerDataManager.Instance.AddPoints (5);
+				_gemCounter = 1;
+				UpdateGemMeter();
 				SignalManager.Instance.Call(SignalType.LEVELED_UP);
 			} 
+
 			else {
+				if(currentExp() >= ExpRatioPercentage() * _gemCounter){
+					PlayerDataManager.Instance.AddPoints (5);
+					_gemCounter += 1;
+					AddExp(0);
+				}
+
 				SignalManager.Instance.Call(SignalType.LOCAL_DATA_CHANGED);
 			}
 			//SignalManager.Instance.Call(SignalType.PARSE_UPDATE);

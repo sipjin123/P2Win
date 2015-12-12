@@ -1,12 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Synergy88\Scripts\SceneScripts\PlayerProfileUI.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game2Folder\Scripts\GameManager_ReelChef.cs">
     <Files>
-      <File FileName="Assets\Synergy88\Scripts\Managers\AudioManager.cs" Line="122" Column="47" />
-      <File FileName="Assets\Synergy88\Scripts\Managers\PlayerDataManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game2Folder\Scripts\GameManager_ReelChef.cs" Line="70" Column="35" />
-      <File FileName="Assets\Synergy88\Scripts\SceneScripts\PlayerProfileUI.cs" Line="111" Column="87" />
-      <File FileName="Assets\Game2Folder\Scripts\Slots\SlotDetection.cs" Line="416" Column="1" />
+      <File FileName="Assets\Synergy88\Scripts\Managers\PlayerDataManager.cs" Line="227" Column="45" />
+      <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs" Line="171" Column="1" />
+      <File FileName="Assets\Synergy88\Scripts\Managers\GameDataManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Synergy88\Scripts\Patterns\PatternManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotItem.cs" Line="1" Column="1" />
+      <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotItemDetectorManager.cs" Line="320" Column="49" />
+      <File FileName="Assets\Game2Folder\Scripts\GameManager_ReelChef.cs" Line="87" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,15 +16,12 @@
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Game2Folder" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="Slots" expanded="True" />
+                <Node name="GameManager_ReelChef.cs" selected="True" />
               </Node>
             </Node>
             <Node name="Synergy88" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="Managers" expanded="True" />
-                <Node name="SceneScripts" expanded="True">
-                  <Node name="PlayerProfileUI.cs" selected="True" />
-                </Node>
+                <Node name="SlotMachine" expanded="True" />
               </Node>
             </Node>
           </Node>
