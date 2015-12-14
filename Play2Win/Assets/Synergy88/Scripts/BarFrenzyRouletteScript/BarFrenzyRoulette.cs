@@ -15,6 +15,7 @@ public class BarFrenzyRoulette : MonoBehaviour {
 	public void setSpinCounter(){
 		spinCounter = 5;
 		m_spin = true;
+		spinLeft.text = spinCounter.ToString ();
 		spinButton.color = new Color (1.0f, 1.0f, 1.0f);
 	}
 

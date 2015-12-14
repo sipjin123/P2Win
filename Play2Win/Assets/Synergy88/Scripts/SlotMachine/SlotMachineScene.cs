@@ -527,6 +527,15 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		PlayerDataManager.Instance.AddChips(_previousWinnings);
 	}
 
+
+	void BonusGameCheat(){
+		_WhackAMole.SetMultiplier(3);
+		_WhackAMole.SetCoins(_currentCoinBet);
+		_extraRewardsWindow.Add(_WhackAMole);
+		CheckForBonusWindows ();
+	}
+
+
 	IEnumerator WaitForBonusAnim(){
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BONUS);
 		WinEffectManager.Instance.startBonusWin(_previousWinnings);

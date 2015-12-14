@@ -358,6 +358,12 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 	}
 	#endregion
 
+
+	void CheatToBonus(){
+		_extraRewardsWindow.Add(_BFRouletteManager);
+		CheckForBonusWindows ();
+	}
+
 	public IEnumerator HighLightMatches()
 	{
 

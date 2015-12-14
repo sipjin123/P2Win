@@ -56,6 +56,8 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 		gameBoard.SetActive (false);
 		rouletteBody.setSpinCounter ();
 		myCamera.SetActive(true);
+		winSparkle [0].gameObject.SetActive (false);
+		winSparkle [1].gameObject.SetActive (false);
 		for (int i = 0; i < myDrinks.Length; i ++) {
 			myDrinks[i].gameObject.SetActive(false);
 			opponentDrinks[i].gameObject.SetActive(false);
