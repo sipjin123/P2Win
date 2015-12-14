@@ -88,6 +88,10 @@ public class GameManager_ReelChef : MonoBehaviour {
 		}
 	}
 
+	public void HideGameBar(){
+		StartCoroutine (AnimateLowerBar (false));
+	}
+
 	public void AddScore(float _score)
 	{
 		LowerBarIsActive = false;

@@ -43,6 +43,10 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 
 	[SerializeField]
 	private WhackAMoleManager _WhackAMole;
+
+	[SerializeField]
+	private BonusRouletteManager _BonusSpin;
+
 	
 	[SerializeField]
 	private BoostersWinManager _boostersWin;
@@ -531,7 +535,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	void BonusGameCheat(){
 		_WhackAMole.SetMultiplier(3);
 		_WhackAMole.SetCoins(_currentCoinBet);
-		_extraRewardsWindow.Add(_WhackAMole);
+		_extraRewardsWindow.Add(_BonusSpin);
 		CheckForBonusWindows ();
 	}
 

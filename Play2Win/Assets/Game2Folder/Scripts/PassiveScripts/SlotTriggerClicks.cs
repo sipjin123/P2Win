@@ -5,8 +5,8 @@ public class SlotTriggerClicks : MonoBehaviour {
 
 	
 	void OnMouseDown(){
-		if(gameObject.name == "SpinButton")
-			SlotManager.Instance.StartSpin();
+		if (gameObject.name == "SpinButton")
+			SlotManager.Instance.StartSpin ();
 
 		if(gameObject.name == "UpBetButton")
 			GameManager_ReelChef.Instance.AddBet(true);
