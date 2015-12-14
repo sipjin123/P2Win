@@ -17,7 +17,7 @@ public class WalletItemObject : MonoBehaviour {
 	private tk2dSprite QRImage;
 
 	private Animator QRAnim;
-	private Collider col;
+
 
 	void Start(){
 		QRAnim = QRImage.gameObject.GetComponent<Animator> ();
