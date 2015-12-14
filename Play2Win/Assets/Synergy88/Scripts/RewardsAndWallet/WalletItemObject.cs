@@ -11,11 +11,39 @@ public class WalletItemObject : MonoBehaviour {
 
     private ItemRewards Item;
 
+	[SerializeField]
+	private tk2dSprite QRCode;
+	[SerializeField]
+	private tk2dSprite QRImage;
+
+	private Animator QRAnim;
+	private Collider col;
+
+	void Start(){
+		QRAnim = QRImage.gameObject.GetComponent<Animator> ();
+	}
+
+	void Update(){
+		if (QRImage.transform.rotation.y == -1.0f) {
+			QRCode.SortingOrder = 3;
+
+		} 
+		else {
+			QRCode.SortingOrder = 0;
+		}
+	}
+
+
     public void SetItem(ItemRewards newItem) {
         Item = newItem;
         Image.SetSprite(Item.ImageName);
         Name.text = Item.Name;
     }
+
+	void FlipQR(){
+		QRAnim.SetBool ("FlipQR", QRAnim.GetBool("FlipQR") ? false : true);
+
+	}
 
     public void OnItemClicked() {
         ConcreteSignalParameters param = new ConcreteSignalParameters();
