@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -170,6 +170,15 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		_bigWin.Hide();
 		_paytable.Load();
 		_paytable.Hide();
+
+		//For Testing
+		if (PlayerPrefs.GetString ("SetBonus") == "game1") {
+			BonusGameCheat();
+		} 
+		
+		else if (PlayerPrefs.GetString ("SetBonus") == "game2") {
+			BonusGameSpinCheat();
+		} 
 	}
 
 	void UpdateGemMeter(){
@@ -535,6 +544,11 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	void BonusGameCheat(){
 		_WhackAMole.SetMultiplier(3);
 		_WhackAMole.SetCoins(_currentCoinBet);
+		_extraRewardsWindow.Add(_WhackAMole);
+		CheckForBonusWindows ();
+	}
+
+	void BonusGameSpinCheat(){
 		_extraRewardsWindow.Add(_BonusSpin);
 		CheckForBonusWindows ();
 	}

@@ -73,6 +73,11 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 		EMPTYData();
 		SignalManager.Instance.Register (this, SignalType.LEVELUPWINDOW_CLOSED);
 		SignalManager.Instance.Register (this, SignalType.EXTRA_REWARD_CLOSED);
+
+		if (PlayerPrefs.GetString ("SetBonus") == "game3") {
+			_extraRewardsWindow.Add(_BFRouletteManager);
+			CheckForBonusWindows();
+		}
 	}
 
 	void OnDestroy(){

@@ -7,6 +7,12 @@ public class MainMenuScene : AnimatedScene {
 	[SerializeField] private tk2dUIItem[] myUIItem;
     //[SerializeField] private Animator contentAnim;
 
+	[SerializeField]
+	private GameState _JTWBonusGame;
+
+	[SerializeField]
+	private GameState _BFBonusGame;
+
     [SerializeField]
     private GameState _games;
 
@@ -90,11 +96,25 @@ public class MainMenuScene : AnimatedScene {
 
     public void LoadGameMenu() {
         //StartCoroutine (waitBeforeLoad (_games));
+		PlayerPrefs.SetString("SetBonus", "NormalGame");
 		myUIItem[0].enabled = false;
         myAnimator[0].Play("BtnShine");
         LoadScene(_games);
         //Load5x3Slots();
     }
+
+	void FirstBonusGame(){
+		PlayerPrefs.SetString("SetBonus","game1");
+		LoadScene (_JTWBonusGame);
+	}
+	void SecondBonusGame(){
+		PlayerPrefs.SetString("SetBonus","game2");
+		LoadScene (_JTWBonusGame);
+	}
+	void ThirdBonusGame(){
+		PlayerPrefs.SetString("SetBonus","game3");
+		LoadScene (_BFBonusGame);
+	}
 
     //// TEMP: Disable game menu
     //private void Load5x3Slots() {
