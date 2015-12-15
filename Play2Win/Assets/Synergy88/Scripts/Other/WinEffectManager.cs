@@ -5,6 +5,7 @@ public class WinEffectManager : MonoBehaviour {
 
 
 	[SerializeField] private GameObject[] chipBurst;
+	[SerializeField] private GameObject gemCollect;
 	[SerializeField] private GameObject chipCollect;
 	[SerializeField] private GameObject sparkleBurstCollector;
 	[SerializeField] private GameObject hugeSparkleCollection;
@@ -43,6 +44,10 @@ public class WinEffectManager : MonoBehaviour {
 		bonusWinning.text = "$" + winnings.ToString ();
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.WIN_2);
 		StartCoroutine (BonusWin ());
+	}
+
+	public void StartGemCollect(){
+		gemCollect.SetActive (true);
 	}
 
 	IEnumerator BonusWin(){

@@ -254,9 +254,11 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 				if(currentExp() >= ExpRatioPercentage() * _gemCounter){
 					PlayerDataManager.Instance.AddPoints (5);
 					_gemCounter += 1;
-					AddExp(0);
+					if(currentExp() >= ExpRatioPercentage() * _gemCounter)
+						AddExp(0);
+					else
+						WinEffectManager.Instance.StartGemCollect();
 				}
-
 				SignalManager.Instance.Call(SignalType.LOCAL_DATA_CHANGED);
 			}
 			//SignalManager.Instance.Call(SignalType.PARSE_UPDATE);

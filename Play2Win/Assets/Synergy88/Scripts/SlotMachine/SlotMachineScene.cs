@@ -101,6 +101,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	private bool _spinButtonHeld;
 
 	private int _freeSpinsActive = 0;
+	private int _bonusGameSelected = 0;
 	private bool _autoplayActive = false;
 	private bool _spinning = false;
 	private bool _wasAutoplaying = false;
@@ -111,6 +112,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	private GameObject[] gemFill;
 	[SerializeField]
 	private tk2dSprite gemOrder;
+
 
 	private List<IExtraRewardWindow> _extraRewardsWindow;
 
@@ -560,9 +562,16 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 
 		yield return new WaitForSeconds (3.0f);
 
-		_WhackAMole.SetMultiplier(_patternManager.PendingSpinTheWheel.totalReward);
-		_WhackAMole.SetCoins(_currentCoinBet);
-		_extraRewardsWindow.Add(_WhackAMole);
+		_bonusGameSelected = Random.Range (1, 100);
+
+		if (_bonusGameSelected > 50) {
+			_WhackAMole.SetMultiplier (_patternManager.PendingSpinTheWheel.totalReward);
+			_WhackAMole.SetCoins (_currentCoinBet);
+			_extraRewardsWindow.Add (_WhackAMole);
+		} 
+		else {
+			_extraRewardsWindow.Add(_BonusSpin);
+		}
 		CheckForBonusWindows ();
 	}
 

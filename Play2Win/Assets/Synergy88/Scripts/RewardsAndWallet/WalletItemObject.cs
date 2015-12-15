@@ -12,26 +12,13 @@ public class WalletItemObject : MonoBehaviour {
     private ItemRewards Item;
 
 	[SerializeField]
-	private tk2dSprite QRCode;
+	private GameObject myCamera;
+
 	[SerializeField]
-	private tk2dSprite QRImage;
+	private GameObject backDrop;
 
-	private Animator QRAnim;
-
-
-	void Start(){
-		QRAnim = QRImage.gameObject.GetComponent<Animator> ();
-	}
-
-	void Update(){
-		if (QRImage.transform.rotation.y == -1.0f) {
-			QRCode.SortingOrder = 3;
-
-		} 
-		else {
-			QRCode.SortingOrder = 0;
-		}
-	}
+	[SerializeField]
+	private tk2dSpriteAnimator QRFlip;
 
 
     public void SetItem(ItemRewards newItem) {
@@ -41,8 +28,7 @@ public class WalletItemObject : MonoBehaviour {
     }
 
 	void FlipQR(){
-		QRAnim.SetBool ("FlipQR", QRAnim.GetBool("FlipQR") ? false : true);
-
+		this.gameObject.transform.parent.gameObject.GetComponent<CloseQR> ().OpenCode ();
 	}
 
     public void OnItemClicked() {
