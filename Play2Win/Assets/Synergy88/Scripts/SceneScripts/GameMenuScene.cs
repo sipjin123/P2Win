@@ -18,6 +18,12 @@ public class GameMenuScene : AnimatedScene, ISignalListener {
 
     [SerializeField]
     private GameObject _level2AvailableSprite;
+	[SerializeField]
+	private GameObject _JTWLogo;
+	[SerializeField]
+	private GameObject _BFLogo;
+	[SerializeField]
+	private GameObject _transitionScene;
 
     void Start() {
         Initialize();
@@ -54,6 +60,9 @@ public class GameMenuScene : AnimatedScene, ISignalListener {
         AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
         LevelSpriteCollectionManager.Instance.ActiveLevel = 1;
 
+		_transitionScene.GetComponent<SceneTransitionManager> ().SetTransitionLogo (_JTWLogo);
+		_transitionScene.SetActive (true);
+
         LoadScene(GameState.SLOTS);
     }
 
@@ -67,6 +76,10 @@ public class GameMenuScene : AnimatedScene, ISignalListener {
 
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
 		LevelSpriteCollectionManager.Instance.ActiveLevel = 2;
+
+		_transitionScene.GetComponent<SceneTransitionManager> ().SetTransitionLogo (_BFLogo);
+		_transitionScene.SetActive (true);
+
 		LoadScene (GameState.BAR_FRENZY);
         // Load Game 2 here
     }

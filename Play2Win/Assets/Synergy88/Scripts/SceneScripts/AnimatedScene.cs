@@ -44,7 +44,7 @@ public class AnimatedScene : MonoBehaviour {
         yield return new WaitForSeconds(0.3f);
         SceneAnimator.SetTrigger(HIDE_ANIMATION);
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(2.0f);
         GameManager.Instance.LoadScene(scene);
     }
 }
