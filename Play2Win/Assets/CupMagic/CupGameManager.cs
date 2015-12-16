@@ -13,11 +13,7 @@ public class CupGameManager : MonoBehaviour {
 		SELECTCUP
 	}
 	public GameState _gameState;
-
-	[SerializeField]
-	private GameObject[] Cup = new GameObject[3];
-	[SerializeField]
-	private GameObject[] Positions = new GameObject[3];
+	
 	[SerializeField]
 	private GameObject[] CupButtons = new GameObject[3];
 
@@ -36,28 +32,13 @@ public class CupGameManager : MonoBehaviour {
 		}
 	}
 
-	IEnumerator ShowCup(){
-		for (int i = 0; i < Cup.Length; i++) {
-			iTween.MoveTo (Cup [i], iTween.Hash (
-				"x", Cup[i].transform.position.x,
-				"y", Cup[i].transform.transform.position.y + 2.0f,
-				"z", Cup[i].transform.transform.position.z,
-				"time", 0.5f
-			));
-		}
-		yield return new WaitForSeconds (0.5f);
+	void ShowCup(){
+		CupMovementManager.Instance.SetShowHideContent (3,true);
+		DisableButton ();
 	}
 
-	IEnumerator PrepForShuffle(){
-		for (int i = 0; i < Cup.Length; i++) {
-			iTween.MoveTo (Cup [i], iTween.Hash (
-				"x", Cup[i].transform.position.x,
-				"y", Cup[i].transform.position.y - 2.0f,
-				"z", Cup[i].transform.position.z,
-				"time", 0.5f
-				));
-		}
-		yield return new WaitForSeconds (0.5f);
+	void PrepForShuffle(){
+		CupMovementManager.Instance.SetShowHideContent (3,false);
 
 		_gameState = GameState.STARTSHUFFLE;
 	}
@@ -71,7 +52,7 @@ public class CupGameManager : MonoBehaviour {
 
 	IEnumerator StartShuffle(){
 
-		DisableButton ();
+
 
 		shuffleRound = Random.Range (4, 8);
 		shuffleSpeed = Random.Range (0.3f, 0.5f);
@@ -105,11 +86,11 @@ public class CupGameManager : MonoBehaviour {
 	void Update(){
 		if (_gameState == GameState.SHOWCUP) {
 			_gameState = GameState.IDLE;
-			StartCoroutine (ShowCup ());
+			ShowCup ();
 		} 
 		else if (_gameState == GameState.PREPFORSHUFFLE) {
 			_gameState = GameState.IDLE;
-			StartCoroutine (PrepForShuffle ());
+			PrepForShuffle ();
 		} 
 		else if (_gameState == GameState.STARTSHUFFLE) {
 			_gameState = GameState.IDLE;

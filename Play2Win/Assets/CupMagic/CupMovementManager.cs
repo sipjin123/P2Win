@@ -6,6 +6,8 @@ public class CupMovementManager : MonoBehaviour {
 	private int cupsToMove;
 	private GameObject[] RefPos;
 	private GameObject[] selectedCup;
+	[SerializeField]
+	private CupData[] cups;
 
 
 	public static CupMovementManager Instance { 
@@ -17,16 +19,16 @@ public class CupMovementManager : MonoBehaviour {
 		CupMovementManager.Instance = this;
 	}
 
-	public void SetShowHideContent(int cupsToMove){
+	public void SetShowHideContent(int cupsToMove,bool isShow){
 		selectedCup = new GameObject[cupsToMove];
 		for (int i = 0; i < cupsToMove; i++) {
-			selectedCup[i] =  CupData.Instance.playCup();
+			selectedCup[i] =  cups[i].gameObject;
 		}
-		ShowHideContent (true);
+		ShowHideContent (isShow,cupsToMove);
 	}
 
-	private void ShowHideContent(bool isShow){
-		for (int i = 0; i < cupsToMove; i++) {
+	private void ShowHideContent(bool isShow,int _cupsToMove){
+		for (int i = 0; i < _cupsToMove; i++) {
 			if(isShow){
 				iTween.MoveTo (selectedCup [i], iTween.Hash (
 					"x", selectedCup[i].transform.position.x,
@@ -45,6 +47,8 @@ public class CupMovementManager : MonoBehaviour {
 			}
 		}
 	}
+
+
 
 	public void ShuffleContent(){
 
