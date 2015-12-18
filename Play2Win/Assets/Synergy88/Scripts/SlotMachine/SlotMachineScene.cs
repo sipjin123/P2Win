@@ -548,6 +548,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	void BonusGameCheat(){
 		PlayerPrefs.SetInt ("WAMMultiplier", 3);
 		PlayerPrefs.SetInt ("WAMCoins", (int)_currentCoinBet);
+		PlayerPrefs.SetString("BonusLoaded", "WhackAMole");
 		GameManager.Instance.LoadScene (_loadScene);
 		CheckForBonusWindows ();
 	}

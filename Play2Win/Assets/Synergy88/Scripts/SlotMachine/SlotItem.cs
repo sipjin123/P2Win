@@ -43,7 +43,7 @@ public class SlotItem : MonoBehaviour {
 	[SerializeField] private GameObject borderGlow;
 
 	private Dictionary<SlotItemType, float> _itemChances;
-	private float _maxRNGRange = 670.5f;
+	private float _maxRNGRange = 67.5f;
 
 //	public int CurrentItemNumber { get { return _currentItemNumber; } }
 	public SlotItemType CurrentItemType { get { return _currentItemType; } }
@@ -66,8 +66,8 @@ public class SlotItem : MonoBehaviour {
 		_itemChances.Add(SlotItemType.ITEM_7, 50f);
 		_itemChances.Add(SlotItemType.ITEM_8, 55f);
 		_itemChances.Add(SlotItemType.BONUS, 60f);
-//		_itemChances.Add(SlotItemType.SCATTER, 62.5f);
-//		_itemChances.Add(SlotItemType.WILD, 65f);
+		_itemChances.Add(SlotItemType.SCATTER, 62.5f);
+		_itemChances.Add(SlotItemType.WILD, 65f);
         //_itemChances.Add(SlotItemType.BOOSTER, 67.5f);
 	}
 

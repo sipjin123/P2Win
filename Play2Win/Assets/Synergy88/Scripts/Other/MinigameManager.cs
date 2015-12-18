@@ -11,9 +11,11 @@ public class MinigameManager : MonoBehaviour {
 	void Start () {
 		if (PlayerPrefs.GetString ("BonusLoaded") == "WhackAMole") {
 			WhackAMole.SetActive(true);	
+			PlayerPrefs.SetString("BonusLoaded", string.Empty);
 		} 
 		else if (PlayerPrefs.GetString ("BonusLoaded") == "SpinWheel") {
 			spinWheel.SetActive(true);
+			PlayerPrefs.SetString("BonusLoaded", string.Empty);
 		}
 	}
 }
