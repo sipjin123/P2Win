@@ -112,8 +112,6 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	private GameObject[] gemFill;
 	[SerializeField]
 	private tk2dSprite gemOrder;
-	[SerializeField]
-	private GameState _loadScene = GameState.MINIGAME;
 
 
 	private List<IExtraRewardWindow> _extraRewardsWindow;
@@ -546,16 +544,14 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 
 
 	void BonusGameCheat(){
-		PlayerPrefs.SetInt ("WAMMultiplier", 3);
-		PlayerPrefs.SetInt ("WAMCoins", (int)_currentCoinBet);
-		GameManager.Instance.LoadScene (_loadScene);
+		_WhackAMole.SetMultiplier(3);
+		_WhackAMole.SetCoins(_currentCoinBet);
+		_extraRewardsWindow.Add(_WhackAMole);
 		CheckForBonusWindows ();
 	}
 
 	void BonusGameSpinCheat(){
-		//_extraRewardsWindow.Add(_BonusSpin);
-		PlayerPrefs.SetString("BonusLoaded", "SpinWheel");
-		GameManager.Instance.LoadScene (_loadScene);
+		_extraRewardsWindow.Add(_BonusSpin);
 		CheckForBonusWindows ();
 	}
 
@@ -569,16 +565,13 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		_bonusGameSelected = Random.Range (1, 100);
 
 		if (_bonusGameSelected > 50) {
-			PlayerPrefs.SetInt("WAMMultiplier", _patternManager.PendingSpinTheWheel.totalReward);
-			PlayerPrefs.SetInt("WAMCoins", (int)_currentCoinBet);
-			PlayerPrefs.SetString("BonusLoaded", "WhackAMole");
+			_WhackAMole.SetMultiplier (_patternManager.PendingSpinTheWheel.totalReward);
+			_WhackAMole.SetCoins (_currentCoinBet);
+			_extraRewardsWindow.Add (_WhackAMole);
 		} 
 		else {
-			PlayerPrefs.SetString("BonusLoaded", "SpinWheel");
+			_extraRewardsWindow.Add(_BonusSpin);
 		}
-
-		GameManager.Instance.LoadScene(_loadScene);
-
 		CheckForBonusWindows ();
 	}
 

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BonusRouletteManager : MonoBehaviour {
+public class BonusRouletteManager : MonoBehaviour, IExtraRewardWindow  {
 
 	[SerializeField]
 	private GameObject[] rouletteItems;
@@ -21,9 +21,7 @@ public class BonusRouletteManager : MonoBehaviour {
 	[SerializeField]
 	private BonusRouletteHandScript roulettePin;
 
-	private GameState _slots = GameState.SLOTS;
-
-	public void OnEnable(){
+	public void Show(){
 		for (int i = 0; i < rouletteItems.Length; i++) {
 			rouletteItems[i].gameObject.tag = "UnSelected";
 		}
@@ -34,16 +32,15 @@ public class BonusRouletteManager : MonoBehaviour {
 	}
 
 	public void Hide() {
-//		ResultBoard.SetActive (false);
-//		myCamera.SetActive(false);
-		GameManager.Instance.LoadScene (_slots);
+		ResultBoard.SetActive (false);
+		myCamera.SetActive(false);
 	}
 	
 	public void End() {
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SELECT);
 		PlayerDataManager.Instance.AddChips (totalPrice);
 		Hide();
-		//SignalManager.Instance.Call(SignalType.EXTRA_REWARD_CLOSED);
+		SignalManager.Instance.Call(SignalType.EXTRA_REWARD_CLOSED);
 	}
 
 	void StartSpin(){
