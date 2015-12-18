@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CupGameManager : MonoBehaviour {
 
@@ -19,10 +20,13 @@ public class CupGameManager : MonoBehaviour {
 
 	private BoxCollider[] buttonCol = new BoxCollider[3];
 	private tk2dSprite[] mySprite = new tk2dSprite[3];
+	[SerializeField]
+	private List<int> selectedCup;
 
 	private int shuffleRound = 0;
 	private float shuffleSpeed = 0;
 	private int shuffleCup = 0;
+	private int cupIndex = 0;
 
 	void Start(){
 		_gameState = GameState.SHOWCUP;
@@ -33,12 +37,12 @@ public class CupGameManager : MonoBehaviour {
 	}
 
 	void ShowCup(){
-		CupMovementManager.Instance.SetShowHideContent (3,true);
+		CupMovementManager.Instance.SetShowHideContent (true);
 		DisableButton ();
 	}
 
 	void PrepForShuffle(){
-		CupMovementManager.Instance.SetShowHideContent (3,false);
+		CupMovementManager.Instance.SetShowHideContent (false);
 
 		_gameState = GameState.STARTSHUFFLE;
 	}
@@ -52,12 +56,20 @@ public class CupGameManager : MonoBehaviour {
 
 	IEnumerator StartShuffle(){
 
-
-
 		shuffleRound = Random.Range (4, 8);
 		shuffleSpeed = Random.Range (0.3f, 0.5f);
 		for (int i = 0; i < shuffleRound; i++) {
 			shuffleCup = Random.Range(2,4);
+			selectedCup = new List<int>();
+
+			for(int cupCount = 0; i < shuffleCup; i++){
+				cupIndex = Random.Range(0,3);
+				if(!selectedCup.Contains(cupIndex))
+					selectedCup.Add(cupIndex);
+				else {
+					i--;
+				}
+			}
 			
 		}
 		

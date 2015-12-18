@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WhackAMoleManager : MonoBehaviour, IExtraRewardWindow  {
+public class WhackAMoleManager : MonoBehaviour {
 
 	[SerializeField] private GameObject myCamera;
 	[SerializeField] private tk2dTextMesh scoreBoard;
@@ -20,6 +20,7 @@ public class WhackAMoleManager : MonoBehaviour, IExtraRewardWindow  {
 	[SerializeField] private Animator whackBoard;
 
 	private const string HIDE_SHOW_BOARD = "startgame";
+	private GameState _loadSlot = GameState.SLOTS;
 
 	private int myScore;
 	private int myMultiplier = 1;
@@ -46,7 +47,14 @@ public class WhackAMoleManager : MonoBehaviour, IExtraRewardWindow  {
 		coin = (int)p_coin;
 	}
 
-	public void Show() {
+	public void OnEnable() {
+
+		if (PlayerPrefs.HasKey ("WAMMultiplier"))
+			SetMultiplier (PlayerPrefs.GetInt ("WAMMultiplier"));
+		if (PlayerPrefs.HasKey ("WAMCoins")) {
+			SetCoins(PlayerPrefs.GetInt("WAMCoins"));
+		}
+
 		playerCoin.text = PlayerDataManager.Instance.Chips.ToString("#,#");
 		winNotification.SetActive (false);
 		gamestart = false;
@@ -56,12 +64,14 @@ public class WhackAMoleManager : MonoBehaviour, IExtraRewardWindow  {
 		gameover = false;
 		whackBoard.SetBool ("Reset", true);
 		myCamera.SetActive(true);
-		MonkeyManagerScript.Instance.resetMonkey ();
+		//MonkeyManagerScript.Instance.resetMonkey ();
 		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.WHACK_BGM);
 	}
 	
 	public void Hide() {
-		myCamera.SetActive(false);
+		//myCamera.SetActive(false);
+		GameManager.Instance.LoadScene (_loadSlot);
+		
 	}
 
 	void ShowMonkey(){
