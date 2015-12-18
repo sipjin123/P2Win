@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CupMovementManager : MonoBehaviour {
 
 	private int cupsToMove;
 	private GameObject[] RefPos;
-	private GameObject[] selectedCup;
+	private List<GameObject> selectedCup = new List<GameObject>();
 	[SerializeField]
 	private CupData[] cups;
 
@@ -19,18 +20,17 @@ public class CupMovementManager : MonoBehaviour {
 		CupMovementManager.Instance = this;
 	}
 
-	public void SetShowHideContent(int cupsToMove,bool isShow){
-		selectedCup = new GameObject[cupsToMove];
-		for (int i = 0; i < cupsToMove; i++) {
-			selectedCup[i] =  cups[i].gameObject;
+	public void SetShowHideContent(bool isShow){
+		for (int i = 0; i < cups.Length; i++) {
+			selectedCup.Add(cups[i].gameObject);
 		}
-		ShowHideContent (isShow,cupsToMove);
+		ShowHideContent (isShow);
 	}
 
-	private void ShowHideContent(bool isShow,int _cupsToMove){
-		for (int i = 0; i < _cupsToMove; i++) {
+	private void ShowHideContent(bool isShow){
+		for (int i = 0; i < selectedCup.Count; i++) {
 			if(isShow){
-				iTween.MoveTo (selectedCup [i], iTween.Hash (
+				iTween.MoveTo (selectedCup[i], iTween.Hash (
 					"x", selectedCup[i].transform.position.x,
 					"y", selectedCup[i].transform.transform.position.y + 2.0f,
 					"z", selectedCup[i].transform.transform.position.z,
@@ -46,11 +46,13 @@ public class CupMovementManager : MonoBehaviour {
 					));
 			}
 		}
+		selectedCup.RemoveRange(0,3);
+
 	}
 
 
 
-	public void ShuffleContent(){
+	public void ShuffleContent(int cupIndex){
 
 	}
 
