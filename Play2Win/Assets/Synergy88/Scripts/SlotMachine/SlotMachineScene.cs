@@ -178,10 +178,12 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		//For Testing
 		if (PlayerPrefs.GetString ("SetBonus") == "game1") {
 			BonusGameCheat();
+			PlayerPrefs.SetString("SetBonus","None");
 		} 
 		
 		else if (PlayerPrefs.GetString ("SetBonus") == "game2") {
 			BonusGameSpinCheat();
+			PlayerPrefs.SetString("SetBonus","None");
 		} 
 	}
 

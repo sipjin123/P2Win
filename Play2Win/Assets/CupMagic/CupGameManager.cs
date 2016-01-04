@@ -23,11 +23,6 @@ public class CupGameManager : MonoBehaviour {
 	[SerializeField]
 	private List<int> selectedCup;
 
-	private int shuffleRound = 0;
-	private float shuffleSpeed = 0;
-	private int shuffleCup = 0;
-	private int cupIndex = 0;
-
 	void Start(){
 		_gameState = GameState.SHOWCUP;
 		for (int i = 0; i < mySprite.Length; i++) {
@@ -47,6 +42,10 @@ public class CupGameManager : MonoBehaviour {
 		_gameState = GameState.STARTSHUFFLE;
 	}
 
+	public void stopShuffle(){
+		_gameState = GameState.STOPSHUFFLE;
+	}
+
 	void DisableButton(){
 		for(int i = 0 ; i < CupButtons.Length; i++){
 			buttonCol[i].enabled = false;
@@ -54,28 +53,7 @@ public class CupGameManager : MonoBehaviour {
 		}
 	}
 
-	IEnumerator StartShuffle(){
 
-		shuffleRound = Random.Range (4, 8);
-		shuffleSpeed = Random.Range (0.3f, 0.5f);
-		for (int i = 0; i < shuffleRound; i++) {
-			shuffleCup = Random.Range(2,4);
-			selectedCup = new List<int>();
-
-			for(int cupCount = 0; i < shuffleCup; i++){
-				cupIndex = Random.Range(0,3);
-				if(!selectedCup.Contains(cupIndex))
-					selectedCup.Add(cupIndex);
-				else {
-					i--;
-				}
-			}
-			
-		}
-		
-		yield return new WaitForSeconds (5.0f);
-		_gameState = GameState.STOPSHUFFLE;
-	}
 
 	void EnableButtons(){
 		for(int i = 0 ; i < CupButtons.Length; i++){
@@ -106,7 +84,7 @@ public class CupGameManager : MonoBehaviour {
 		} 
 		else if (_gameState == GameState.STARTSHUFFLE) {
 			_gameState = GameState.IDLE;
-			StartCoroutine (StartShuffle ());
+			CupMovementManager.Instance.ShuffleContent();
 		} 
 
 		else if (_gameState == GameState.STOPSHUFFLE) {

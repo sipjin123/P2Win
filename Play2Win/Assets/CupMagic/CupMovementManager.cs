@@ -4,12 +4,23 @@ using System.Collections.Generic;
 
 public class CupMovementManager : MonoBehaviour {
 
-	private int cupsToMove;
+
 	private GameObject[] RefPos;
+
 	private List<GameObject> selectedCup = new List<GameObject>();
+
 	[SerializeField]
 	private CupData[] cups;
+	[SerializeField]
+	private CupGameManager _gameState;
 
+	private int shuffleRound = 0;
+	private float shuffleSpeed = 0;
+	private int shuffleCup = 0;
+	private int cupIndex = 0;
+	private int cupsToMove;
+
+	private List<int> CupShuffle;
 
 	public static CupMovementManager Instance { 
 		get; 
@@ -52,8 +63,31 @@ public class CupMovementManager : MonoBehaviour {
 
 
 
-	public void ShuffleContent(int cupIndex){
+	public void ShuffleContent(){
+		StartCoroutine (StartShuffle ());
+	}
 
+	IEnumerator StartShuffle(){
+		
+		shuffleRound = Random.Range (4, 8);
+		shuffleSpeed = Random.Range (0.3f, 0.5f);
+		for (int i = 0; i < shuffleRound; i++) {
+			shuffleCup = Random.Range(2,4);
+			CupShuffle = new List<int>();
+			
+			for(int cupCount = 0; i < shuffleCup; i++){
+				cupIndex = Random.Range(0,3);
+				if(!CupShuffle.Contains(cupIndex))
+					CupShuffle.Add(cupIndex);
+				else {
+					i--;
+				}
+			}
+			
+		}
+		
+		yield return new WaitForSeconds (5.0f);
+		_gameState.stopShuffle();
 	}
 
 }
