@@ -26,14 +26,14 @@ public class WhackAMoleManager : MonoBehaviour {
 	private int myMultiplier = 1;
 	private int coin = 0;
 
-	public float timer;
+	public float timer = 30;
 	private bool gamestart;
 
 	public bool gameover = false;
 
 	void Update(){
 		if (gamestart) {
-			timer += 1.0f * Time.deltaTime;
+			timer -= 1.0f * Time.deltaTime;
 			timerText.text = Mathf.RoundToInt (timer).ToString ();
 		}
 	}
@@ -58,7 +58,7 @@ public class WhackAMoleManager : MonoBehaviour {
 		playerCoin.text = PlayerDataManager.Instance.Chips.ToString("#,#");
 		winNotification.SetActive (false);
 		gamestart = false;
-		timer = 0.0f;
+		timer = 30.0f;
 		myScore = 0;
 		scoreBoard.text = "0";
 		gameover = false;
