@@ -102,6 +102,7 @@ public class SlotSegment : MonoBehaviour,ISignalListener {
 	
 		stopping = false;
 		stopped = true;
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SLOT_SEGMENT_STOP);
 
 //		Vector3 newRotation = transform.eulerAngles;
 //		newRotation.x -= /*30f - */ (transform.eulerAngles.x % 30f);
@@ -115,8 +116,6 @@ public class SlotSegment : MonoBehaviour,ISignalListener {
 		stopped = false;
 		rotating = false;
 
-		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SLOT_SEGMENT_STOP);
-		
 		if (_onRotationEnd != null) {
 			_onRotationEnd();
 			_onRotationEnd = null;
