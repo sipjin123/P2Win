@@ -52,10 +52,12 @@ public class JourneyScene : MonoBehaviour {
     }
 
     public void OpenSlots() {
+		AudioManager.Instance.PauseBGM ();
         GameManager.Instance.LoadScene(GameState.SLOTS);
     }
 
     public void OpenBarFrenzy() {
+		AudioManager.Instance.PauseBGM ();
         GameManager.Instance.LoadScene(GameState.BAR_FRENZY);
     }
 }

@@ -76,6 +76,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 
 		if (PlayerPrefs.GetString ("SetBonus") == "game3") {
 			_extraRewardsWindow.Add(_BFRouletteManager);
+			PlayerPrefs.SetString("SetBonus","None");
 			CheckForBonusWindows();
 		}
 	}
