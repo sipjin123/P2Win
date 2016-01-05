@@ -19,7 +19,7 @@ public class MiniGameResoScale : MonoBehaviour {
 			this.transform.localScale = new Vector3 (0.85f, this.transform.localScale.y, this.transform.localScale.z);
 		} else if(myCamera.aspect == 1.77758f){
 			this.transform.localScale = new Vector3 (0.85f, this.transform.localScale.y, this.transform.localScale.z);
-		}else if(myCamera.aspect > 1.777f && myCamera.aspect < 1.7775f){
+		}else if(myCamera.aspect > 1.778f && myCamera.aspect < 1.7783f){
 			this.transform.localScale = new Vector3 (1.12f, this.transform.localScale.y, this.transform.localScale.z);
 		}
 		else {

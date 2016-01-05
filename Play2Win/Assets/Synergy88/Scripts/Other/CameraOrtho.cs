@@ -18,21 +18,27 @@ public class CameraOrtho : MonoBehaviour {
 			else 
 				this.transform.localScale = new Vector3 (minimumScale + (myCamera.aspect - 1.4f), this.transform.localScale.y, this.transform.localScale.z);
 		}
+
 		else if(myCamera.aspect > 1.33f && myCamera.aspect < 1.34f){
 			if(myCamera.aspect > 1.3335f)
 				this.transform.localScale = new Vector3 (1.13f, this.transform.localScale.y, this.transform.localScale.z);
 			else
 				this.transform.localScale = new Vector3 (0.9f, this.transform.localScale.y, this.transform.localScale.z);
 		}
+
 		else if (myCamera.aspect > 1.7f && myCamera.aspect < 1.75f) {
 				this.transform.localScale = new Vector3 (1.15f, this.transform.localScale.y, this.transform.localScale.z);
+		}
 
-		}else if(myCamera.aspect > 1.777 && myCamera.aspect < 1.778){
+		else if(myCamera.aspect > 1.777 && myCamera.aspect < 1.778){
 			this.transform.localScale = new Vector3 (1.22f, this.transform.localScale.y, this.transform.localScale.z);
 		} 
+
 		else if(myCamera.aspect >= 1.778f && myCamera.aspect < 1.779f ){
 			this.transform.localScale = new Vector3 (1.12f, this.transform.localScale.y, this.transform.localScale.z);
-		} else if (myCamera.aspect > 1.779f) {
+		} 
+
+		else if (myCamera.aspect > 1.779f) {
 			this.transform.localScale = new Vector3 (1.21f, this.transform.localScale.y, this.transform.localScale.z);
 		}
 		else {

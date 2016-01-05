@@ -104,14 +104,17 @@ public class MainMenuScene : AnimatedScene {
     }
 
 	void FirstBonusGame(){
+		AudioManager.Instance.PauseBGM();
 		PlayerPrefs.SetString("SetBonus","game1");
 		LoadScene (_JTWBonusGame);
 	}
 	void SecondBonusGame(){
+		AudioManager.Instance.PauseBGM();
 		PlayerPrefs.SetString("SetBonus","game2");
 		LoadScene (_JTWBonusGame);
 	}
 	void ThirdBonusGame(){
+		AudioManager.Instance.PauseBGM();
 		PlayerPrefs.SetString("SetBonus","game3");
 		LoadScene (_BFBonusGame);
 	}
