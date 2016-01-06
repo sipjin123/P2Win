@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
+public class BFRouletteManager : MonoBehaviour {
 
 	[SerializeField] tk2dTextMesh playerScore;
 	[SerializeField] tk2dTextMesh enemyScore;
@@ -39,8 +39,14 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 
 	[SerializeField]
 	private GameState _backToLobby = GameState.MAIN_MENU;
+	[SerializeField]
+	private GameState _backtoBarFrenzy = GameState.BAR_FRENZY;
 
-	public void Show() {
+	void Awake(){
+		Show ();
+	}
+
+	private void Show() {
 		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.BARFRENZY_MINIGAMEBGM);
 		PlayerGem.text = PlayerDataManager.Instance.Points.ToString();
 		PlayerChips.text = PlayerDataManager.Instance.Chips.ToString();
@@ -69,7 +75,7 @@ public class BFRouletteManager : MonoBehaviour,IExtraRewardWindow {
 	}
 
 	public void Hide() {
-		myCamera.SetActive(false);
+		GameManager.Instance.LoadScene (_backtoBarFrenzy);
 	}
 	
 	public void End() {

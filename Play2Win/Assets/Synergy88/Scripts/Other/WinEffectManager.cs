@@ -27,8 +27,10 @@ public class WinEffectManager : MonoBehaviour {
 	
 	void Awake () {
 		WinEffectManager.Instance = this;
-		bonusWinCapAnimator = bonusWinCap.GetComponent<Animator> ();
-		hugeWinCapAnimator = hugeWinCap.GetComponent<Animator> ();
+		if (this.name == "WinEffects") {
+			bonusWinCapAnimator = bonusWinCap.GetComponent<Animator> ();
+			hugeWinCapAnimator = hugeWinCap.GetComponent<Animator> ();
+		}
 	}
 
 	public void startHugeWin(int winnings){

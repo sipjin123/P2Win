@@ -1,8 +1,10 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Synergy88\Scripts\SlotMachine\SlotItemDetectorManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game2Folder\Scripts\Slots\SlotDetection.cs">
     <Files>
-      <File FileName="Assets\Synergy88\Scripts\Other\MiniGameResoScale.cs" Line="25" Column="9" />
+      <File FileName="Play2Win.sln" Line="1" Column="1" />
+      <File FileName="Assets\Synergy88\Scripts\Other\PopUpSetting.cs" Line="95" Column="39" />
+      <File FileName="Assets\Synergy88\Scripts\Other\MiniGameResoScale.cs" Line="1" Column="1" />
       <File FileName="..\..\slaptitans\Unity Root\Slap Titans\Assets\FacebookSDK\SDK\Editor\FacebookPostprocess.cs" Line="1" Column="1" />
       <File FileName="..\..\slaptitans\Unity Root\Slap Titans\Assets\FacebookSDK\SDK\Editor\android\FacebookAndroidUtil.cs" Line="1" Column="1" />
       <File FileName="Assets\Synergy88\Scripts\Other\CameraOrtho.cs" Line="1" Column="1" />
@@ -13,15 +15,17 @@
       <File FileName="Assets\Synergy88\Scripts\SceneScripts\JourneyScene.cs" Line="1" Column="1" />
       <File FileName="Assets\Synergy88\Scripts\WhackAMole\WhackAMoleManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Game2Folder\Scripts\GameManager_ReelChef.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game2Folder\Scripts\Slots\SlotDetection.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game2Folder\Scripts\Slots\SlotDetection.cs" Line="360" Column="12" />
       <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs" Line="1" Column="1" />
       <File FileName="Assets\Synergy88\Scripts\Other\WinEffectManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Synergy88\Scripts\Managers\PlayerDataManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Synergy88\Scripts\Managers\AudioManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Synergy88\Scripts\LoginBonusScript\RouletteControllerScript.cs" Line="1" Column="1" />
       <File FileName="Assets\Synergy88\Scripts\RouletteBonusGame\RouletteBody.cs" Line="1" Column="1" />
-      <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotSegment.cs" Line="77" Column="31" />
-      <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotItemDetectorManager.cs" Line="324" Column="1" />
+      <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotSegment.cs" Line="1" Column="1" />
+      <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotItemDetectorManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Synergy88\Scripts\BarFrenzyRouletteScript\BFRouletteManager.cs" Line="78" Column="53" />
+      <File FileName="Assets\Synergy88\Scripts\Managers\GameManager.cs" Line="18" Column="13" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

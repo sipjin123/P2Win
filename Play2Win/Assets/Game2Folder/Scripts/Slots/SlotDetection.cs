@@ -41,6 +41,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 
 	public GameObject PatternManager;
 	public LinePattern[] _linePattern;
+	private GameState _miniGame = GameState.BF_MINIGAME;
 	#endregion
 
 	void Awake()
@@ -75,7 +76,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 		SignalManager.Instance.Register (this, SignalType.EXTRA_REWARD_CLOSED);
 
 		if (PlayerPrefs.GetString ("SetBonus") == "game3") {
-			_extraRewardsWindow.Add(_BFRouletteManager);
+			GameManager.Instance.LoadScene(_miniGame);
 			PlayerPrefs.SetString("SetBonus","None");
 			CheckForBonusWindows();
 		}
@@ -251,13 +252,11 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 				GameManager_ReelChef.Instance.BonusCounter = 0;
 			}
 			Debug.LogError("SHOW SPINNING WHEEL DHENZ");			
-			_extraRewardsWindow.Add(_BFRouletteManager);
+			GameManager.Instance.LoadScene(_miniGame);
 			CheckIfSpinCanBeActive();
 		}
 		BonusHighlightFinished = true;
 		CheckIfSpinCanBeActive();
-		CheckForBonusWindows ();
-
 	}
 	#region TO REMOVE
 	public IEnumerator WildNScatterHighlight()
@@ -359,16 +358,8 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 		yield return new WaitForSeconds(1);
 		WildandScatterFinished = true;
 		CheckIfSpinCanBeActive();
-		CheckForBonusWindows ();
-
 	}
 	#endregion
-
-
-	void CheatToBonus(){
-		_extraRewardsWindow.Add(_BFRouletteManager);
-		CheckForBonusWindows ();
-	}
 
 	public IEnumerator HighLightMatches()
 	{
