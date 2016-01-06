@@ -57,8 +57,8 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	[SerializeField]
 	private FreeSpinsWinManager _freeSpins;
 
-	[SerializeField]
-	private BigWinManager _bigWin;
+//	[SerializeField]
+//	private BigWinManager _bigWin;
 
 	[SerializeField]
 	private SlideInObject _remainingFreeSpins;
@@ -167,7 +167,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 //		_boostersWin.Hide();
 		_notEnoughCoins.Hide();
 		_freeSpins.Hide();
-		_bigWin.Hide();
+//		_bigWin.Hide();
 		_paytable.Load();
 		_paytable.Hide();
 
