@@ -48,14 +48,11 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	private BonusRouletteManager _BonusSpin;
 
 	
-	[SerializeField]
-	private BoostersWinManager _boostersWin;
+//	[SerializeField]
+//	private BoostersWinManager _boostersWin;
 	
 	[SerializeField]
 	private NotEnoughCoins _notEnoughCoins;
-
-	[SerializeField]
-	private NotEnoughBoosters _notEnoughBoosters;
 
 	[SerializeField]
 	private FreeSpinsWinManager _freeSpins;
@@ -167,9 +164,8 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 
 		// TODO: Put this after a proper loading
 		_spinTheWheel.Hide();
-		_boostersWin.Hide();
+//		_boostersWin.Hide();
 		_notEnoughCoins.Hide();
-		_notEnoughBoosters.Hide();
 		_freeSpins.Hide();
 		_bigWin.Hide();
 		_paytable.Load();
@@ -604,12 +600,12 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 			WinEffectManager.Instance.startHugeWin(_previousWinnings);
 		}
 
-		if (_patternManager.ExtraBoostersBonus.totalReward > 0) {
-			_boostersWin.SetAmount(_patternManager.ExtraBoostersBonus.totalReward);
-			PlayerDataManager.Instance.AddPoints(_patternManager.ExtraBoostersBonus.totalReward);
-			_extraRewardsWindow.Add(_boostersWin);
-			Debug.Log ("Activating Extra Boosters!");
-		}
+//		if (_patternManager.ExtraBoostersBonus.totalReward > 0) {
+//			_boostersWin.SetAmount(_patternManager.ExtraBoostersBonus.totalReward);
+//			PlayerDataManager.Instance.AddPoints(_patternManager.ExtraBoostersBonus.totalReward);
+//			_extraRewardsWindow.Add(_boostersWin);
+//			Debug.Log ("Activating Extra Boosters!");
+//		}
 
 		if (_patternManager.PendingSpinTheWheel.totalReward > 0) {
 			bonusWinAnim = true;
