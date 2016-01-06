@@ -90,7 +90,7 @@ public class PopUpSetting : MonoBehaviour {
 	void Validate(){
 		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.SELECT);
 		CheckRedeemCode ();
-		inputCode.text = "";
+		inputCode.text = string.Empty;
 		redeemWindow.SetActive (false);
 		settingsAnim.SetBool ("Hide", true);
 		isHide = true;
