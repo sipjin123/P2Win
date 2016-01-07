@@ -55,6 +55,10 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 	private int _coinsCurrentValue = 0;
 
 	private bool _inputLocked = false;
+	[SerializeField]
+	private GameObject burst;
+	[SerializeField]
+	private GameObject glow;
 
 	void Start() {
 		_instance = this;
@@ -260,12 +264,27 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 		return chipsToDisplay;
 	}
 
+	IEnumerator activeEffects(){
+		glow.SetActive(true);
+		burst.SetActive (true);
+
+		yield return new WaitForSeconds (2.0f);
+
+		glow.SetActive(false);
+		burst.SetActive (false);
+	}
+
+
 	private IEnumerator IncreaseCoinsText() {
 		string displayChips = ConvertTotalCoin (_coinsCurrentValue);
 		int increase = _coinsCurrentValue - _previousCoinValue;
 		int currentIndex = 0;
 		int maxIndex = Mathf.FloorToInt(INCREMENT_TIME / TICK_TIME);
 		int incrementAmount = Mathf.FloorToInt(increase / maxIndex);
+
+		if (_currentType == ProfileUIType.SLOTS && _coinsCurrentValue > _previousCoinValue) {
+			StartCoroutine (activeEffects ());
+		}
 		while (currentIndex < maxIndex) {
 			currentIndex++;
 			_previousCoinValue += incrementAmount;
