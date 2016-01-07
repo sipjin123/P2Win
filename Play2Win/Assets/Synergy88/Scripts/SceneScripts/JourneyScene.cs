@@ -36,15 +36,19 @@ public class JourneyScene : MonoBehaviour {
     }
 
     public void ShowDestination1() {
-        _infoWindow.SetActive(true);
-        _destination1Info.SetActive(true);
-        _destination2Info.SetActive(false);
+		if (!_infoWindow.activeSelf) {
+			_infoWindow.SetActive (true);
+			_destination1Info.SetActive (true);
+			_destination2Info.SetActive (false);
+		}
     }
 
     public void ShowDestination2() {
-        _infoWindow.SetActive(true);
-        _destination1Info.SetActive(false);
-        _destination2Info.SetActive(true);
+		if (!_infoWindow.activeSelf) {
+			_infoWindow.SetActive (true);
+			_destination1Info.SetActive (false);
+			_destination2Info.SetActive (true);
+		}
     }
 
     public void CloseInfoWindow() {
