@@ -1,8 +1,8 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Synergy88\Scripts\SceneScripts\ShopScene.cs">
     <Files>
-      <File FileName="Assets\Synergy88\Scripts\SceneScripts\PlayerProfileUI.cs" Line="283" Column="85" />
+      <File FileName="Assets\Synergy88\Scripts\SceneScripts\PlayerProfileUI.cs" Line="188" Column="1" />
       <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs" Line="1" Column="1" />
       <File FileName="Assets\Synergy88\Scripts\Other\WinEffectManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Synergy88\Scripts\Managers\PlayerDataManager.cs" Line="1" Column="1" />
@@ -11,20 +11,19 @@
       <File FileName="Assets\Synergy88\Scripts\RouletteBonusGame\RouletteBody.cs" Line="1" Column="1" />
       <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotSegment.cs" Line="1" Column="1" />
       <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotItemDetectorManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Synergy88\Scripts\BarFrenzyRouletteScript\BFRouletteManager.cs" Line="62" Column="23" />
+      <File FileName="Assets\Synergy88\Scripts\BarFrenzyRouletteScript\BFRouletteManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Synergy88\Scripts\Managers\GameManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Synergy88\Scripts\BonusWindows\FreeSpinsWinManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Synergy88\Scripts\BonusWindows\NotEnoughBoosters.cs" Line="1" Column="1" />
       <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotItem.cs" Line="1" Column="1" />
-      <File FileName="Assets\Synergy88\Scripts\Other\ScrollManager.cs" Line="17" Column="37" />
-      <File FileName="Assets\Synergy88\Scripts\SceneScripts\ShopScene.cs" Line="107" Column="35" />
+      <File FileName="Assets\Synergy88\Scripts\Other\ScrollManager.cs" Line="23" Column="1" />
+      <File FileName="Assets\Synergy88\Scripts\SceneScripts\ShopScene.cs" Line="113" Column="69" />
+      <File FileName="Assets\Synergy88\Scripts\SceneScripts\JourneyScene.cs" Line="51" Column="4" />
+      <File FileName="Assets\Synergy88\Scripts\Managers\InventoryManager.cs" Line="57" Column="47" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="C:\Users\dhenz.zerrudo\Documents\Unity Root\Play2Win\Assets\Synergy88\Scripts\SceneScripts\PlayerProfileUI.cs" line="188" />
-      <Breakpoint file="C:\Users\dhenz.zerrudo\Documents\Unity Root\Play2Win\Assets\Synergy88\Scripts\SceneScripts\PlayerProfileUI.cs" line="189" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

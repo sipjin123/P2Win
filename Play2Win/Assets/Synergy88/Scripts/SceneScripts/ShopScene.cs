@@ -39,6 +39,9 @@ public class ShopScene : MonoBehaviour, ISignalListener {
 
     private ItemRewards _rewardItemToBuy;
 
+	[SerializeField]
+	private GameObject notifWindow;
+
     void Start() {
         ConcreteSignalParameters updateHudParam = new ConcreteSignalParameters();
         updateHudParam.AddParameter("ProfileUIType", ProfileUIType.GEM_SCENES);
@@ -104,6 +107,10 @@ public class ShopScene : MonoBehaviour, ISignalListener {
 		}
     }
 
+	void disableNotifWindow(){
+		notifWindow.SetActive (false);
+	}
+
     public void OnBuyConfirmed() {
         if (PlayerDataManager.Instance.Points < _rewardItemToBuy.Cost) {
             Debug.LogWarning("Not enough gems");
@@ -115,6 +122,7 @@ public class ShopScene : MonoBehaviour, ISignalListener {
 		_scrollManager.RefreshObject ();
         RefreshItemList();
         _infoParent.SetActive(false);
+		notifWindow.SetActive (true);
     }
 
     public void OnPopUpClosed() {
