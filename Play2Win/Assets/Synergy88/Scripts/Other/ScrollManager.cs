@@ -25,6 +25,14 @@ public class ScrollManager : MonoBehaviour {
         scrollItemList.Add(newObject);
     }
 
+	public void RefreshObject(){
+		int count = scrollItemList.Count;
+		for (int i = 0; i < count; i++) {
+			Destroy(scrollItemList[i].gameObject);
+		}
+		scrollItemList.Clear ();
+	}
+
     public void ActivateScrollList() {
         StartCoroutine(ArrangeScrollList());
     }

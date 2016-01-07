@@ -112,7 +112,7 @@ public class ShopScene : MonoBehaviour, ISignalListener {
 
         PlayerDataManager.Instance.UsePoints(_rewardItemToBuy.Cost);
         InventoryManager.Instance.SetItemAsBought(_rewardItemToBuy);
-
+		_scrollManager.RefreshObject ();
         RefreshItemList();
         _infoParent.SetActive(false);
     }
