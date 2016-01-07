@@ -83,23 +83,25 @@ public class ShopScene : MonoBehaviour, ISignalListener {
     }
 
     public void ShowItemInfo(ItemRewards itemToBuy) {
-        _rewardItemToBuy = itemToBuy;
+		if (!_infoParent.activeSelf) {
+			_rewardItemToBuy = itemToBuy;
 
-        _infoImage.SetSprite(_rewardItemToBuy.ImageName);
-        _infoName.text = _rewardItemToBuy.Name;
-        _infoDescription.text = _rewardItemToBuy.Description;
-        _infoDescription2.text = _rewardItemToBuy.Description2;
-        _infoPrice.text = _rewardItemToBuy.Cost.ToString();
+			_infoImage.SetSprite (_rewardItemToBuy.ImageName);
+			_infoName.text = _rewardItemToBuy.Name;
+			_infoDescription.text = _rewardItemToBuy.Description;
+			_infoDescription2.text = _rewardItemToBuy.Description2;
+			_infoPrice.text = _rewardItemToBuy.Cost.ToString ();
 
-        if (_rewardItemToBuy.Cost > PlayerDataManager.Instance.Points) {
-            _infoNotAvailable.SetActive(true);
-            _infoAvailable.SetActive(false);
-        } else {
-            _infoNotAvailable.SetActive(false);
-            _infoAvailable.SetActive(true);
-        }
+			if (_rewardItemToBuy.Cost > PlayerDataManager.Instance.Points) {
+				_infoNotAvailable.SetActive (true);
+				_infoAvailable.SetActive (false);
+			} else {
+				_infoNotAvailable.SetActive (false);
+				_infoAvailable.SetActive (true);
+			}
 
-        _infoParent.SetActive(true);
+			_infoParent.SetActive (true);
+		}
     }
 
     public void OnBuyConfirmed() {

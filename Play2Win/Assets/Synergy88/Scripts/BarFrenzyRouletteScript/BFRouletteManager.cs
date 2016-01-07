@@ -47,6 +47,7 @@ public class BFRouletteManager : MonoBehaviour {
 	}
 
 	private void Show() {
+		AudioManager.Instance.StopGlobalAudio (AudioManager.GlobalAudioType.BARFRENZY_INTRO);
 		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.BARFRENZY_MINIGAMEBGM);
 		PlayerGem.text = PlayerDataManager.Instance.Points.ToString();
 		PlayerChips.text = PlayerDataManager.Instance.Chips.ToString();
@@ -80,6 +81,7 @@ public class BFRouletteManager : MonoBehaviour {
 	
 	public void End() {
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SELECT);
+		AudioManager.Instance.StopGlobalAudio (AudioManager.GlobalAudioType.BARFRENZY_MINIGAMEBGM);
 		PlayerDataManager.Instance.AddChips (myScore);
 		Hide();
 		SignalManager.Instance.Call(SignalType.EXTRA_REWARD_CLOSED);
