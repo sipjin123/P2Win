@@ -18,6 +18,8 @@ public class BonusRouletteManager : MonoBehaviour {
 
 	private int totalPrice;
 
+	private int spinCounter = 0;
+
 	[SerializeField]
 	private RouletteBody rouletteBody;
 	[SerializeField]
@@ -45,6 +47,7 @@ public class BonusRouletteManager : MonoBehaviour {
 	}
 	
 	public void End() {
+		spinCounter = 0;
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.SELECT);
 		PlayerDataManager.Instance.AddChips (totalPrice);
 		Hide();
@@ -77,6 +80,9 @@ public class BonusRouletteManager : MonoBehaviour {
 				valueBlocker[i].transform.parent.tag = "Selected";
 			}
 		}
+		if(spinCounter == 4) {
+			ShowFinalResult();
+		}
 	}
 
 	public void RotateFinished(){
@@ -86,6 +92,7 @@ public class BonusRouletteManager : MonoBehaviour {
 
 		if (itemStatus == "UnSelected") {
 			m_spin = true;
+			spinCounter += 1;
 			totalPrice += itemObtained;
 			totalPriceText.text = totalPrice.ToString("#,#");
 			roulettePin.setSelectedObject();
