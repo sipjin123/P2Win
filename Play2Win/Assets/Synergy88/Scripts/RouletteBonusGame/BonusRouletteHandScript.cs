@@ -22,6 +22,7 @@ public class BonusRouletteHandScript : MonoBehaviour {
 
 	public void setSelectedObject(){
 		currentlySelected.gameObject.tag = "Selected";
+		currentlySelected.gameObject.transform.GetChild (0).gameObject.SetActive(true);
 	}
 
 	public string getItemSelected(){

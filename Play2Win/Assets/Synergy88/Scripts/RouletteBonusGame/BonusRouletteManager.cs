@@ -21,6 +21,9 @@ public class BonusRouletteManager : MonoBehaviour {
 	[SerializeField]
 	private BonusRouletteHandScript roulettePin;
 
+	[SerializeField]
+	private tk2dTextMesh totalPriceText;
+
 	private GameState _slots = GameState.SLOTS;
 
 	public void OnEnable(){
@@ -71,6 +74,7 @@ public class BonusRouletteManager : MonoBehaviour {
 		if (itemStatus == "UnSelected") {
 			m_spin = true;
 			totalPrice += itemObtained;
+			totalPriceText.text = totalPrice.ToString("#,#");
 			roulettePin.setSelectedObject();
 		} 
 		else if (itemStatus == "Selected") {
