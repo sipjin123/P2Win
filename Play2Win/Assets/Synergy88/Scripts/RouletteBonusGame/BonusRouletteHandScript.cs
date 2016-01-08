@@ -7,6 +7,7 @@ public class BonusRouletteHandScript : MonoBehaviour {
 	public string itemSelected;
 	private int roulettePrice;
 	private GameObject currentlySelected;
+	private string blockerGroup;
 
 	[SerializeField] private tk2dTextMesh rouletteScoreBoard;
 	
@@ -16,17 +17,21 @@ public class BonusRouletteHandScript : MonoBehaviour {
 		rouletteScoreBoard.text = rouletteTextPrice;
 		itemSelected = col.gameObject.tag;
 		currentlySelected = col.gameObject;
+		blockerGroup = col.gameObject.transform.GetChild (0).name;
 		if(rouletteTextPrice != "2X" && rouletteTextPrice != "3X")
-			roulettePrice = int.Parse (rouletteTextPrice);		
-	}
+			roulettePrice = int.Parse (rouletteTextPrice);
 
+	}
 	public void setSelectedObject(){
 		currentlySelected.gameObject.tag = "Selected";
-		currentlySelected.gameObject.transform.GetChild (0).gameObject.SetActive(true);
 	}
 
 	public string getItemSelected(){
 		return itemSelected;
+	}
+
+	public string getBlockerName(){
+		return blockerGroup;
 	}
 
 	public int getRoulettePrice(){

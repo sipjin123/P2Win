@@ -11,6 +11,8 @@ public class BonusRouletteManager : MonoBehaviour {
 	private GameObject ResultBoard;
 	[SerializeField]
 	private tk2dTextMesh result;
+	[SerializeField]
+	private GameObject[] valueBlocker;
 	
 	private bool m_spin;
 
@@ -66,16 +68,28 @@ public class BonusRouletteManager : MonoBehaviour {
 		End ();
 	}
 
+	IEnumerator ActivateBlocker(string _blockerName){
+		yield return new WaitForSeconds(1.0f);
+
+		for (int i = 0; i < valueBlocker.Length; i++) {
+			if(valueBlocker[i].name == _blockerName){
+				valueBlocker[i].SetActive(true);
+				valueBlocker[i].transform.parent.tag = "Selected";
+			}
+		}
+	}
 
 	public void RotateFinished(){
 		string itemStatus = roulettePin.getItemSelected ();
 		int itemObtained = roulettePin.getRoulettePrice ();
+		string blocker = roulettePin.getBlockerName ();
 
 		if (itemStatus == "UnSelected") {
 			m_spin = true;
 			totalPrice += itemObtained;
 			totalPriceText.text = totalPrice.ToString("#,#");
 			roulettePin.setSelectedObject();
+			StartCoroutine(ActivateBlocker(blocker));
 		} 
 		else if (itemStatus == "Selected") {
 			m_spin = false;
