@@ -1,10 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game2Folder\Scripts\Customers\CustomerManager.cs">
     <Files>
-      <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs" Line="550" Column="45" />
-      <File FileName="Assets\Synergy88\Scripts\Other\MinigameManager.cs" Line="5" Column="1" />
-      <File FileName="Assets\Synergy88\Scripts\Managers\GameManager.cs" Line="19" Column="15" />
+      <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs" Line="42" Column="45" />
+      <File FileName="Assets\Synergy88\Scripts\Other\MinigameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Synergy88\Scripts\Managers\GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Game2Folder\Scripts\GameManager_ReelChef.cs" Line="17" Column="25" />
+      <File FileName="Assets\Game2Folder\Scripts\Customers\CustomerManager.cs" Line="134" Column="105" />
+      <File FileName="Assets\Game2Folder\Scripts\Slots\SlotDetection.cs" Line="324" Column="146" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

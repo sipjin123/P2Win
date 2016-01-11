@@ -131,7 +131,7 @@ public class CustomerManager : MonoBehaviour {
 		}
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_MATCH_DRINKS);
 		Debug.Log(ScoreMultiplier *  ((float)GameManager_ReelChef.Instance.BetCounter)+" Points");
-		StartCoroutine(ScoreEffects(ScoreMultiplier *  ((float)GameManager_ReelChef.Instance.BetCounter), _obj));
+		StartCoroutine(ScoreEffects(ScoreMultiplier *  ((float)(GameManager_ReelChef.Instance.BetCounter * 20)), _obj));
 
 		
 		yield return new WaitForSeconds(1.5f);

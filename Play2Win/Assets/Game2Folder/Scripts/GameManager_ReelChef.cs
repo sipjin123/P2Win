@@ -10,6 +10,7 @@ public class GameManager_ReelChef : MonoBehaviour {
 	public float SpinSpeed;
 	public float SpinStrength;
 	public tk2dTextMesh BetText;
+	public tk2dTextMesh MaxBet;
 	public tk2dTextMesh AutoSpinText;
 
 	public int Score;
@@ -58,6 +59,7 @@ public class GameManager_ReelChef : MonoBehaviour {
 		
 		BetCounter = 1;
 		BetText.text = "1";
+		MaxBet.text = (BetCounter * 20).ToString ();
 
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_INTRO);
 		AudioManager.Instance.SwitchBGM(AudioManager.GlobalAudioType.BARFRENZY_INTRO);
@@ -117,6 +119,7 @@ public class GameManager_ReelChef : MonoBehaviour {
 		}
 		BetCounter = Mathf.Clamp(BetCounter , 1 , 20);
 		BetText.text = ""+BetCounter;
+		MaxBet.text = "" + BetCounter * 20;
 	}
 	public void ShowAutoSpinItems()
 	{
@@ -175,6 +178,7 @@ public class GameManager_ReelChef : MonoBehaviour {
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_ADD);
 		BetCounter = 20;
 		BetText.text = ""+BetCounter;
+		MaxBet.text = "" + BetCounter * 20;
 	}
 	public void ShowPlayTable(bool _switch)
 	{

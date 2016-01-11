@@ -323,7 +323,7 @@ public class SlotDetection : MonoBehaviour,ISignalListener {
 					CustomerManager.Instance.ScoreEffectsList[i].gameObject.SetActive(true);
 					AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.PURCHASE);
 					
-					CustomerManager.Instance.ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = "" + (250 * GameManager_ReelChef.Instance.BetCounter );
+					CustomerManager.Instance.ScoreEffectsList[i].GetComponent<tk2dTextMesh>().text = "" + (250 * (GameManager_ReelChef.Instance.BetCounter * 20) );
 					yield return new WaitForSeconds (1);
 
 					iTween.Stop(CustomerManager.Instance.ScoreEffectsList[i]);
