@@ -38,8 +38,8 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	[SerializeField]
 	private SlotSegment[] _slots;
 
-	[SerializeField]
-	private SpinTheWheelManager _spinTheWheel;
+//	[SerializeField]
+//	private SpinTheWheelManager _spinTheWheel;
 
 	[SerializeField]
 	private WhackAMoleManager _WhackAMole;
@@ -111,7 +111,8 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	private tk2dSprite gemOrder;
 	[SerializeField]
 	private GameState _loadScene = GameState.MINIGAME;
-
+	[SerializeField]
+	private GameState _loadJTWMinigame = GameState.JTW_MINIGAME2;
 
 	private List<IExtraRewardWindow> _extraRewardsWindow;
 
@@ -163,7 +164,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
         AudioManager.Instance.SwitchBGM(AudioManager.GlobalAudioType.BGM_LOBBY);
 
 		// TODO: Put this after a proper loading
-		_spinTheWheel.Hide();
+//		_spinTheWheel.Hide();
 //		_boostersWin.Hide();
 		_notEnoughCoins.Hide();
 		_freeSpins.Hide();
@@ -546,15 +547,13 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	void BonusGameCheat(){
 		PlayerPrefs.SetInt ("WAMMultiplier", 3);
 		PlayerPrefs.SetInt ("WAMCoins", (int)_currentCoinBet);
-		PlayerPrefs.SetString("BonusLoaded", "WhackAMole");
 		GameManager.Instance.LoadScene (_loadScene);
 		CheckForBonusWindows ();
 	}
 
 	void BonusGameSpinCheat(){
 		//_extraRewardsWindow.Add(_BonusSpin);
-		PlayerPrefs.SetString("BonusLoaded", "SpinWheel");
-		GameManager.Instance.LoadScene (_loadScene);
+		GameManager.Instance.LoadScene (_loadJTWMinigame);
 		CheckForBonusWindows ();
 	}
 
@@ -570,13 +569,13 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		if (_bonusGameSelected > 50) {
 			PlayerPrefs.SetInt("WAMMultiplier", _patternManager.PendingSpinTheWheel.totalReward);
 			PlayerPrefs.SetInt("WAMCoins", (int)_currentCoinBet);
-			PlayerPrefs.SetString("BonusLoaded", "WhackAMole");
+			GameManager.Instance.LoadScene(_loadScene);
 		} 
 		else {
-			PlayerPrefs.SetString("BonusLoaded", "SpinWheel");
+			GameManager.Instance.LoadScene(_loadJTWMinigame);
 		}
 
-		GameManager.Instance.LoadScene(_loadScene);
+
 
 		CheckForBonusWindows ();
 	}
