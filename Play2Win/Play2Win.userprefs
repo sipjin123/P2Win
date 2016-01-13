@@ -1,13 +1,9 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Game2Folder\Scripts\Customers\CustomerManager.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\UnityProject\BikerBlaze - U5\Assets\Scripts\Leaderboards\FacebookManager.cs">
     <Files>
-      <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs" Line="42" Column="45" />
-      <File FileName="Assets\Synergy88\Scripts\Other\MinigameManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Synergy88\Scripts\Managers\GameManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Game2Folder\Scripts\GameManager_ReelChef.cs" Line="17" Column="25" />
-      <File FileName="Assets\Game2Folder\Scripts\Customers\CustomerManager.cs" Line="134" Column="105" />
-      <File FileName="Assets\Game2Folder\Scripts\Slots\SlotDetection.cs" Line="324" Column="146" />
+      <File FileName="..\..\UnityProject\BikerBlaze - U5\Assets\Scripts\Leaderboards\FacebookManager.cs" Line="404" Column="5" />
+      <File FileName="..\..\UnityProject\BikerBlaze - U5\Assets\Scripts\UI\UIDistanceTravelled.cs" Line="20" Column="36" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -86,7 +86,7 @@ public class ShopScene : MonoBehaviour, ISignalListener {
     }
 
     public void ShowItemInfo(ItemRewards itemToBuy) {
-		if (!_infoParent.activeSelf) {
+		if (!_infoParent.activeSelf && !notifWindow.activeSelf) {
 			_rewardItemToBuy = itemToBuy;
 
 			_infoImage.SetSprite (_rewardItemToBuy.ImageName);
