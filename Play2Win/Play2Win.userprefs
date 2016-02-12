@@ -1,13 +1,18 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\UnityProject\BikerBlaze - U5\Assets\Scripts\Leaderboards\FacebookManager.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs">
     <Files>
-      <File FileName="..\..\UnityProject\BikerBlaze - U5\Assets\Scripts\Leaderboards\FacebookManager.cs" Line="404" Column="5" />
-      <File FileName="..\..\UnityProject\BikerBlaze - U5\Assets\Scripts\UI\UIDistanceTravelled.cs" Line="20" Column="36" />
+      <File FileName="..\..\UnityProject\BikerBlaze - U5\Assets\Scripts\Leaderboards\FacebookManager.cs" Line="1" Column="1" />
+      <File FileName="..\..\UnityProject\BikerBlaze - U5\Assets\Scripts\UI\UIDistanceTravelled.cs" Line="1" Column="1" />
+      <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs" Line="323" Column="30" />
+      <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotSegment.cs" Line="33" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Users\dhenz.zerrudo\Documents\Unity Root\Play2Win\Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs" line="323" />
+      <Breakpoint file="C:\Users\dhenz.zerrudo\Documents\Unity Root\Play2Win\Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs" line="340" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
