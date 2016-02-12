@@ -423,6 +423,11 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		param.AddParameter(SignalManager.PARAM_PATTERNCOUNT, _patternManager.MaxLinesAllowed());
 		SignalManager.Instance.CallWithParam(SignalType.PATTERN_UPDATED, param);
 
+		while (GetBetAmount(_currentCoinBetIndex + 1) <= GameDataManager.Instance.LevelInfo.MaxCoinBet) {
+			_currentCoinBetIndex++;
+		}
+		UpdateBetAmount();
+		
 		StartCoroutine(SpinAfterMaxLine());
 	}
 
