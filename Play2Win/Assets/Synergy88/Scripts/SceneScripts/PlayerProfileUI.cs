@@ -6,7 +6,8 @@ public enum ProfileUIType {
     LOBBY,
     GEM_SCENES,
     SLOTS,
-    BAR_FRENZY
+    BAR_FRENZY,
+	TIGER_SLOTS
 }
 
 public class PlayerProfileUI : MonoBehaviour, ISignalListener {

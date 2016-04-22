@@ -16,7 +16,8 @@ public enum GameState {
 	BAR_FRENZY,
 	MINIGAME,
 	BF_MINIGAME,
-	JTW_MINIGAME2
+	JTW_MINIGAME2,
+	TIGER_SLOTS
 }
 
 public class GameManager : MonoBehaviour {

@@ -84,6 +84,22 @@ public class GameMenuScene : AnimatedScene, ISignalListener {
         // Load Game 2 here
     }
 
+	public void LoadGame3() {
+		AudioManager.Instance.PauseBGM();
+
+		myUIItem[1].enabled = false;
+		myAnimator[1].Play("BtnShine");
+		
+		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
+		LevelSpriteCollectionManager.Instance.ActiveLevel = 2;
+		
+		_transitionScene.GetComponent<SceneTransitionManager> ().SetTransitionLogo (_JTWLogo);
+		_transitionScene.SetActive (true);
+
+		LoadScene (GameState.TIGER_SLOTS);
+		// Load Game 2 here
+	}
+
     public void Execute(SignalType type, ISignalParameters param) {
         UpdateGame2Availability();
     }

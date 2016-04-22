@@ -34,7 +34,8 @@ public enum SignalType {
     UPDATE_PROFILE_HUD, // This should replace GAME_ENTERED and LOBBY_ENTERED
     REWARD_ITEM_BOUGHT,
 	HIDE_SLOT_ITEM,
-	RETURN_SLOT_ITEM
+	RETURN_SLOT_ITEM,
+	UPDATE_SETTINGSBTN_SPRITE // Added for tigerslots settings button
 }
 
 public class SignalManager : MonoBehaviour {
@@ -85,6 +86,7 @@ public class SignalManager : MonoBehaviour {
         InitializeListenerType(SignalType.REWARD_ITEM_BOUGHT);
 		InitializeListenerType(SignalType.HIDE_SLOT_ITEM);
 		InitializeListenerType (SignalType.RETURN_SLOT_ITEM);
+		InitializeListenerType (SignalType.UPDATE_SETTINGSBTN_SPRITE); // Added for tigerslots settings button
 	}
 
 	private void InitializeListenerType(SignalType type) {

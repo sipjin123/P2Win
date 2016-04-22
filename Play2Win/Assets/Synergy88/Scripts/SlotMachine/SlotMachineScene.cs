@@ -125,7 +125,13 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 
 		AudioManager.Instance.PlayGlobalAudio (AudioManager.GlobalAudioType.JTW_INTRO);
         ConcreteSignalParameters updateHudParam = new ConcreteSignalParameters();
-        updateHudParam.AddParameter("ProfileUIType", ProfileUIType.SLOTS);
+		if (Application.loadedLevelName != "TigerSlots")
+			updateHudParam.AddParameter ("ProfileUIType", ProfileUIType.SLOTS);
+		else {
+			updateHudParam.AddParameter ("ProfileUIType", ProfileUIType.TIGER_SLOTS);
+			SignalManager.Instance.Call(SignalType.UPDATE_SETTINGSBTN_SPRITE);
+		}
+
         SignalManager.Instance.CallWithParam(SignalType.UPDATE_PROFILE_HUD, updateHudParam);
 
 		SignalManager.Instance.Register(this, SignalType.PATTERN_UPDATED);

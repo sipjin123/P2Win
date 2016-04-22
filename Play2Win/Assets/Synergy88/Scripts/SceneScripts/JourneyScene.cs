@@ -64,4 +64,9 @@ public class JourneyScene : MonoBehaviour {
 		AudioManager.Instance.PauseBGM ();
         GameManager.Instance.LoadScene(GameState.BAR_FRENZY);
     }
+
+	public void OpenTigerSlots() {
+		AudioManager.Instance.PauseBGM ();
+		GameManager.Instance.LoadScene(GameState.TIGER_SLOTS);
+	}
 }
