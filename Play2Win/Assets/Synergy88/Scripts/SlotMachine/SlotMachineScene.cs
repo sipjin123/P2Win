@@ -113,6 +113,10 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 	private GameState _loadScene = GameState.MINIGAME;
 	[SerializeField]
 	private GameState _loadJTWMinigame = GameState.JTW_MINIGAME2;
+	[SerializeField]
+	private GameState _loadTSMinigame1 = GameState.TS_MINIGAME1;
+	[SerializeField]
+	private GameState _loadTSMinigame2 = GameState.TS_MINIGAME2;
 
 	private List<IExtraRewardWindow> _extraRewardsWindow;
 
@@ -188,6 +192,16 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 			BonusGameSpinCheat();
 			PlayerPrefs.SetString("SetBonus","None");
 		} 
+
+		else if (PlayerPrefs.GetString ("SetBonus") == "game4") {
+			TSBonusGame1();
+			PlayerPrefs.SetString("SetBonus","None");
+		} 
+		
+		else if (PlayerPrefs.GetString ("SetBonus") == "game5") {
+			TSBonusGame2();
+			PlayerPrefs.SetString("SetBonus","None");
+		} 
 	}
 
 	void UpdateGemMeter(){
@@ -215,6 +229,20 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			GameManager.Instance.LoadScene(GameState.GAME_MENU);
 		}
+		//TODO: remove these
+		if (Input.GetKeyDown(KeyCode.Q)) {
+			GameManager.Instance.LoadScene(GameState.TS_MINIGAME1);
+		}
+
+		if (Input.GetKeyDown(KeyCode.W)) {
+			GameManager.Instance.LoadScene(GameState.TS_MINIGAME2);
+		}
+
+
+		if (Input.GetKeyDown(KeyCode.R)) {
+			PlayerPrefs.DeleteAll();
+		}
+		//===========
 
 		if (_spinButtonHeld) {
 			_holdTimerRemaining -= Time.deltaTime;
@@ -568,6 +596,16 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		CheckForBonusWindows ();
 	}
 
+	void TSBonusGame1(){
+		GameManager.Instance.LoadScene (_loadTSMinigame1);
+		CheckForBonusWindows ();
+	}
+
+	void TSBonusGame2(){
+		GameManager.Instance.LoadScene (_loadTSMinigame2);
+		CheckForBonusWindows ();
+	}
+
 
 	IEnumerator WaitForBonusAnim(){
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BONUS);
@@ -580,10 +618,16 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		if (_bonusGameSelected > 50) {
 			PlayerPrefs.SetInt("WAMMultiplier", _patternManager.PendingSpinTheWheel.totalReward);
 			PlayerPrefs.SetInt("WAMCoins", (int)_currentCoinBet);
-			GameManager.Instance.LoadScene(_loadScene);
+			if(Application.loadedLevelName != "TigerSlots")
+				GameManager.Instance.LoadScene(_loadScene);
+			else
+				GameManager.Instance.LoadScene(_loadTSMinigame1);
 		} 
 		else {
-			GameManager.Instance.LoadScene(_loadJTWMinigame);
+			if(Application.loadedLevelName != "TigerSlots")
+				GameManager.Instance.LoadScene(_loadJTWMinigame);
+			else
+				GameManager.Instance.LoadScene(_loadTSMinigame2);
 		}
 
 

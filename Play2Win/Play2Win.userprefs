@@ -1,9 +1,12 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Synergy88\Scripts\Signals\SignalManager.cs">
     <Files>
-      <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs" Line="111" Column="30" />
-      <File FileName="Assets\Synergy88\Scripts\Paytable\PaytableManager.cs" Line="18" Column="54" />
+      <File FileName="Assets\HiddenObjGame\Game2\FindTigerClicked.cs" Line="30" Column="1" />
+      <File FileName="Assets\HiddenObjGame\Game2\FindTigerGameManager.cs" Line="106" Column="1" />
+      <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs" Line="136" Column="51" />
+      <File FileName="Assets\HiddenObjGame\Game1\HiddenObjectGameManager.cs" Line="54" Column="3" />
+      <File FileName="Assets\Synergy88\Scripts\Signals\SignalManager.cs" Line="40" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

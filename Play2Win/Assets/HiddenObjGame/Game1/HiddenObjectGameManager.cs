@@ -93,7 +93,8 @@ public class HiddenObjectGameManager : MonoBehaviour {
 		_gameEndWindow.SetActive(true);
 		_gameStartWindow.SetActive(false);
 		yield return new WaitForSeconds(2);
-		Application.LoadLevel("MainGameSample");
+		Application.LoadLevel("TigerSlots");
+		SignalManager.Instance.Call(SignalType.UPDATE_SETTINGSBTN_SPRITE);
 	}
 	void Update()
 	{

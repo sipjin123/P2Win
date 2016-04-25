@@ -13,6 +13,9 @@ public class MainMenuScene : AnimatedScene {
 	[SerializeField]
 	private GameState _BFBonusGame;
 
+	[SerializeField]
+	private GameState _TSBonusGame;
+
     [SerializeField]
     private GameState _games;
 
@@ -117,6 +120,16 @@ public class MainMenuScene : AnimatedScene {
 		AudioManager.Instance.PauseBGM();
 		PlayerPrefs.SetString("SetBonus","game3");
 		LoadScene (_BFBonusGame);
+	}
+	void FourthBonusGame(){
+		AudioManager.Instance.PauseBGM();
+		PlayerPrefs.SetString("SetBonus","game4");
+		LoadScene (_TSBonusGame);
+	}
+	void FifthBonusGame(){
+		AudioManager.Instance.PauseBGM();
+		PlayerPrefs.SetString("SetBonus","game5");
+		LoadScene (_TSBonusGame);
 	}
 
     //// TEMP: Disable game menu

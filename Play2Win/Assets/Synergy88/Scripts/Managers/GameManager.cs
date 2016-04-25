@@ -17,7 +17,9 @@ public enum GameState {
 	MINIGAME,
 	BF_MINIGAME,
 	JTW_MINIGAME2,
-	TIGER_SLOTS
+	TIGER_SLOTS,
+	TS_MINIGAME1,
+	TS_MINIGAME2
 }
 
 public class GameManager : MonoBehaviour {
@@ -60,6 +62,8 @@ public class GameManager : MonoBehaviour {
 		LoadSceneStates();
 		InitializeManagers();
 		LoadScene(startingState);
+
+		//PlayerPrefs.DeleteAll();
 
         //Screen.sleepTimeout = SleepTimeout.NeverSleep;
 	}
