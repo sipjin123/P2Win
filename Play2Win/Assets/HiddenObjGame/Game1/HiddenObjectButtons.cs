@@ -8,6 +8,7 @@ public class HiddenObjectButtons : MonoBehaviour {
 	public GameObject _selectedObject;
 	public GameObject _clearedObject;
 
+	private bool _isActivated = false;
 
 	public enum HIDDEN_OBJECT_BUTTONS{
 		NONE,
@@ -19,8 +20,12 @@ public class HiddenObjectButtons : MonoBehaviour {
 	{
 		if(_hiddenObjButtons == HIDDEN_OBJECT_BUTTONS.HINT)
 		{
+			if (_isActivated)
+				return;
+
 			HiddenObjectGameManager.Instance._gameItemsSelected[ Random.Range(0,6) ]._selectedObject.GetComponent<HiddenObjectClick>()._hintObj.SetActive(true);;
-			gameObject.SetActive(false);
+			//gameObject.SetActive(false);
+			_isActivated = true;
 		}
 	}
 }

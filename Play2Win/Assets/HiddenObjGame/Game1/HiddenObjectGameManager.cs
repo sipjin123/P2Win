@@ -41,8 +41,8 @@ public class HiddenObjectGameManager : MonoBehaviour {
 		for(int i = 0 ; i < _childCount; i++)
 		{
 			_gameItems[i] = _gameItemHolder.GetChild(i).GetComponent<HiddenObjectClick>();
-			_gameItems[i]._objName.text = _gameItems[i].gameObject.name;
-			_gameItems[i]._objName.gameObject.SetActive(true);
+			//_gameItems[i]._objName.text = _gameItems[i].gameObject.name;
+			_gameItems[i].gameObject.SetActive(true);
 		}
 		for(int i = 0 ; i < 6 ; i++)
 		{
@@ -60,7 +60,7 @@ public class HiddenObjectGameManager : MonoBehaviour {
 				int randomizer = Random.Range(0, _childCount);
 				if(_gameItems[ randomizer ]._isActive == false)
 				{
-					_gameItemsSelected[i]._selectedName.text = _gameItems[ randomizer ]._objName.text;
+					_gameItemsSelected[i]._selectedName.text = _gameItems[ randomizer ].gameObject.name;
 					_gameItemsSelected[i]._selectedObject = _gameItems[randomizer].gameObject;
 					_gameItems[ randomizer ]._isActive = true;
 					_gameItemsSelected[i]._isSet = true;
