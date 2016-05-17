@@ -13,12 +13,16 @@ public class FindTigerGameManager : MonoBehaviour {
 	public Transform _tigersParent;
 	public Transform _hideSpotsParent;
 
-	public bool _gameEnd;
+	public bool _gameEnd = false;
 	public GameObject _gameEndWindow;
 	public GameObject _gameStartWindow;
 	public int _totalScore;
 
-	public tk2dTextMesh _scoreText, _scoreTExt2;
+	public tk2dTextMesh _scoreText, _endScore;
+	public tk2dTextMesh _timerText;
+
+	private int _timer = 30;
+	public int guessAttemps = 0;
 
 	void Awake()
 	{
@@ -48,14 +52,21 @@ public class FindTigerGameManager : MonoBehaviour {
 	}
 	IEnumerator DelayStart()
 	{
-		yield return new WaitForSeconds(2);
-		AnimateTigers();
+		yield return new WaitForSeconds(3);
+		StartCoroutine (startTimer ());
 		SetTigersHiddingSpot();
 	}
-	public void AnimateTigers()
+
+	IEnumerator startTimer()
 	{
-		
+		while (_timer >= 0) {
+			yield return new WaitForSeconds (1);
+			_timerText.text = ""+_timer;
+			_timer--;
+		}
+		GameEnd ();
 	}
+
 	public void SetTigersHiddingSpot()
 	{
 		for(int i = 0 ; i < _tigers.Length ; i++)
@@ -77,11 +88,19 @@ public class FindTigerGameManager : MonoBehaviour {
 			}
 		}
 	}
+	public void guess()
+	{
+		guessAttemps++;
+
+		if (guessAttemps >= 3)
+			GameEnd ();
+	}
+
 	public void AddScore()
 	{
 		_totalScore ++;
 		_scoreText.text = ""+_totalScore;
-		_scoreTExt2.text = ""+_totalScore;
+		_endScore.text = ""+_totalScore;
 
 		if(_totalScore >= _tigersParent.childCount)
 		{
@@ -91,11 +110,13 @@ public class FindTigerGameManager : MonoBehaviour {
 	}
 	public void GameEnd()
 	{
+		PlayerDataManager.Instance.TSFreeSpins = _totalScore;
+		_gameEnd = true;
 		StartCoroutine(GameEndDelay());
 	}
 	public IEnumerator GameEndDelay()
 	{
-		yield return new WaitForSeconds(2);
+		yield return new WaitForSeconds(3);
 		_gameEndWindow.SetActive(true);
 		_gameStartWindow.SetActive(false);
 		yield return new WaitForSeconds(2);

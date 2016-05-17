@@ -42,12 +42,21 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 	private string _lastLogIn;
 	private string _lastBonusSpin;
 
+	private int _TSFreeSpin = 0;
+
 	private int _lastBet;
 	private int _lastPattern;
 	private int _logInBonus;
 	private int _gemCounter = 1;
 
 	public List<int> _boughtIAPLevels;
+
+	public int TSFreeSpins {
+		get { return _TSFreeSpin; }
+		set { 
+			Debug.Log("FREE SPINS EARNED: "+value);
+			_TSFreeSpin = value; } 
+	}
 
 	public float Chips { 
 		get { return _chips; } 

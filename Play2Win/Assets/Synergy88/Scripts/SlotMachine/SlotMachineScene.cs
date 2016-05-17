@@ -134,6 +134,7 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 		else {
 			updateHudParam.AddParameter ("ProfileUIType", ProfileUIType.TIGER_SLOTS);
 			SignalManager.Instance.Call(SignalType.UPDATE_SETTINGSBTN_SPRITE);
+			StartCoroutine (activateTSFreeSpin());
 		}
 
         SignalManager.Instance.CallWithParam(SignalType.UPDATE_PROFILE_HUD, updateHudParam);
@@ -633,6 +634,25 @@ public class SlotMachineScene : MonoBehaviour, ISignalListener {
 
 
 		CheckForBonusWindows ();
+	}
+
+	private IEnumerator activateTSFreeSpin()
+	{
+		yield return new WaitForSeconds (0.1f);
+		if (PlayerDataManager.Instance.TSFreeSpins > 0) {
+			_freeSpins.SetAmount(PlayerDataManager.Instance.TSFreeSpins);
+			
+			if (_freeSpinsActive <= 0) {
+				_remainingFreeSpins.Show();
+			}
+			
+			_freeSpinsActive += PlayerDataManager.Instance.TSFreeSpins;
+			_freeSpinsText.text = _freeSpinsActive.ToString();
+			_extraRewardsWindow.Add(_freeSpins);
+			Debug.Log ("Activating TS Free Spins!");
+		}
+
+		CheckForBonusWindows();
 	}
 
 	private void DelayedCheckForWinnings() {

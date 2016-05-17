@@ -84,6 +84,7 @@ public class HiddenObjectGameManager : MonoBehaviour {
 	}
 	public void GameEnd()
 	{
+		PlayerDataManager.Instance.TSFreeSpins = _points;
 		StartCoroutine( GameEndWait() );
 	}
 	IEnumerator GameEndWait()
