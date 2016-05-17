@@ -101,6 +101,9 @@ public class GameMenuScene : AnimatedScene, ISignalListener {
 
 	public void LoadGame3() {
 		AudioManager.Instance.PauseBGM();
+		if (PlayerDataManager.Instance.Level < 3) {
+			return;
+		}
 
 		myUIItem[2].enabled = false;
 		myAnimator[2].Play("BtnShine");
