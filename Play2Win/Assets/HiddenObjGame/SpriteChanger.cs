@@ -10,6 +10,7 @@ public class SpriteChanger : MonoBehaviour, ISignalListener
 
 	void Start(){
 		SignalManager.Instance.Register (this, SignalType.UPDATE_SETTINGSBTN_SPRITE);
+		SignalManager.Instance.Register (this, SignalType.REVERT_SETTINGSBTN_SPRITE);
 
 	}
 
@@ -17,21 +18,25 @@ public class SpriteChanger : MonoBehaviour, ISignalListener
 	{
 		switch (type) {
 		case SignalType.UPDATE_SETTINGSBTN_SPRITE:
-			GreenSettingsBTN.SetActive(!GreenSettingsBTN.activeSelf);
-			BlueSettingsBTN.SetActive(!BlueSettingsBTN.activeSelf);
+				GreenSettingsBTN.SetActive(false);
+				BlueSettingsBTN.SetActive(true);
+			break;
+
+		case SignalType.REVERT_SETTINGSBTN_SPRITE:
+			GreenSettingsBTN.SetActive(true);
+			BlueSettingsBTN.SetActive(false);
 			break;
 
 		default:
-			if (Application.loadedLevelName != "TigerSlots") {
 				GreenSettingsBTN.SetActive(true);
 				BlueSettingsBTN.SetActive(false);
-			}
 			break;
 		}
 	}
 
 	void OnDestroy() {
 		SignalManager.Instance.Remove (this, SignalType.UPDATE_SETTINGSBTN_SPRITE);
+		SignalManager.Instance.Remove (this, SignalType.REVERT_SETTINGSBTN_SPRITE);
 	}
 }
 

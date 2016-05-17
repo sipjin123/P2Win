@@ -1,12 +1,19 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\HiddenObjGame\Game2\FindTigerGameManager.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs">
     <Files>
-      <File FileName="Assets\HiddenObjGame\Game2\FindTigerGameManager.cs" Line="113" Column="3" />
-      <File FileName="Assets\HiddenObjGame\Game2\FindTigerClicked.cs" Line="147" Column="11" />
+      <File FileName="Assets\HiddenObjGame\Game2\FindTigerGameManager.cs" Line="124" Column="42" />
+      <File FileName="Assets\HiddenObjGame\Game2\FindTigerClicked.cs" Line="1" Column="1" />
       <File FileName="Assets\HiddenObjGame\HideTigers.cs" Line="1" Column="1" />
-      <File FileName="Assets\Synergy88\Scripts\Managers\PlayerDataManager.cs" Line="58" Column="27" />
-      <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs" Line="645" Column="32" />
+      <File FileName="Assets\Synergy88\Scripts\Managers\PlayerDataManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Synergy88\Scripts\SlotMachine\SlotMachineScene.cs" Line="248" Column="25" />
+      <File FileName="Assets\HiddenObjGame\Game1\HiddenObjectGameManager.cs" Line="98" Column="69" />
+      <File FileName="Assets\Synergy88\Scripts\SceneScripts\GameMenuScene.cs" Line="96" Column="36" />
+      <File FileName="Assets\Synergy88\Scripts\Other\TriggerClick.cs" Line="7" Column="79" />
+      <File FileName="Assets\Synergy88\Scripts\SceneScripts\PlayerProfileUI.cs" Line="112" Column="23" />
+      <File FileName="Assets\Game2Folder\Scripts\GameManager_ReelChef.cs" Line="77" Column="60" />
+      <File FileName="Assets\HiddenObjGame\SpriteChanger.cs" Line="34" Column="51" />
+      <File FileName="Assets\Synergy88\Scripts\Signals\SignalManager.cs" Line="92" Column="56" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

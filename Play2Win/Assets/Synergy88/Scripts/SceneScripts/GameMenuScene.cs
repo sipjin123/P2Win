@@ -15,13 +15,20 @@ public class GameMenuScene : AnimatedScene, ISignalListener {
 
     [SerializeField]
     private GameObject _level2LockedSprite;
-
     [SerializeField]
     private GameObject _level2AvailableSprite;
+
+	[SerializeField]
+	private GameObject _level3LockedSprite;
+	[SerializeField]
+	private GameObject _level3AvailableSprite;
+
 	[SerializeField]
 	private GameObject _JTWLogo;
 	[SerializeField]
 	private GameObject _BFLogo;
+	[SerializeField]
+	private GameObject _TSLogo;
 	[SerializeField]
 	private GameObject _transitionScene;
 
@@ -34,7 +41,10 @@ public class GameMenuScene : AnimatedScene, ISignalListener {
 
         SignalManager.Instance.Register(this, SignalType.LEVELED_UP);
 
+		SignalManager.Instance.Call (SignalType.REVERT_SETTINGSBTN_SPRITE);
+
         UpdateGame2Availability();
+		UpdateGame3Availability();
     }
 
     void OnDestroy() {
@@ -51,6 +61,11 @@ public class GameMenuScene : AnimatedScene, ISignalListener {
         _level2AvailableSprite.SetActive(PlayerDataManager.Instance.Level >= 2);
         _level2LockedSprite.SetActive(PlayerDataManager.Instance.Level < 2);
     }
+
+	private void UpdateGame3Availability() {
+		_level3AvailableSprite.SetActive(PlayerDataManager.Instance.Level >= 3);
+		_level3LockedSprite.SetActive(PlayerDataManager.Instance.Level < 3);
+	}
 
 	public void LoadGame1() {
 		AudioManager.Instance.PauseBGM();
@@ -87,17 +102,16 @@ public class GameMenuScene : AnimatedScene, ISignalListener {
 	public void LoadGame3() {
 		AudioManager.Instance.PauseBGM();
 
-		myUIItem[1].enabled = false;
-		myAnimator[1].Play("BtnShine");
+		myUIItem[2].enabled = false;
+		myAnimator[2].Play("BtnShine");
 		
 		AudioManager.Instance.PlayGlobalAudio(AudioManager.GlobalAudioType.BUTTON_GENERIC);
-		LevelSpriteCollectionManager.Instance.ActiveLevel = 2;
+		LevelSpriteCollectionManager.Instance.ActiveLevel = 3;
 		
-		_transitionScene.GetComponent<SceneTransitionManager> ().SetTransitionLogo (_JTWLogo);
+		_transitionScene.GetComponent<SceneTransitionManager> ().SetTransitionLogo (_TSLogo);
 		_transitionScene.SetActive (true);
 
 		LoadScene (GameState.TIGER_SLOTS);
-		// Load Game 2 here
 	}
 
     public void Execute(SignalType type, ISignalParameters param) {

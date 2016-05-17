@@ -115,6 +115,7 @@ public class PlayerProfileUI : MonoBehaviour, ISignalListener {
 		AudioManager.Instance.StopGlobalAudio(AudioManager.GlobalAudioType.JTW_INTRO);
 		AudioManager.Instance.StopGlobalAudio(AudioManager.GlobalAudioType.BARFRENZY_BGMLOOP);
 		AudioManager.Instance.SwitchBGM(AudioManager.GlobalAudioType.BGM_LOBBY);
+
 		if (_inputLocked) {
 			return;		
 		}

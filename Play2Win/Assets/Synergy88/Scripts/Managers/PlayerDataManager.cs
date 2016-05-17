@@ -54,7 +54,6 @@ public class PlayerDataManager : MonoBehaviour, ISignalListener {
 	public int TSFreeSpins {
 		get { return _TSFreeSpin; }
 		set { 
-			Debug.Log("FREE SPINS EARNED: "+value);
 			_TSFreeSpin = value; } 
 	}
 

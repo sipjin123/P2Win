@@ -35,7 +35,8 @@ public enum SignalType {
     REWARD_ITEM_BOUGHT,
 	HIDE_SLOT_ITEM,
 	RETURN_SLOT_ITEM,
-	UPDATE_SETTINGSBTN_SPRITE // Added for tigerslots settings button
+	UPDATE_SETTINGSBTN_SPRITE, // Added for tigerslots settings button
+	REVERT_SETTINGSBTN_SPRITE // Added for reverting changed settings button sprite
 }
 
 public class SignalManager : MonoBehaviour {
@@ -87,6 +88,7 @@ public class SignalManager : MonoBehaviour {
 		InitializeListenerType(SignalType.HIDE_SLOT_ITEM);
 		InitializeListenerType (SignalType.RETURN_SLOT_ITEM);
 		InitializeListenerType (SignalType.UPDATE_SETTINGSBTN_SPRITE); // Added for tigerslots settings button
+		InitializeListenerType (SignalType.REVERT_SETTINGSBTN_SPRITE); // Added for tigerslots settings button
 	}
 
 	private void InitializeListenerType(SignalType type) {
