@@ -61,8 +61,14 @@ public class tk2dSpriteCollectionBuilder
 	public static bool IsTextureImporterSetUp(string assetPath)
 	{
         TextureImporter importer = (TextureImporter)TextureImporter.GetAtPath(assetPath);
-        if (importer.textureType != TextureImporterType.Advanced ||
-            importer.textureFormat != TextureImporterFormat.AutomaticTruecolor ||
+        if (
+#if UNITY_5_5_OR_NEWER
+			(importer.textureType != TextureImporterType.Default && importer.textureType != TextureImporterType.Sprite) ||
+			importer.textureCompression != TextureImporterCompression.Uncompressed ||
+#else
+			importer.textureType != TextureImporterType.Advanced ||
+			importer.textureFormat != TextureImporterFormat.AutomaticTruecolor ||
+#endif
             importer.npotScale != TextureImporterNPOTScale.None ||
             importer.isReadable != true ||
 #if (UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2 || UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7 || UNITY_4_8 || UNITY_4_9)
@@ -81,8 +87,14 @@ public class tk2dSpriteCollectionBuilder
 	{
 		// make sure the source texture is npot and readable, and uncompressed
         TextureImporter importer = (TextureImporter)TextureImporter.GetAtPath(assetPath);
-        if (importer.textureType != TextureImporterType.Advanced ||
-            importer.textureFormat != TextureImporterFormat.AutomaticTruecolor ||
+        if (
+#if UNITY_5_5_OR_NEWER
+			(importer.textureType != TextureImporterType.Default && importer.textureType != TextureImporterType.Sprite) ||
+			importer.textureCompression != TextureImporterCompression.Uncompressed ||
+#else
+			importer.textureType != TextureImporterType.Advanced ||
+			importer.textureFormat != TextureImporterFormat.AutomaticTruecolor ||
+#endif
             importer.npotScale != TextureImporterNPOTScale.None ||
             importer.isReadable != true ||
 #if !(UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1)
@@ -95,8 +107,16 @@ public class tk2dSpriteCollectionBuilder
 #endif
 		    )
         {
-            importer.textureFormat = TextureImporterFormat.AutomaticTruecolor;
-            importer.textureType = TextureImporterType.Advanced;
+#if UNITY_5_5_OR_NEWER
+			if (importer.textureType != TextureImporterType.Default && importer.textureType != TextureImporterType.Sprite)
+			{
+				importer.textureType = TextureImporterType.Default;
+			}
+			importer.textureCompression = TextureImporterCompression.Uncompressed;
+#else
+			importer.textureType = TextureImporterType.Advanced;
+			importer.textureFormat = TextureImporterFormat.AutomaticTruecolor;
+#endif
             importer.npotScale = TextureImporterNPOTScale.None;
             importer.isReadable = true;
 			importer.mipmapEnabled = false;
@@ -672,7 +692,7 @@ public class tk2dSpriteCollectionBuilder
 					data.fontPlatformGUIDs[i] = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(gen.platforms[i].spriteCollection.fonts[j].data));
 				}
 
-				EditorUtility.SetDirty(data);
+				tk2dUtil.SetDirty(data);
 			}
 
 			gen.spriteCollection.version = tk2dSpriteCollectionData.CURRENT_VERSION;
@@ -692,8 +712,8 @@ public class tk2dSpriteCollectionBuilder
 			gen.spriteCollection.spriteCollectionPlatformGUIDs = platformGUIDs.ToArray();
 			gen.spriteCollection.ResetPlatformData();
 
-			EditorUtility.SetDirty(gen);
-			EditorUtility.SetDirty(gen.spriteCollection);
+			tk2dUtil.SetDirty(gen);
+			tk2dUtil.SetDirty(gen.spriteCollection);
 
 			// Index this properly
 			tk2dEditorUtility.GetOrCreateIndex().AddSpriteCollectionData(gen.spriteCollection);
@@ -724,7 +744,7 @@ public class tk2dSpriteCollectionBuilder
 					f.hasPlatformData = false;
 					f.fontPlatforms = new string[0];
 					f.fontPlatformGUIDs = new string[0];
-					EditorUtility.SetDirty(f);
+					tk2dUtil.SetDirty(f);
 				}
 			}
 		}
@@ -1231,7 +1251,7 @@ public class tk2dSpriteCollectionBuilder
 			}
 			else {
 				gen.atlasMaterials[atlasIndex].mainTexture = tex;
-				EditorUtility.SetDirty(gen.atlasMaterials[atlasIndex]);
+				tk2dUtil.SetDirty(gen.atlasMaterials[atlasIndex]);
 			}
 			
 			// gen.altMaterials must either have length 0, or contain at least the material used in the game
@@ -1276,6 +1296,7 @@ public class tk2dSpriteCollectionBuilder
 		
 		// Wipe out legacy data
 		coll.material = null;
+		coll.ClearDictionary();
 		
         coll.premultipliedAlpha = gen.premultipliedAlpha;
         coll.spriteDefinitions = new tk2dSpriteDefinition[gen.textureParams.Length];
@@ -1371,15 +1392,15 @@ public class tk2dSpriteCollectionBuilder
 
 			font.data.invOrthoSize = coll.invOrthoSize;
 			font.data.halfTargetHeight = coll.halfTargetHeight;
-			font.data.texelSize = new Vector3(scale / gen.globalScale, scale / gen.globalScale, 0.0f);
+			font.data.texelSize = new Vector3(scale / gen.globalScale * gen.globalTextureRescale, scale / gen.globalScale * gen.globalTextureRescale, 0.0f);
 
 			// Managed?
 			font.data.managedFont = gen.managedSpriteCollection;
 			font.data.needMaterialInstance = (gen.managedSpriteCollection || gen.atlasFormat != tk2dSpriteCollection.AtlasFormat.UnityTexture);
 
 			// Mark to save
-			EditorUtility.SetDirty(font.editorData);
-			EditorUtility.SetDirty(font.data);
+			tk2dUtil.SetDirty(font.editorData);
+			tk2dUtil.SetDirty(font.data);
 
 			// Update font
 			tk2dEditorUtility.GetOrCreateIndex().AddOrUpdateFont(font.editorData);
@@ -1414,8 +1435,8 @@ public class tk2dSpriteCollectionBuilder
 		var index = tk2dEditorUtility.GetOrCreateIndex();
 		index.AddSpriteCollectionData(gen.spriteCollection);
 
-		EditorUtility.SetDirty(gen.spriteCollection);
-		EditorUtility.SetDirty(gen);
+		tk2dUtil.SetDirty(gen.spriteCollection);
+		tk2dUtil.SetDirty(gen);
 
 		sourceTextures = null; // need to clear, its static
 		currentBuild = null;
@@ -1487,6 +1508,31 @@ public class tk2dSpriteCollectionBuilder
 			importer.maxTextureSize = gen.maxTextureSize;
 			textureDirty = true;
 		}
+
+#if UNITY_5_5_OR_NEWER
+		bool is16Bit = false;
+		TextureImporterCompression targetCompression;
+		switch (gen.textureCompression)
+		{
+		case tk2dSpriteCollection.TextureCompression.Uncompressed: targetCompression = TextureImporterCompression.Uncompressed; break;
+		case tk2dSpriteCollection.TextureCompression.Reduced16Bit: targetCompression = TextureImporterCompression.Uncompressed; is16Bit = true; break;
+		case tk2dSpriteCollection.TextureCompression.Dithered16Bit_Alpha: targetCompression = TextureImporterCompression.Uncompressed; is16Bit = true; break;
+		case tk2dSpriteCollection.TextureCompression.Dithered16Bit_NoAlpha: targetCompression = TextureImporterCompression.Uncompressed; is16Bit = true; break;
+		case tk2dSpriteCollection.TextureCompression.Compressed: targetCompression = TextureImporterCompression.Compressed; break;
+
+		default: targetCompression = TextureImporterCompression.Uncompressed; break;
+		}
+
+		if (targetCompression != importer.textureCompression)
+		{
+			importer.textureCompression = targetCompression;
+			if (is16Bit)
+			{
+				Debug.Log("16 bit texture / dithering needs to be manually set-up per platform");
+			}
+			textureDirty = true;
+		}
+#else
 		TextureImporterFormat targetFormat;
 		switch (gen.textureCompression)
 		{
@@ -1501,10 +1547,10 @@ public class tk2dSpriteCollectionBuilder
 
 		if (targetFormat != importer.textureFormat)
 		{
-			importer.textureFormat = targetFormat;
-			textureDirty = true;
+		importer.textureFormat = targetFormat;
+		textureDirty = true;
 		}
-
+#endif
 		if (importer.filterMode != gen.filterMode) 
 		{ 
 			importer.filterMode = gen.filterMode; 
@@ -1527,7 +1573,7 @@ public class tk2dSpriteCollectionBuilder
 
 		if (textureDirty)
 		{
-			EditorUtility.SetDirty(importer);
+			tk2dUtil.SetDirty(importer);
 			AssetDatabase.ImportAsset(targetTexPath);
 		}
 	}
@@ -1990,7 +2036,7 @@ public class tk2dSpriteCollectionBuilder
 			coll.spriteDefinitions[i].boundsData[1] = (boundsMax - boundsMin);
 
 			// this is the dimension of exactly one pixel, scaled to match sprite dimensions and scale
-			coll.spriteDefinitions[i].texelSize = new Vector3(scale * thisTexParam.scale.x / gen.globalScale, scale * thisTexParam.scale.y / gen.globalScale, 0.0f);
+			coll.spriteDefinitions[i].texelSize = new Vector3(scale * thisTexParam.scale.x / gen.globalScale * gen.globalTextureRescale, scale * thisTexParam.scale.y / gen.globalScale * gen.globalTextureRescale, 0.0f);
 			
 			coll.spriteDefinitions[i].untrimmedBoundsData = new Vector3[2];
 			if (mesh)

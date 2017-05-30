@@ -1,5 +1,3 @@
-using UnityEngine;
-using System.Collections;
 
 namespace BuildReportTool
 {
@@ -29,6 +27,7 @@ public class UnityBuildSettings
 
 	public string ActionOnDotNetUnhandledException; // Unity 5: PlayerSettings.actionOnDotNetUnhandledException
 
+	public bool ForceOptimizeScriptCompilation; // Unity 5.2.2: EditorUserBuildSettings.forceOptimizeScriptCompilation
 	
 
 
@@ -42,6 +41,7 @@ public class UnityBuildSettings
 	public bool StripPhysicsCode; // in Unity 4: PlayerSettings.stripPhysics. Removed in Unity 5
 	public bool BakeCollisionMeshes; // Unity 5: PlayerSettings.bakeCollisionMeshes
 	public bool StripUnusedMeshComponents; // PlayerSettings.stripUnusedMeshComponents
+	public bool StripEngineCode; // PlayerSettings.stripEngineCode
 
 
 
@@ -79,7 +79,9 @@ public class UnityBuildSettings
 
 	public string[] AspectRatiosAllowed; // PlayerSettings.HasAspectRatio
 
+	public string[] GraphicsAPIsUsed; // Unity 5.3: PlayerSettings.GetGraphicsAPIs
 
+	public bool EnableVirtualRealitySupport; // PlayerSettings.virtualRealitySupported
 
 
 
@@ -92,7 +94,7 @@ public class UnityBuildSettings
 	public bool WebPlayerEnableStreaming; // EditorUserBuildSettings.webPlayerStreamed
 	public bool WebPlayerDeployOffline; // EditorUserBuildSettings.webPlayerOfflineDeployment
 
-	public int WebPlayerFirstStreamedLevelWithResources; // PlayerSettings.firstStreamedLevelWithResources
+	public int WebPlayerFirstStreamedLevelWithResources; // PlayerSettings.firstStreamedLevelWithResources. Removed in Unity 5.3
 
 
 
@@ -127,6 +129,7 @@ public class UnityBuildSettings
 	public int StandaloneDefaultScreenHeight; // PlayerSettings.defaultScreenHeight
 
 	public bool StandaloneFullScreenByDefault; // PlayerSettings.defaultIsFullScreen
+	public bool StandaloneAllowFullScreenSwitch; // PlayerSettings.allowFullscreenSwitch. Unity 5.3
 
 	public bool StandaloneCaptureSingleScreen; // PlayerSettings.captureSingleScreen
 
@@ -140,7 +143,7 @@ public class UnityBuildSettings
 	// windows only build settings
 	// ---------------------------------------------------------------
 
-	public bool WinUseDirect3D11IfAvailable; // Unity 4: PlayerSettings.useDirect3D11
+	public bool WinUseDirect3D11IfAvailable; // Unity 4: PlayerSettings.useDirect3D11. Removed in Unity 5.3 in favor of PlayerSettings.GetGraphicsAPIs
 
 	public string WinDirect3D9FullscreenModeUsed; // PlayerSettings.d3d9FullscreenMode
 	public string WinDirect3D11FullscreenModeUsed; // PlayerSettings.d3d11FullscreenMode
@@ -158,7 +161,8 @@ public class UnityBuildSettings
 	// ---------------------------------------------------------------
 	
 	public bool WSAGenerateReferenceProjects; // EditorUserBuildSettings.metroGenerateReferenceProjects
-	
+
+	public string WSASDK; // EditorUserBuildSettings.wsaSDK
 
 
 
@@ -199,7 +203,7 @@ public class UnityBuildSettings
 	public string iOSTargetOSVersion; // PlayerSettings.iOS.targetOSVersion
 
 	public string iOSTargetDevice; // PlayerSettings.iOS.targetDevice
-	public string iOSTargetResolution; // PlayerSettings.iOS.targetResolution
+	public string iOSTargetResolution; // PlayerSettings.iOS.targetResolution. Removed in Unity 5.3
 
 	public bool iOSIsIconPrerendered; // PlayerSettings.iOS.prerenderedIcon
 
@@ -219,7 +223,7 @@ public class UnityBuildSettings
 
 	public string iOSShowProgressBarInLoadingScreen; // PlayerSettings.iOS.showActivityIndicatorOnLoading
 
-	public string iOSTargetGraphics; // PlayerSettings.targetIOSGraphics
+	public string iOSTargetGraphics; // PlayerSettings.targetIOSGraphics. Removed in Unity 5.3
 	
 	
 	

@@ -84,6 +84,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\BuildReport\Scripts\FuzzyString\ApproximatelyEquals.cs" />
+    <Compile Include="Assets\BuildReport\Scripts\FuzzyString\FuzzyStringComparisonOptions.cs" />
+    <Compile Include="Assets\BuildReport\Scripts\FuzzyString\FuzzyStringComparisonTolerance.cs" />
+    <Compile Include="Assets\BuildReport\Scripts\FuzzyString\HammingDistance.cs" />
+    <Compile Include="Assets\BuildReport\Scripts\FuzzyString\JaccardDistance.cs" />
+    <Compile Include="Assets\BuildReport\Scripts\FuzzyString\JaroDistance.cs" />
+    <Compile Include="Assets\BuildReport\Scripts\FuzzyString\JaroWinklerDistance.cs" />
+    <Compile Include="Assets\BuildReport\Scripts\FuzzyString\LevenshteinDistance.cs" />
+    <Compile Include="Assets\BuildReport\Scripts\FuzzyString\LongestCommonSubsequence.cs" />
+    <Compile Include="Assets\BuildReport\Scripts\FuzzyString\LongestCommonSubstring.cs" />
+    <Compile Include="Assets\BuildReport\Scripts\FuzzyString\Operations.cs" />
+    <Compile Include="Assets\BuildReport\Scripts\FuzzyString\OverlapCoefficient.cs" />
+    <Compile Include="Assets\BuildReport\Scripts\FuzzyString\RatcliffObershelpSimilarity.cs" />
+    <Compile Include="Assets\BuildReport\Scripts\FuzzyString\SorensenDiceDistance.cs" />
+    <Compile Include="Assets\BuildReport\Scripts\FuzzyString\TanimotoCoefficient.cs" />
     <Compile Include="Assets\Common\Scripts\Camera\OrthographicCamera.cs" />
     <Compile Include="Assets\Common\Scripts\Camera\OrthographicCameraObserver.cs" />
     <Compile Include="Assets\Common\Scripts\ColorUtils.cs" />
@@ -300,6 +315,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\BuildReport\README.txt" />
+    <None Include="Assets\BuildReport\Scripts\FuzzyString\License.txt" />
     <None Include="Assets\BuildReport\VERSION.txt" />
     <None Include="Assets\Common\Shaders\ColorOnly.shader" />
     <None Include="Assets\Common\Shaders\NoCullingTransparent.shader" />

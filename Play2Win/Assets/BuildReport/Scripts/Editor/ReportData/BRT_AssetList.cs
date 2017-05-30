@@ -1,8 +1,5 @@
 using UnityEngine;
-using UnityEditor;
 using System;
-using System.IO;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -110,7 +107,7 @@ public class AssetList
 		SetSort(_currentSortType, _currentSortOrder);
 	}
 
-	void SetSort(SortType sortType, SortOrder sortOrder)
+	public void SetSort(SortType sortType, SortOrder sortOrder)
 	{
 		if (sortType == SortType.RawSize)
 		{
@@ -303,6 +300,11 @@ public class AssetList
 
 	public int GetViewOffsetForDisplayedList(FileFilterGroup fileFilters)
 	{
+		if (_viewOffsets == null || _viewOffsets.Length == 0)
+		{
+			return 0;
+		}
+
 		if (fileFilters.SelectedFilterIdx == -1)
 		{
 			return _viewOffsets[0];

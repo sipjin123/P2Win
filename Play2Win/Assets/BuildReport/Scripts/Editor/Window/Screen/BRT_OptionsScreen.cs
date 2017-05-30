@@ -1,9 +1,5 @@
 using UnityEngine;
 using UnityEditor;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
 using System.Text.RegularExpressions;
 
 
@@ -156,6 +152,20 @@ public class Options : BaseScreen
 			GUILayout.Space(20); // extra left padding
 			GUILayout.BeginVertical();
 
+				if (!string.IsNullOrEmpty(BuildReportTool.Options.FoundPathForSavedOptions))
+				{
+					GUILayout.BeginHorizontal(BuildReportTool.Window.Settings.BOXED_LABEL_STYLE_NAME);
+					GUILayout.Label(string.Format("Using options file in: {0}", BuildReportTool.Options.FoundPathForSavedOptions));
+					GUILayout.FlexibleSpace();
+					if (GUILayout.Button("Reload"))
+					{
+						BuildReportTool.Options.RefreshOptions();
+					}
+					GUILayout.EndHorizontal();
+
+					GUILayout.Space(10);
+				}
+
 				// === Main Options ===
 
 				GUILayout.Label("Main Options", BuildReportTool.Window.Settings.INFO_TITLE_STYLE_NAME);
@@ -163,6 +173,9 @@ public class Options : BaseScreen
 				BuildReportTool.Options.CollectBuildInfo = GUILayout.Toggle(BuildReportTool.Options.CollectBuildInfo, Labels.COLLECT_BUILD_INFO_LABEL);
 
 				BuildReportTool.Options.AllowDeletingOfUsedAssets = GUILayout.Toggle(BuildReportTool.Options.AllowDeletingOfUsedAssets, "Allow deleting of Used Assets (practice caution!)");
+
+				BuildReportTool.Options.UseThreadedFileLoading = GUILayout.Toggle(BuildReportTool.Options.UseThreadedFileLoading,
+					"Use threaded file loading");
 
 				GUILayout.Space(10);
 
@@ -364,16 +377,16 @@ public class Options : BaseScreen
 
 		GUILayout.EndScrollView();
 
-		if (BuildReportTool.Options.SaveType == BuildReportTool.Options.SAVE_TYPE_PERSONAL)
-		{
+		//if (BuildReportTool.Options.SaveType == BuildReportTool.Options.SAVE_TYPE_PERSONAL)
+		//{
 			// changed to user's personal folder
-			BuildReportTool.ReportGenerator.ChangeSavePathToUserPersonalFolder();
-		}
-		else if (BuildReportTool.Options.SaveType == BuildReportTool.Options.SAVE_TYPE_PROJECT)
-		{
+			//BuildReportTool.ReportGenerator.ChangeSavePathToUserPersonalFolder();
+		//}
+		//else if (BuildReportTool.Options.SaveType == BuildReportTool.Options.SAVE_TYPE_PROJECT)
+		//{
 			// changed to project folder
-			BuildReportTool.ReportGenerator.ChangeSavePathToProjectFolder();
-		}
+			//BuildReportTool.ReportGenerator.ChangeSavePathToProjectFolder();
+		//}
 	}
 
 

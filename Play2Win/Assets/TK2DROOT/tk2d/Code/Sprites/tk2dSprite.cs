@@ -51,7 +51,8 @@ public class tk2dSprite : tk2dBaseSprite
 			Destroy(mesh);
 #endif
 		}
-		
+
+#if !STRIP_PHYSICS_3D
 		if (meshColliderMesh)
 		{
 #if UNITY_EDITOR
@@ -60,6 +61,7 @@ public class tk2dSprite : tk2dBaseSprite
 			Destroy(meshColliderMesh);
 #endif
 		}
+#endif
 	}
 	
 	public override void Build()

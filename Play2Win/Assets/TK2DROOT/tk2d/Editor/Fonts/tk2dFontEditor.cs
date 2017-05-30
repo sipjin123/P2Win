@@ -40,16 +40,12 @@ public class tk2dFontEditor : Editor
 					"Quality will be lost and the texture may appear blocky in game.\n" +
 					"Do you wish to change the format?", 
 					tk2dGuiUtility.WarningLevel.Warning, 
-					new string[] { "16bit", "Truecolor" }
+					new string[] { "Truecolor" }
 					)) != -1)
 				{
 					if (buttonPressed == 0)
 					{
-						ConvertTextureToFormat(tex, TextureImporterFormat.Automatic16bit);
-					}
-					else
-					{
-						ConvertTextureToFormat(tex, TextureImporterFormat.AutomaticTruecolor);
+						ConvertTextureToUncompressed(tex);
 					}
 				}
 			}
@@ -66,7 +62,7 @@ public class tk2dFontEditor : Editor
 				new string[] { "Fix" }
 				) != -1)
 			{
-				ConvertTextureToFormat(gen.gradientTexture, TextureImporterFormat.AutomaticTruecolor);
+				ConvertTextureToUncompressed(gen.gradientTexture);
 			}
 		}
 
@@ -110,17 +106,17 @@ public class tk2dFontEditor : Editor
 				if (gen.material.shader != s)
 				{
 					gen.material.shader = s;
-					EditorUtility.SetDirty(gen.material);
+					tk2dUtil.SetDirty(gen.material);
 				}
 				if (gen.material.mainTexture != gen.texture)
 				{
 					gen.material.mainTexture = gen.texture;
-					EditorUtility.SetDirty(gen.material);
+					tk2dUtil.SetDirty(gen.material);
 				}
 				if (gen.gradientTexture != null && gen.gradientTexture != gen.material.GetTexture("_GradientTex"))
 				{
 					gen.material.SetTexture("_GradientTex", gen.gradientTexture);
-					EditorUtility.SetDirty(gen.material);
+					tk2dUtil.SetDirty(gen.material);
 				}
 			}
 			
@@ -141,8 +137,8 @@ public class tk2dFontEditor : Editor
                 spr.Init(true);
             }
 			
-			EditorUtility.SetDirty(gen);
-			EditorUtility.SetDirty(gen.data);
+			tk2dUtil.SetDirty(gen);
+			tk2dUtil.SetDirty(gen.data);
 
 			// update index
 			tk2dEditorUtility.GetOrCreateIndex().AddOrUpdateFont(gen);
@@ -174,16 +170,24 @@ public class tk2dFontEditor : Editor
 		}
 	}
 	
-	void ConvertTextureToFormat(Texture2D texture, TextureImporterFormat format)
+	void ConvertTextureToUncompressed(Texture2D texture)
 	{
-		string assetPath = AssetDatabase.GetAssetPath(texture);
+		string assetPath = AssetDatabase.GetAssetPath(texture); 
 		if (assetPath != "")
 		{
 			// make sure the source texture is npot and readable, and uncompressed
         	TextureImporter importer = (TextureImporter)TextureImporter.GetAtPath(assetPath);
-			if (importer.textureFormat != format)
-				importer.textureFormat = format;
-			
+#if UNITY_5_5_OR_NEWER
+			if (importer.textureCompression != TextureImporterCompression.Uncompressed)
+			{
+				importer.textureCompression = TextureImporterCompression.Uncompressed;
+			}
+#else
+			if (importer.textureFormat != TextureImporterFormat.ARGB32)
+			{
+				importer.textureFormat = TextureImporterFormat.ARGB32;
+			}
+#endif			
 			AssetDatabase.ImportAsset(assetPath);
 		}
 	}

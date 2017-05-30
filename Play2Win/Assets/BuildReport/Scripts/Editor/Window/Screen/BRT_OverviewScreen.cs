@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEditor;
-using System.Collections;
 using System.IO;
 
 
@@ -53,8 +52,19 @@ public class Overview : BaseScreen
 
 						GUILayout.Label("Report generation took:", BuildReportTool.Window.Settings.INFO_TITLE_STYLE_NAME);
 						GUILayout.Label(buildReportToDisplay.ReportGenerationTime.ToString(), BuildReportTool.Window.Settings.INFO_SUBTITLE_STYLE_NAME);
+						
+						if (!string.IsNullOrEmpty(buildReportToDisplay.TotalBuildSize) && !string.IsNullOrEmpty(buildReportToDisplay.BuildFilePath))
+						{
+							GUILayout.BeginVertical();
+							GUILayout.Label(Labels.BUILD_TOTAL_SIZE_LABEL, BuildReportTool.Window.Settings.INFO_TITLE_STYLE_NAME);
 
-						BuildReportTool.Window.Utility.DrawLargeSizeDisplay(Labels.BUILD_TOTAL_SIZE_LABEL, BuildReportTool.Window.Utility.GetProperBuildSizeDesc(buildReportToDisplay), buildReportToDisplay.TotalBuildSize);
+							GUILayout.Label(BuildReportTool.Util.GetBuildSizePathDescription(buildReportToDisplay),
+								BuildReportTool.Window.Settings.TINY_HELP_STYLE_NAME);
+
+							GUILayout.Label(buildReportToDisplay.TotalBuildSize, BuildReportTool.Window.Settings.BIG_NUMBER_STYLE_NAME);
+							GUILayout.EndVertical();
+						}
+
 						GUILayout.Space(20);
 
 						string emphasisColor = "black";
@@ -122,7 +132,7 @@ public class Overview : BaseScreen
 		
 		if (assetsToShow == null)
 		{
-			Debug.LogError("no top ten largest");
+			//Debug.LogError("no top ten largest");
 			return;
 		}
 

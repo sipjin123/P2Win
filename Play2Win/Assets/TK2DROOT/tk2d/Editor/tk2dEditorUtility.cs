@@ -7,7 +7,8 @@ using System.IO;
 public static class tk2dEditorUtility
 {
 	public static double version = 2.5;
-	public static int releaseId = 3; // < -10001 = alpha 1, other negative = beta release, 0 = final, positive = final hotfix
+	public static int releaseId = 7; // < -10001 = alpha 1, other negative = beta release, 0 = final, positive = final hotfix
+	public static int buildNo = 3;
 
 	static tk2dEditorUtility() {
 #if UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2
@@ -50,26 +51,32 @@ public static class tk2dEditorUtility
 		}
 	}
 	
-	public static string ReleaseStringIdentifier(double _version, int _releaseId)
+	public static string ReleaseStringIdentifier(double _version, int _releaseId, int _buildNo)
 	{
 		string id = _version.ToString("0.0");
 		if (_releaseId == 0) id += ".0";
 		else if (_releaseId > 0) id += "." + _releaseId.ToString();
 		else if (_releaseId < -10000) id += " alpha " + (-_releaseId - 10000).ToString();
 		else if (_releaseId < 0) id += " beta " + (-_releaseId).ToString();
+
+		if (_buildNo > 0) id += "." + _buildNo.ToString();
+
 		return id;
 	}
 	
 	/// <summary>
 	/// Release filename for the current version
 	/// </summary>
-	public static string CurrentReleaseFileName(string product, double _version, int _releaseId)
+	public static string CurrentReleaseFileName(string product, double _version, int _releaseId, int _buildNo)
 	{
 		string id = product + _version.ToString("0.0");
 		if (_releaseId == 0) id += ".0";
 		else if (_releaseId > 0) id += "." + _releaseId.ToString();
 		else if (_releaseId < -10000) id += "alpha" + (-_releaseId - 10000).ToString();
 		else if (_releaseId < 0) id += "beta" + (-_releaseId).ToString();
+
+		if (_buildNo > 0) id += "." + _buildNo.ToString();
+
 		return id;
 	}
 	
@@ -77,7 +84,7 @@ public static class tk2dEditorUtility
 	public static void About2DToolkit()
 	{
 		EditorUtility.DisplayDialog("About 2D Toolkit",
-		                            "2D Toolkit Version " + ReleaseStringIdentifier(version, releaseId) + "\n" +
+		                            "2D Toolkit Version " + ReleaseStringIdentifier(version, releaseId, buildNo) + "\n" +
  		                            "Copyright (c) Unikron Software Ltd",
 		                            "Ok");
 	}
@@ -170,7 +177,7 @@ public static class tk2dEditorUtility
 	{
 		if (index)
 		{
-			EditorUtility.SetDirty(index);
+			tk2dUtil.SetDirty(index);
 			tk2dSpriteGuiUtility.ResetCache();
 		}
 	}

@@ -147,9 +147,11 @@
     <Compile Include="Assets\BuildReport\Scripts\Editor\ReportGeneration\BRT_UnityBuildSettingsUtility.cs" />
     <Compile Include="Assets\BuildReport\Scripts\Editor\Utility\BRT_LibCacheUtil.cs" />
     <Compile Include="Assets\BuildReport\Scripts\Editor\Utility\BRT_Util.cs" />
+    <Compile Include="Assets\BuildReport\Scripts\Editor\Utility\DldUtil_BackwardFileReader.cs" />
     <Compile Include="Assets\BuildReport\Scripts\Editor\Utility\DldUtil_BigFileReader.cs" />
     <Compile Include="Assets\BuildReport\Scripts\Editor\Utility\DldUtil_GetRspDefines.cs" />
     <Compile Include="Assets\BuildReport\Scripts\Editor\Utility\DldUtil_TraverseDirectory.cs" />
+    <Compile Include="Assets\BuildReport\Scripts\Editor\Utility\DldUtil_UnityVersion.cs" />
     <Compile Include="Assets\BuildReport\Scripts\Editor\Window\BRT_BuildReportWindow.cs" />
     <Compile Include="Assets\BuildReport\Scripts\Editor\Window\BRT_WindowLabels.cs" />
     <Compile Include="Assets\BuildReport\Scripts\Editor\Window\BRT_WindowSettings.cs" />
@@ -267,6 +269,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\BuildReport\README.txt" />
+    <None Include="Assets\BuildReport\Scripts\FuzzyString\License.txt" />
     <None Include="Assets\BuildReport\VERSION.txt" />
     <None Include="Assets\Common\Shaders\ColorOnly.shader" />
     <None Include="Assets\Common\Shaders\NoCullingTransparent.shader" />

@@ -114,7 +114,7 @@ public class tk2dTileMapData : ScriptableObject
 	
 	public tk2dRuntime.TileMap.TileInfo[] GetOrCreateTileInfo(int numTiles)
 	{
-#if UNITY_EDITOR || !UNITY_FLASH
+#if UNITY_EDITOR
 		bool needInit = false;
 		if (tileInfo == null)
 		{

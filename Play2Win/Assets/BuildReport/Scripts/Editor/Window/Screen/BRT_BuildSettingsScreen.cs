@@ -1,6 +1,17 @@
+#if UNITY_5 && (!UNITY_5_0 && !UNITY_5_1)
+#define UNITY_5_2_AND_GREATER
+#endif
+
+#if (UNITY_4 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2)
+#define UNITY_5_2_AND_LESS
+#endif
+
+#if UNITY_4 || UNITY_5_0 || UNITY_5_1
+#define UNITY_5_1_AND_LESSER
+#endif
+
 using UnityEngine;
 using UnityEditor;
-using System.Collections;
 
 
 
@@ -51,7 +62,7 @@ public class BuildSettings : BaseScreen
 			GUILayout.Space(2);
 			if (!string.IsNullOrEmpty(val))
 			{
-			GUILayout.TextField(val, BuildReportTool.Window.Settings.SETTING_VALUE_STYLE_NAME);
+				GUILayout.TextField(val, BuildReportTool.Window.Settings.SETTING_VALUE_STYLE_NAME);
 			}
 		GUILayout.EndHorizontal();
 		GUILayout.Space(SETTING_SPACING);
@@ -68,13 +79,16 @@ public class BuildSettings : BaseScreen
 			GUILayout.Label(name, BuildReportTool.Window.Settings.SETTING_NAME_STYLE_NAME);
 			GUILayout.Space(2);
 
-
-			GUILayout.BeginVertical();
-			for (int n = 0, len = val.Length; n < len; ++n)
+			
+			if (val != null)
 			{
-				GUILayout.TextField(val[n], BuildReportTool.Window.Settings.SETTING_VALUE_STYLE_NAME);
+				GUILayout.BeginVertical();
+					for (int n = 0, len = val.Length; n < len; ++n)
+					{
+						GUILayout.TextField(val[n], BuildReportTool.Window.Settings.SETTING_VALUE_STYLE_NAME);
+					}
+				GUILayout.EndVertical();
 			}
-			GUILayout.EndVertical();
 
 		GUILayout.EndHorizontal();
 		GUILayout.Space(SETTING_SPACING);
@@ -267,7 +281,7 @@ public class BuildSettings : BaseScreen
 	// =================================================================================
 
 	void DrawProjectSettings(BuildInfo buildReportToDisplay, UnityBuildSettings settings)
-		{
+	{
 		DrawSettingsGroupTitle("Project");
 
 		DrawSetting("Product name:", settings.ProductName);
@@ -320,7 +334,7 @@ public class BuildSettings : BaseScreen
 			DrawSetting("Content ID:", settings.PSVContentId);
 			DrawSetting("Master version:", settings.PSVMasterVersion);
 		}
-		}
+	}
 
 	void DrawBuildSettings(BuildInfo buildReportToDisplay, UnityBuildSettings settings)
 	{
@@ -335,6 +349,7 @@ public class BuildSettings : BaseScreen
 		else if (IsShowingWindowsStoreAppSettings)
 		{
 			DrawSetting("Generate reference projects:", settings.WSAGenerateReferenceProjects);
+			DrawSetting("Target Windows Store App SDK:", settings.WSASDK);
 		}
 		else if (IsShowingWebPlayerSettings)
 		{
@@ -345,7 +360,7 @@ public class BuildSettings : BaseScreen
 		}
 		else if (IsShowingWebGlSettings)
 		{
-			DrawSetting("WebGL optimization level:", settings.WebGLOptimizationLevel);
+			DrawSetting("WebGL optimization level:", UnityBuildSettingsUtility.GetReadableWebGLOptimizationLevel(settings.WebGLOptimizationLevel));
 			GUILayout.Space(SETTINGS_GROUP_MINOR_SPACING);
 		}
 		else if (IsShowingiOSSettings)
@@ -563,8 +578,17 @@ public class BuildSettings : BaseScreen
 			DrawSetting("Physics code stripped:", settings.StripPhysicsCode);
 		}
 
-		DrawSetting("Bake collision meshes:", settings.BakeCollisionMeshes);
-		DrawSetting("Strip unused mesh components:", settings.StripUnusedMeshComponents);
+		DrawSetting("Prebake collision meshes:", settings.BakeCollisionMeshes);
+		DrawSetting("Optimize mesh data:", settings.StripUnusedMeshComponents);
+
+		if (IsShowingMobileSettings)
+		{
+			DrawSetting("Stripping level:", settings.StrippingLevelUsed);
+		}
+		else if (IsShowingWebGlSettings)
+		{
+			DrawSetting("Strip engine code (IL2CPP):", settings.StripEngineCode);
+		}
 	}
 
 	void DrawRuntimeSettings(BuildInfo buildReportToDisplay, UnityBuildSettings settings)
@@ -653,6 +677,7 @@ public class BuildSettings : BaseScreen
 		DrawSetting("Enable explicit null checks:", settings.EnableExplicitNullChecks);
 		DrawSetting("Action on .NET unhandled exception:", settings.ActionOnDotNetUnhandledException);
 		DrawSetting("Enable CrashReport API:", settings.EnableCrashReportApi);
+		DrawSetting("Force script optimization on debug builds:", settings.ForceOptimizeScriptCompilation);
 
 		if (IsShowingPS3Settings)
 		{
@@ -669,8 +694,7 @@ public class BuildSettings : BaseScreen
 		DrawSettingsGroupTitle("Code Settings");
 
 		DrawSetting("Script Compilation Defines:", settings.CompileDefines);
-
-		DrawSetting("Stripping level:", settings.StrippingLevelUsed);
+		
 		DrawSetting(".NET API compatibility level:", settings.NETApiCompatibilityLevel);
 		DrawSetting("AOT options:", settings.AOTOptions, true);
 		DrawSetting("Location usage description:", settings.LocationUsageDescription);
@@ -693,9 +717,14 @@ public class BuildSettings : BaseScreen
 		DrawSettingsGroupTitle("Graphics Settings");
 
 		DrawSetting("Use 32-bit display buffer:", settings.Use32BitDisplayBuffer);
+		DrawSetting("Rendering path:", settings.RenderingPathUsed);
 		DrawSetting("Color space:", settings.ColorSpaceUsed);
 		DrawSetting("Use multi-threaded rendering:", settings.UseMultithreadedRendering);
-		DrawSetting("Rendering path:", settings.RenderingPathUsed);
+		DrawSetting("Use GPU skinning:", settings.UseGPUSkinning);
+		DrawSetting("Enable Virtual Reality Support:", settings.EnableVirtualRealitySupport);
+#if UNITY_5_2_AND_GREATER
+		DrawSetting("Graphics APIs Used:", settings.GraphicsAPIsUsed);
+#endif
 		GUILayout.Space(SETTINGS_GROUP_MINOR_SPACING);
 
 		if (IsShowingMobileSettings)
@@ -714,11 +743,32 @@ public class BuildSettings : BaseScreen
 			string standaloneScreenSize = settings.StandaloneDefaultScreenWidth + " x " + settings.StandaloneDefaultScreenHeight;
 			DrawSetting("Default screen size:", standaloneScreenSize);
 			DrawSetting("Resolution dialog:", settings.StandaloneResolutionDialogSettingUsed);
-			DrawSetting("Full screen by default:", settings.StandaloneFullScreenByDefault);
-			DrawSetting("Capture single screen:", settings.StandaloneCaptureSingleScreen);
-			DrawSetting("Force single instance:", settings.StandaloneForceSingleInstance);
+			DrawSetting("Full-screen by default:", settings.StandaloneFullScreenByDefault);
 			DrawSetting("Resizable window:", settings.StandaloneEnableResizableWindow);
-			DrawSetting("Use stereoscopic 3d:", settings.StandaloneUseStereoscopic3d);
+
+			if (IsShowingWindowsDesktopSettings)
+			{
+#if UNITY_5_2_AND_LESS
+				// not needed in Unity 5.3 since settings.GraphicsAPIsUsed shows better information
+				DrawSetting("Use Direct3D11 if available:", settings.WinUseDirect3D11IfAvailable);
+#endif
+				DrawSetting("Direct3D9 Fullscreen Mode:", settings.WinDirect3D9FullscreenModeUsed);
+#if UNITY_5
+				DrawSetting("Direct3D11 Fullscreen Mode:", settings.WinDirect3D11FullscreenModeUsed);
+#endif
+				DrawSetting("Visible in background (for Fullscreen Windowed mode):", settings.VisibleInBackground);
+			}
+			else if (IsShowingMacSettings)
+			{
+				DrawSetting("Fullscreen mode:", settings.MacFullscreenModeUsed);
+				GUILayout.Space(SETTINGS_GROUP_MINOR_SPACING);
+			}
+
+			DrawSetting("Allow OS switching between full-screen and window mode:", settings.StandaloneAllowFullScreenSwitch);
+			DrawSetting("Darken secondary monitors on full-screen:", settings.StandaloneCaptureSingleScreen);
+			DrawSetting("Force single instance:", settings.StandaloneForceSingleInstance);
+
+			DrawSetting("Stereoscopic Rendering:", settings.StandaloneUseStereoscopic3d);
 			DrawSetting("Supported aspect ratios:", settings.AspectRatiosAllowed);
 			GUILayout.Space(SETTINGS_GROUP_MINOR_SPACING);
 		}
@@ -729,22 +779,23 @@ public class BuildSettings : BaseScreen
 			DrawSetting("Screen size:", webScreenSize);
 			GUILayout.Space(SETTINGS_GROUP_MINOR_SPACING);
 		}
-		else if (IsShowingWindowsDesktopSettings)
+		else if (IsShowingWebGlSettings)
 		{
-			DrawSetting("Use Direct3D11 if available:", settings.WinUseDirect3D11IfAvailable);
-			DrawSetting("Direct3D9 Fullscreen Mode:", settings.WinDirect3D9FullscreenModeUsed);
-			DrawSetting("Direct3D11 Fullscreen Mode:", settings.WinDirect3D11FullscreenModeUsed);
-			GUILayout.Space(SETTINGS_GROUP_MINOR_SPACING);
-		}
-		else if (IsShowingMacSettings)
-		{
-			DrawSetting("Fullscreen mode:", settings.MacFullscreenModeUsed);
+			string webScreenSize = settings.WebPlayerDefaultScreenWidth + " x " + settings.WebPlayerDefaultScreenHeight;
+			DrawSetting("Screen size:", webScreenSize);
 			GUILayout.Space(SETTINGS_GROUP_MINOR_SPACING);
 		}
 		else if (IsShowingiOSSettings)
 		{
+#if !UNITY_5_3
+			// Unity 5.3 has a Screen.resolutions but I don't know which of those in the array would be the iOS target resolution
 			DrawSetting("Target resolution:", settings.iOSTargetResolution);
+#endif
+#if UNITY_5_1_AND_LESSER
+			// not used in Unity 5.2 since settings.GraphicsAPIsUsed shows better information
 			DrawSetting("Target graphics:", settings.iOSTargetGraphics);
+#endif
+
 			DrawSetting("App icon pre-rendered:", settings.iOSIsIconPrerendered);
 			GUILayout.Space(SETTINGS_GROUP_MINOR_SPACING);
 		}

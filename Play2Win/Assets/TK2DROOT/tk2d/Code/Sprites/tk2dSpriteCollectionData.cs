@@ -423,6 +423,14 @@ public class tk2dSpriteCollectionData : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Clears the lookup dictionary. It will be regenerated on the next call to GetSpriteIdByName.
+	/// </summary>
+	public void ClearDictionary()
+	{
+		spriteNameLookupDict = null;
+	}
+
+	/// <summary>
 	/// Resolves a sprite name and returns a reference to a sprite definition
 	/// </summary>
 	/// <returns>
@@ -654,7 +662,13 @@ public class tk2dSpriteCollectionData : MonoBehaviour
 			string path = UnityEditor.AssetDatabase.GetAssetPath( materialInsts[0].mainTexture );
 			if (path.Length > 0) {
 				UnityEditor.TextureImporter importer = UnityEditor.TextureImporter.GetAtPath(path) as UnityEditor.TextureImporter;
-				if (importer != null && (importer.alphaIsTransparency || importer.grayscaleToAlpha)) {
+				if (importer != null && (importer.alphaIsTransparency 
+#if UNITY_5_5_OR_NEWER
+					|| importer.alphaSource == UnityEditor.TextureImporterAlphaSource.FromGrayScale
+#else
+					|| importer.grayscaleToAlpha
+#endif
+				)) {
 					if (UnityEditor.EditorUtility.DisplayDialog(
 							"Atlas texture incompatibility", 
 							string.Format("Atlas texture '{0}' for sprite collection '{1}' must be reimported to display correctly in Unity 4.3 when in 2D mode.", materialInsts[0].mainTexture.name, name), 
@@ -668,10 +682,20 @@ public class tk2dSpriteCollectionData : MonoBehaviour
 								path = UnityEditor.AssetDatabase.GetAssetPath( materialInsts[i].mainTexture );
 								if (path.Length > 0) {
 									importer = UnityEditor.TextureImporter.GetAtPath(path) as UnityEditor.TextureImporter;
-									if (importer != null && (importer.alphaIsTransparency || importer.grayscaleToAlpha) ) {
-										importer.alphaIsTransparency = false;
+									if (importer != null && (importer.alphaIsTransparency 
+#if UNITY_5_5_OR_NEWER
+																|| importer.alphaSource == UnityEditor.TextureImporterAlphaSource.FromGrayScale
+#else
+																|| importer.grayscaleToAlpha
+#endif
+									)) {
+#if UNITY_5_5_OR_NEWER
+										importer.alphaSource = UnityEditor.TextureImporterAlphaSource.FromInput;
+#else
 										importer.grayscaleToAlpha = false;
-										UnityEditor.EditorUtility.SetDirty(importer);
+#endif
+										importer.alphaIsTransparency = false;
+										tk2dUtil.SetDirty(importer);
 										UnityEditor.AssetDatabase.ImportAsset(path);
 									}
 								}

@@ -31,8 +31,17 @@ public class tk2dTileMapDemoPlayer : MonoBehaviour {
 		textMeshLabel.text = "instructions";
 		textMeshLabel.Commit();
 
-		if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsWebPlayer ||
-			Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.OSXWebPlayer || Application.platform == RuntimePlatform.OSXDashboardPlayer) {
+		bool isWebPlayer = false;
+		#if !UNITY_5_4_OR_NEWER
+		isWebPlayer  = Application.platform == RuntimePlatform.WindowsWebPlayer || Application.platform == RuntimePlatform.OSXWebPlayer;
+		#endif
+
+		if (Application.platform == RuntimePlatform.WindowsEditor || 
+			Application.platform == RuntimePlatform.WindowsPlayer || 
+			Application.platform == RuntimePlatform.OSXEditor || 
+			Application.platform == RuntimePlatform.OSXPlayer || 
+			Application.platform == RuntimePlatform.OSXDashboardPlayer ||
+			isWebPlayer) {
 			textMesh.text = "LEFT ARROW / RIGHT ARROW";
 		}
 		else {

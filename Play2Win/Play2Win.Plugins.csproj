@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\BuildReport\README.txt" />
+    <None Include="Assets\BuildReport\Scripts\FuzzyString\License.txt" />
     <None Include="Assets\BuildReport\VERSION.txt" />
     <None Include="Assets\Common\Shaders\ColorOnly.shader" />
     <None Include="Assets\Common\Shaders\NoCullingTransparent.shader" />

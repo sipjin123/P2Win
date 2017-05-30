@@ -22,11 +22,6 @@ public class tk2dUICamera : MonoBehaviour {
 		}
 	}
 
-	[SerializeField]
-	private bool dontRaycastLowerDepthCameras;
-
-	public bool SkipOtherCameras { get { return dontRaycastLowerDepthCameras; } }
-
 	// This is used for backwards compatiblity only
 	public void AssignRaycastLayerMask( LayerMask mask ) {
 		raycastLayerMask = mask;
